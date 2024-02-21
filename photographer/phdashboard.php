@@ -1,6 +1,8 @@
 <?php
 // Include necessary files and establish a database connection
 include("../include/config.php"); // Include your database connection
+
+
 ?>
     <title>Photographer Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +25,7 @@ include("../include/config.php"); // Include your database connection
         <div class="profile">
     <!-- Profile (upper right corner) -->
     <div class="sign-in">
-                <a href="/photodb/photographer/profile.php"> <i class="fa-regular fa-user"></i></a>
+    <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
     </div>
     <div class="message">
         <!-- Logout link -->
