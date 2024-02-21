@@ -49,31 +49,23 @@ include("../include/config.php"); // Include your database connection
 
 
             <li class="dropdown">
-    <a href="#">Services</a>
-    <div class="dropdown-content">
-        <?php
-        // Fetch service types from the database
-        $serviceTypesSql = "SELECT * FROM servicetypes";
-        $serviceTypesResult = $conn->query($serviceTypesSql);
-
-        while ($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
-            $typeName = $serviceTypeRow['TypeName'];
-            $typeParam = urlencode(strtolower(str_replace(
-                array('Wedding Photography', 'Portrait Photography', 'Event Coverage', 'Commercial Photography', 'Family Photography', 'Fashion Photography', 'Newborn Photography', 'Landscape Photography', 'Food Photography', 'Sports Photography'),
-                array('wedding', 'portrait', 'event', 'commercial', 'family', 'fashion', 'newborn', 'landscape', 'food', 'sports'),
-                $typeName
-            ))); // Generate a URL-safe parameter
-
-            echo "<a href='$typeParam.php'>$typeName</a>";
-        }
-        ?>
-    </div>
-</li>
-            <li><a href="#">Reviews</a></li>
-            <li><a href="#">Photo Gallery</a></li>
-            <li><a href="price.php">Pricing</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <a href="#">Services</a>
+            <div class="dropdown-content">
+                <?php
+                // Fetch service types from the database
+                $serviceTypesSql = "SELECT * FROM servicetypes";
+                $serviceTypesResult = $conn->query($serviceTypesSql);
+                while($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
+                    echo "<a>{$serviceTypeRow['TypeName']}</a>";
+                }
+                ?>
+            </div>
+            </li>
+            <li><a href="/photodb/customer/review.php">Reviews</a></li>
+            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
+            <li><a href="/photodb/customer/price.php">Pricing</a></li>
+            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->

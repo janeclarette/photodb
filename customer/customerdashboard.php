@@ -44,8 +44,8 @@ include("../include/config.php"); // Include your database connection
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
-            <li><a href="#">Home</a></li>       
-            <li><a href="#">Photographers</a></li>
+            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
+            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
 
 
             <li class="dropdown">
@@ -61,11 +61,11 @@ include("../include/config.php"); // Include your database connection
                 ?>
             </div>
             </li>
-            <li><a href="#">Reviews</a></li>
-            <li><a href="#">Photo Gallery</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <li><a href="/photodb/customer/review.php">Reviews</a></li>
+            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
+            <li><a href="/photodb/customer/price.php">Pricing</a></li>
+            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
