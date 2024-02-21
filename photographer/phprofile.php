@@ -29,7 +29,7 @@ if ($result->num_rows > 0) {
 ?>
 
 
-    <h2>Photographer Profile</h2>
+<h2>Photographer Profile</h2>
     
     <div class="container">
         <div class="profile">
@@ -68,7 +68,7 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
-    <style>
+<style>
     h2 {
         margin-top: 30px;
         text-align: center;
@@ -163,5 +163,4 @@ if ($result->num_rows > 0) {
         }
 
     </style>
-</body>
-</html>
+
