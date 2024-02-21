@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="profile">
     <div class="sign-in">
-                <a href="/photodb/photographer/profile.php"> <i class="fa-regular fa-user"></i></a>
+    <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
     </div>
     <div class="message">
         <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <nav class="sub-navbar">
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="phdashboard.php">Home</a></li>
             <li><a href="work_create.php">Portfolio</a></li>
             <li><a href="schedule.php">Schedule</a></li>
             <li><a href="gallery.php">Gallery</a></li>

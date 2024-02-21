@@ -14,7 +14,7 @@ if (isset($_SESSION['PhotographerID'])) {
         $albums = [];
     }
 } else {
-    header("Location: /your-login-page.php");
+    header("Location: /photodb/admin/login.php");
     exit();
 }
 
@@ -76,7 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="profile">
     <div class="sign-in">
-                <a href="/photodb/photographer/profile.php"> <i class="fa-regular fa-user"></i></a>
+    <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
     </div>
     <div class="message">
         <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
@@ -113,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
     <nav class="sub-navbar">
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="phdashboard.php">Home</a></li>
             <li><a href="work_create.php">Portfolio</a></li>
             <li><a href="schedule.php">Schedule</a></li>
             <li><a href="gallery.php">Gallery</a></li>
@@ -122,6 +121,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li><a href="#">Reviews</a></li>
         </ul>
     </nav>
+    
+<body>
+<h2>Upload Images</h2>
+
+<div class="container">
+
+    <form action="" method="post" enctype="multipart/form-data">
+        <label for="images">Select Images (Multiple):</label>
+        <input type="file" name="images[]" id="images" multiple accept="image/*">
+        <br>
+        <label for="album">Album:</label>
+        <input type="text" name="album" id="album" required>
+        <br>
+        <label for="serviceType">Service Type
+        <select name="serviceType" id="serviceType" required>
+        <option value="" disabled selected>Select your Service Type</option>
+            <?php
+            $sql = "SELECT * FROM ServiceTypes";
+            $result = mysqli_query($conn, $sql);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<option value='" . $row['ServiceTypeID'] . "'>" . $row['TypeName'] . "</option>";
+            }
+            ?>
+        </select>
+        </label>
+        <br>
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" rows="4" required></textarea>
+        <br>
+        <input type="submit" value="Upload">
+    </form>
+</div>
+<div class="albums-container">
+    <?php foreach ($albums as $album) : ?>
+        <div class="album-card" data-album="<?= $album['Album']; ?>">
+            <?php
+            $albumID = $album['Album']; 
+            $sqlImages = "SELECT Photos FROM works WHERE PhotographerID = $photographerID AND Album = '$albumID'";
+            $resultImages = $conn->query($sqlImages);
+
+            if ($resultImages && $resultImages->num_rows > 0) {
+                $images = $resultImages->fetch_all(MYSQLI_ASSOC);
+            } else {
+                $images = [];
+            }
+            $sqlServiceType = "SELECT st.TypeName FROM works w
+                                JOIN ServiceTypes st ON w.ServiceTypeID = st.ServiceTypeID
+                                WHERE w.PhotographerID = $photographerID AND w.Album = '$albumID'";
+            $resultServiceType = $conn->query($sqlServiceType);
+
+            if ($resultServiceType) {
+                if ($resultServiceType->num_rows > 0) {
+                    $serviceType = $resultServiceType->fetch_assoc();
+                } else {
+                    $serviceType = ['TypeName' => 'No Service Type'];
+                }
+            } else {
+                echo "Error in Service Type query: " . $conn->error;
+                $serviceType = ['TypeName' => ''];
+            }
+            ?>
+
+            <div class="slideshow-container">
+                <?php foreach ($images as $key => $image) : ?>
+                    <?php $imagePaths = explode(',', $image['Photos']); ?>
+                    <?php foreach ($imagePaths as $imagePath): ?>
+                        <img src="<?= $imagePath ?>" alt="Album Image" class="slideshow-image">
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
+
+            <h3>Album Title: <?= $album['Album']; ?></h3>
+            <p>Service Type: <?= $serviceType['TypeName']; ?></p>
+            <p>Description: <?= $album['Description']; ?></p>
+            <button class="view-more-btn">View More</button>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.album-card').forEach(function (albumCard) {
+            const slideshowContainer = albumCard.querySelector('.slideshow-container');
+            const slideshowImages = albumCard.querySelectorAll('.slideshow-image');
+            let currentImageIndex = 0;
+            function showNextImage() {
+                slideshowImages[currentImageIndex].style.display = 'none';
+                currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
+                slideshowImages[currentImageIndex].style.display = 'block';
+            }
+
+            if (slideshowImages.length > 0) {
+                slideshowImages[currentImageIndex].style.display = 'block';
+
+                setInterval(showNextImage, 8000);
+            }
+        });
+    });
+</script>
+</head>
+</body>
+</html>
+
+
+
+  
+
      <style>
 
 .slideshow-container {
@@ -458,106 +567,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-right: 10px; 
         }
         </style>
-</head>
-<body>
-<div class="container">
-    <h2>Upload Images</h2>
-    <form action="" method="post" enctype="multipart/form-data">
-        <label for="images">Select Images (Multiple):</label>
-        <input type="file" name="images[]" id="images" multiple accept="image/*">
-        <br>
-        <label for="album">Album:</label>
-        <input type="text" name="album" id="album" required>
-        <br>
-        <label for="serviceType">Service Type
-        <select name="serviceType" id="serviceType" required>
-        <option value="" disabled selected>Select your Service Type</option>
-            <?php
-            $sql = "SELECT * FROM ServiceTypes";
-            $result = mysqli_query($conn, $sql);
-
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<option value='" . $row['ServiceTypeID'] . "'>" . $row['TypeName'] . "</option>";
-            }
-            ?>
-        </select>
-        </label>
-        <br>
-        <label for="description">Description:</label>
-        <textarea name="description" id="description" rows="4" required></textarea>
-        <br>
-        <input type="submit" value="Upload">
-    </form>
-</div>
-<div class="albums-container">
-    <?php foreach ($albums as $album) : ?>
-        <div class="album-card" data-album="<?= $album['Album']; ?>">
-            <?php
-            $albumID = $album['Album']; 
-            $sqlImages = "SELECT Photos FROM works WHERE PhotographerID = $photographerID AND Album = '$albumID'";
-            $resultImages = $conn->query($sqlImages);
-
-            if ($resultImages && $resultImages->num_rows > 0) {
-                $images = $resultImages->fetch_all(MYSQLI_ASSOC);
-            } else {
-                $images = [];
-            }
-            $sqlServiceType = "SELECT st.TypeName FROM works w
-                                JOIN ServiceTypes st ON w.ServiceTypeID = st.ServiceTypeID
-                                WHERE w.PhotographerID = $photographerID AND w.Album = '$albumID'";
-            $resultServiceType = $conn->query($sqlServiceType);
-
-            if ($resultServiceType) {
-                if ($resultServiceType->num_rows > 0) {
-                    $serviceType = $resultServiceType->fetch_assoc();
-                } else {
-                    $serviceType = ['TypeName' => 'No Service Type'];
-                }
-            } else {
-                echo "Error in Service Type query: " . $conn->error;
-                $serviceType = ['TypeName' => ''];
-            }
-            ?>
-
-            <div class="slideshow-container">
-                <?php foreach ($images as $key => $image) : ?>
-                    <?php $imagePaths = explode(',', $image['Photos']); ?>
-                    <?php foreach ($imagePaths as $imagePath): ?>
-                        <img src="<?= $imagePath ?>" alt="Album Image" class="slideshow-image">
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-            </div>
-
-            <h3>Album Title: <?= $album['Album']; ?></h3>
-            <p>Service Type: <?= $serviceType['TypeName']; ?></p>
-            <p>Description: <?= $album['Description']; ?></p>
-            <button class="view-more-btn">View More</button>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll('.album-card').forEach(function (albumCard) {
-            const slideshowContainer = albumCard.querySelector('.slideshow-container');
-            const slideshowImages = albumCard.querySelectorAll('.slideshow-image');
-            let currentImageIndex = 0;
-            function showNextImage() {
-                slideshowImages[currentImageIndex].style.display = 'none';
-                currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
-                slideshowImages[currentImageIndex].style.display = 'block';
-            }
-
-            if (slideshowImages.length > 0) {
-                slideshowImages[currentImageIndex].style.display = 'block';
-
-                setInterval(showNextImage, 8000);
-            }
-        });
-    });
-</script>
-
-</body>
-</html>
