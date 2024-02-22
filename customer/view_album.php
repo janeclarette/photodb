@@ -68,7 +68,7 @@ include("../include/config.php");
         </ul>
     </nav>
     
-      
+
     </div>
 </body>
 </html>
@@ -180,95 +180,7 @@ include("../include/config.php");
             margin-right: 10px;
         }
 
-        .welcome {
-            background-color: #f0f0f0;
-            padding: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-            background-image: url('../uploads/cover.jpg');  
-            background-size: cover;
-            background-position: center bottom; 
-            height: 400px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .welcome h2 {
-            text-align: center;
-            font-size: 6rem;
-            font-family: 'Satisfy';
-            color: #FEFBF6;
-        }
-
-        .services {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .services h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h3 {
-            text-align: center;
-            font-size: 2rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h6 {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-            margin: 20px;
-        }
-        .services p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
-        .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .service {
-            width: 200px;
-            margin: 40px; 
-            text-align: center;
-        }
-
-        .service img {
-            width: 150px; 
-            height: auto;
-            margin: 20px;
-        }
-
-        .featured-events {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .featured-events h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .featured-events p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
+      
         .work-id-container {
             background-color: #4F709C;
             color: #E9E4D4;
@@ -317,15 +229,15 @@ if (isset($_GET['photographer_id'])) {
                 }
 
                 .photographer-container {
-                    margin: 20px;
-                    width: 380px;
+                    margin: 50px;
+                    width: 500px;
                 }
 
                 .album-card {
                     width: 100%; 
                     text-align: center;
                     background-color: #F5EFE7;
-                    padding: 10px;
+                    padding: 30px;
                     border-radius: 10px;
                     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
                     transition: box-shadow 0.3s ease-in-out;
@@ -374,22 +286,41 @@ if (isset($_GET['photographer_id'])) {
                     right: 10px;
                 }
 
+
+
                 h2 {
-                    text-align: center;
-                    color: #213555;
-                    font-size: 2rem;
-                }
-
-                h3 {
-                    color: #213555;
-                    font-size: 1.5rem;
-                }
-
-                p {
-                    color: #666;
-                    font-size: 1rem;
-                    margin-bottom: 15px;
-                }
+            text-align: center;
+            font-size: 4rem;
+            font-family: 'Satisfy';
+            color: #333;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Satisfy';
+            color: #333;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+         p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family:  serif;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .work-id-container {
+            background-color: #213555;
+            color: #fff;
+            padding: 10px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            width: 550px;
+            text-align: center;
+            
+        }
             </style>
         </head>
         <body>

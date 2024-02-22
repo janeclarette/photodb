@@ -73,6 +73,10 @@ include("../include/config.php");
 
 
     <style>
+            body {
+        background-color: #607EAA;
+        
+    }
 
       body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
@@ -177,105 +181,18 @@ include("../include/config.php");
         .message{
             margin-right: 10px;
         }
-        .welcome {
-            background-color: #f0f0f0;
-            padding: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-            background-image: url('../uploads/cover.jpg'); 
-            background-size: cover;
-            background-position: center bottom; 
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
-        .welcome h2 {
-            text-align: center;
-            font-size: 6rem;
-            font-family: 'Satisfy';
-            color: #FEFBF6;
-        }
-
-        .services {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .services h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h3 {
-            text-align: center;
-            font-size: 2rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h6 {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-            margin: 20px;
-        }
-        .services p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
-        .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; 
-        }
-
-        .service {
-            width: 200px; 
-            margin: 40px; 
-            text-align: center;
-        }
-
-        .service img {
-            width: 150px; 
-            height: auto;
-            margin: 20px;
-        }
-
-        .featured-events {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .featured-events h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .featured-events p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
 
         .works-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around; 
-            margin: 0 -10px; 
+            margin-top: 50px;
             
         }
 
         .work-container {
+
             width: calc(33.33% - 20px);
             margin: 10px;
             max-width: 350px;
@@ -304,11 +221,13 @@ include("../include/config.php");
         }
 
         .work {
-            width: 100%;
+            width: 450px;
             text-align: center;
-            padding: 20px;
-            background-color: #E9E4D4;
-            height: 400px;
+            padding: 10px;
+            background-color: #fff;
+            height: 420px;
+            border-radius: 10px;
+            
         }
 
         .work img {
@@ -318,26 +237,19 @@ include("../include/config.php");
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             max-width: 90%; 
-            margin: 0 auto; 
+            margin-top:15px;
+            margin-left:20px;
             display: block;
         }
-        .work h3 {
-            font-size: 1.5rem;
-            margin-top: 10px;
-        }
 
-        .work p {
-            font-size: 1rem;
-            color: #777;
-        }
 
         .work-id-container {
-            background-color: #4F709C;
+            background-color: #213555;
             color: #fff;
             padding: 10px;
             border-bottom-left-radius: 15px;
             border-bottom-right-radius: 15px;
-            width: 470px;
+            width: 450px;
             text-align: center;
             
         }
@@ -348,6 +260,21 @@ include("../include/config.php");
         }
         .work img:not(:first-child) {
         display: none;
+        }
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Satisfy';
+            color: #333;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+         p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family:  serif;
+            color: #FEFBF6;
+            margin-bottom: 10px;
         }
     </style>
 
@@ -376,7 +303,7 @@ include("../include/config.php");
                 echo '<img src="' . $photo . '" alt="Work Image">';
             }
 
-            echo '<h3>Album Title: ' . $workRow['Album'] . '</h3>';
+            echo '<h2>Album Title: ' . $workRow['Album'] . '</h2>';
             echo '</div>'; 
             echo '<div class="work-id-container">';
             echo '<p>Photographer Name: ' . $workRow['Name'] . '</p>';
