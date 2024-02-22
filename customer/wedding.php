@@ -41,12 +41,15 @@ include("../include/config.php");
 
     <nav class="sub-navbar">
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="photographer.php">Photographers</a></li>
+            <!-- Navigation links -->
+            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
+            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
+
+
             <li class="dropdown">
-    <a href="#">Services</a>
-    <div class="dropdown-content">
-        <?php
+            <a href="#">Services</a>
+            <div class="dropdown-content">
+            <?php
         $serviceTypesSql = "SELECT * FROM servicetypes";
         $serviceTypesResult = $conn->query($serviceTypesSql);
 
@@ -61,13 +64,13 @@ include("../include/config.php");
             echo "<a href='$typeParam.php'>$typeName</a>";
         }
         ?>
-    </div>
-</li>
-            <li><a href="#">Reviews</a></li>
-            <li><a href="#">Photo Gallery</a></li>
-            <li><a href="price.php">Pricing</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
+            </div>
+            </li>
+            <li><a href="/photodb/customer/review.php">Reviews</a></li>
+            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
+            <li><a href="/photodb/customer/price.php">Pricing</a></li>
+            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
         </ul>
     </nav>
 
