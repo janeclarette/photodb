@@ -107,7 +107,7 @@ if ($result->num_rows > 0) {
     .profile-image {
         margin-top: 100px;
         margin-bottom: 200px;
-        height: 300px;
+        height: 200px;
         border-radius: 50%;
         overflow: hidden;
         margin-right: 20px;

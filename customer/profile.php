@@ -186,7 +186,7 @@ body {
 
 .profile-image {
     margin-bottom: 200px;
-    height: 200px;
+    height: 250px;
     border-radius: 50%;
     overflow: hidden;
     margin-right: 20px;
