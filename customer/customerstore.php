@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
                     VALUES ('$name', '$phone_number', '$address', '$city_id', '$email', '$username', '$password', '$img_customer')";
             if(mysqli_query($conn, $sql)) {
                 $_SESSION['message'] = 'Customer registration successful. You can now log in.';
-                header("Location: login.php");
+                header("Location: /photodb/admin/login.php");
                 exit();
             } else {
                 $_SESSION['message'] = 'Customer registration failed. Please try again.';

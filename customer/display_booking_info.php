@@ -42,6 +42,11 @@ while ($row = mysqli_fetch_assoc($availabilityResult)) {
 $photographerPlaceQuery = "SELECT placeid, placename FROM places WHERE photographerid = $photographerID";
 $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
 ?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

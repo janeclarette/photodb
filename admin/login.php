@@ -80,17 +80,11 @@ if (isset($_SESSION['message'])) {
         <!-- Submit button -->
         <input type="submit" class="btn btn-block mb-4" name="submit" value="Sign in">
 
-         <!-- Register button (changed to button type) -->
-         <button type="button" class="btn btn-block mb-4" onclick="redirectToRegister()">Register</button>
+
     </form>
 </div>
 
-<script>
-function redirectToRegister() {
-    // Redirect to register.php
-    window.location.href = "register.php";
-}
-</script>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">

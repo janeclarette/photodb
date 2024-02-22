@@ -149,98 +149,98 @@ if ($result->num_rows > 0) {
 
 
 <style>
-h2 {
-    margin-top: 30px;
-    text-align: center;
-    color: #F3EEEA;
-    font-weight: bold;
-    font-size: 6rem;
-    font-family: 'Satisfy';
-}
+        h2 {
+            margin-top: 30px;
+            text-align: center;
+            color: #F3EEEA;
+            font-weight: bold;
+            font-size: 6rem;
+            font-family: 'Satisfy';
+        }
 
-body {
-    background-image: url('../uploads/b.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    height: 100vh;
-    font-family: serif;
-}
+        body {
+            background-image: url('../uploads/b.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+            font-family: serif;
+        }
 
-.container {
-    max-width: 700px;
-    margin: 50px auto;
-    margin-bottom: 30px;
-    height: 650px; /* Allow height to adjust based on content */
-    background-color: #ffffff;
-    padding: 20px; /* Add padding for spacing */
-    border-radius: 10px; /* Add some border radius for a rounded look */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
-}
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            margin-bottom: 30px;
+            height: 650px; /* Allow height to adjust based on content */
+            background-color: #ffffff;
+            padding: 20px; /* Add padding for spacing */
+            border-radius: 10px; /* Add some border radius for a rounded look */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+        }
 
-.profile {
-    display: flex;
-    flex-wrap: wrap; /* Allow flex items to wrap */
-    margin-left: 60px;
-    margin-top: 20px;
-}
+        .profile {
+            display: flex;
+            flex-wrap: wrap; /* Allow flex items to wrap */
+            margin-left: 50px;
+            margin-top: 20px;
+        }
 
-.profile-image {
-    margin-bottom: 200px;
-    height: 250px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 20px;
-}
+        .profile-image {
+            margin-bottom: 200px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 20px;
+        }
 
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.profile-details {
-    flex: 1; /* Take remaining space */
-    display: flex;
-    flex-direction: column;
-    margin-left: 50px;
-}
+        .profile-details {
+            flex: 1; /* Take remaining space */
+            display: flex;
+            flex-direction: column;
+            margin-left: 30px;
+        }
 
-.profile-details .detail {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 100px;
-    display: block;
-}
+        .profile-details .detail {
+            margin-bottom: 20px;
+            margin-top: 20px;
+            margin-left: 40px;
+            display: block;
+        }
 
-.profile-details .label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
-}
+        .profile-details .label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
 
-.profile-details .value {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    width: 200px;
-    display: block;
-    margin-bottom: 10px;
-}
+        .profile-details .value {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 200px;
+            display: block;
+            margin-bottom: 10px;
+        }
 
-.edit-profile {
-    padding: 8px 16px;
-    background-color: #4F709C;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-left: 400px; /* Align to the right */
-    margin-top: 100px; /* Add some top margin */
-}
+        .edit-profile {
+            padding: 8px 16px;
+            background-color: #4F709C;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 400px; /* Align to the right */
+            margin-top: 100px; /* Add some top margin */
+        }
 
-.edit-profile:hover {
-    background-color: #375d83;
-}
+        .edit-profile:hover {
+            background-color: #375d83;
+        }
 
 
 </style>

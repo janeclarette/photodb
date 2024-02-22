@@ -22,10 +22,17 @@ $customerPlaceID = null;
 if ($bookingLocation == 'photographer') {
     $photographerPlaceID = isset($_POST['photographerLocation']) ? $_POST['photographerLocation'] : null;
 } elseif ($bookingLocation == 'customer') {
-    // Handle customer's place information if needed
+    $customerPlaceName = isset($_POST['customerPlaceName']) ? $_POST['customerPlaceName'] : null;
+    $customerPlaceAddress = isset($_POST['customerPlaceAddress']) ? $_POST['customerPlaceAddress'] : null;
+
+    $insertCustomerPlaceQuery = "INSERT INTO customerplaces (customerid, placename, address) VALUES (?, ?, ?)";
+    $insertCustomerPlaceStmt = mysqli_prepare($conn, $insertCustomerPlaceQuery);
+    mysqli_stmt_bind_param($insertCustomerPlaceStmt, "iss", $loggedInCustomerID, $customerPlaceName, $customerPlaceAddress);
+    mysqli_stmt_execute($insertCustomerPlaceStmt);
+    mysqli_stmt_close($insertCustomerPlaceStmt);
+
+    $customerPlaceID = mysqli_insert_id($conn);
 }
-// Debugging output
-echo "Photographer ID: " . $photographerID . "<br>";
 
 // Check if the photographer exists
 $checkPhotographerQuery = "SELECT COUNT(*) AS count FROM photographers WHERE PhotographerID = ?";
