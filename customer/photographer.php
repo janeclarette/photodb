@@ -78,7 +78,58 @@ include("../include/config.php"); // Include your database connection
     <!-- Main content of the page -->
     
 
+    
+    <section class="services">
+        <h2>Our Photographers</h2>
+        <p>Meet our talented photographers.</p>
+        <div class="photographer-container">
+            <?php
+            // Fetch photographers from the database
+            $photographersSql = "SELECT * FROM Photographers";
+            $photographersResult = $conn->query($photographersSql);
 
+            // Check for SQL query execution error
+            if (!$photographersResult) {
+                die("Error in SQL query: " . $conn->error);
+            }
+
+            while ($photographer = $photographersResult->fetch_assoc()) {
+                echo '<div class="photographer">';
+                echo '<img src="../uploads/' . $photographer['img_photographer'] . '" alt="' . $photographer['Name'] . '">';
+                echo '<h3>Name: ' . $photographer['Name'] . '</h3>';
+                echo '<p>Phone: ' . $photographer['Phone_Number'] . '</p>';
+                echo '<p>Email: ' . $photographer['Email'] . '</p>';
+                echo '<form action="view_album.php" method="GET" style="display: inline;">';
+                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
+                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
+                echo '</form>';
+
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </section>
+
+<!-- JavaScript code -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var viewButtons = document.querySelectorAll('.view-profile');
+
+        viewButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var photographerID = button.getAttribute('data-photographer-id');
+
+                // Display a basic alert for demonstration purposes
+                alert('Photographer ID: ' + photographerID);
+
+                // You can replace the alert with an AJAX request to fetch more details
+                // For simplicity, I'm demonstrating only the ID here
+            });
+        });
+    });
+</script>
+
+    <!-- Other HTML code ... -->
 </body>
 </html>
 
@@ -86,8 +137,12 @@ include("../include/config.php"); // Include your database connection
 
   <!-- Add your CSS stylesheets here -->
   <style>
+    body {
+        background-color: #607EAA;
+        
+    }
         /* Resetting default margin and padding */
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+        body, h1, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
             padding: 0;
         }
@@ -196,98 +251,7 @@ include("../include/config.php"); // Include your database connection
             margin-right: 10px; /* Adjust the margin between the items */
         }
 
-        /* Welcome section */
-        .welcome {
-            background-color: #f0f0f0;
-            padding: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center bottom; /* Lower the background image */
-            height: 400px; /* Adjust the height as needed */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
-        .welcome h2 {
-            text-align: center;
-            font-size: 6rem;
-            font-family: 'Satisfy';
-            color: #FEFBF6;
-        }
-
-        /* Services section */
-        .services {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .services h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h3 {
-            text-align: center;
-            font-size: 2rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h6 {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-            margin: 20px;
-        }
-        .services p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
-        .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* Centers the items horizontally */
-        }
-
-        .service {
-            width: 200px; /* Adjust the width of each service */
-            margin: 40px; /* Adjust the spacing between services */
-            text-align: center;
-        }
-
-        .service img {
-            width: 150px; /* Adjust the width of the service icons */
-            height: auto;
-            margin: 20px;
-        }
-
-        /* Featured events section */
-        .featured-events {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .featured-events h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .featured-events p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
         .photographer-container {
         display: flex;
         flex-wrap: wrap;
@@ -296,18 +260,19 @@ include("../include/config.php"); // Include your database connection
     }
 
     .photographer {
-        border-radius: 10px;
-        padding: 20px;
-        margin: 20px;
-        text-align: center;
-        background-color: #F5EFE7; /* Adjust background color as needed */
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
-        transition: box-shadow 0.3s ease-in-out; /* Add transition for smoother shadow changes */
-    }
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Include transition for background-color */
+    background-color: #FEFBF6;
+}
 
-    .photographer:hover {
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Change box shadow on hover */
-    }
+.photographer:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #DCF2F1; /* Adjust background color on hover */
+}
 
     .photographer img {
         width: 150px;   
@@ -329,8 +294,8 @@ include("../include/config.php"); // Include your database connection
 
     .view-profile {
         padding: 10px;
-        background-color: #4F709C;
-        color: #fff;
+        background-color: #FEFBF6;
+        color: #FEFBF6;
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -357,7 +322,7 @@ include("../include/config.php"); // Include your database connection
         width: 200px; /* Adjust the width of each album */
         margin: 20px; /* Adjust the spacing between albums */
         text-align: center;
-        background-color: #F5EFE7; /* Adjust background color as needed */
+        background-color: #FEFBF6; /* Adjust background color as needed */
         padding: 10px;
         border-radius: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -367,57 +332,18 @@ include("../include/config.php"); // Include your database connection
     .album-card:hover {
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
+    h2 {
+            text-align: center;
+            font-size: 4rem;
+            font-family: 'Satisfy';
+            color: #FEFBF6;
+        }
+         p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family: 'Cinzel', serif;
+            color: #FEFBF6;
+            margin-bottom: 10px;
+        }
     </style>
- <section class="services">
-        <h2>Our Photographers</h2>
-        <p>Meet our talented photographers.</p>
-        <div class="photographer-container">
-            <?php
-            // Fetch photographers from the database
-            $photographersSql = "SELECT * FROM Photographers";
-            $photographersResult = $conn->query($photographersSql);
 
-            // Check for SQL query execution error
-            if (!$photographersResult) {
-                die("Error in SQL query: " . $conn->error);
-            }
-
-            while ($photographer = $photographersResult->fetch_assoc()) {
-                echo '<div class="photographer">';
-                echo '<img src="../uploads/' . $photographer['img_photographer'] . '" alt="' . $photographer['Name'] . '">';
-                echo '<h3>Name: ' . $photographer['Name'] . '</h3>';
-                echo '<p>Phone: ' . $photographer['Phone_Number'] . '</p>';
-                echo '<p>Email: ' . $photographer['Email'] . '</p>';
-                echo '<form action="view_album.php" method="GET" style="display: inline;">';
-                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
-                echo '</form>';
-
-                echo '</div>';
-            }
-            ?>
-        </div>
-    </section>
-
-<!-- JavaScript code -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var viewButtons = document.querySelectorAll('.view-profile');
-
-        viewButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var photographerID = button.getAttribute('data-photographer-id');
-
-                // Display a basic alert for demonstration purposes
-                alert('Photographer ID: ' + photographerID);
-
-                // You can replace the alert with an AJAX request to fetch more details
-                // For simplicity, I'm demonstrating only the ID here
-            });
-        });
-    });
-</script>
-
-    <!-- Other HTML code ... -->
-</body>
-</html>

@@ -82,7 +82,7 @@ include("../include/config.php"); // Include your database connection
             <h2>Welcome to CheeseClick</h2>
         </section>
         
-        <div class="container">
+
         <!-- Services section -->
         <section class="services">
             <h2>Our Services</h2>
@@ -91,17 +91,14 @@ include("../include/config.php"); // Include your database connection
         <div class="service">
             <img src="../uploads/wed.jpg" alt="Service 1">
             <h3>Wedding Photography</h3>
-            <h6>Description of Service 1</h6>
         </div>
         <div class="service">
-            <img src="service_icons/service2.png" alt="Service 2">
-            <h3>Service 2</h3>
-            <p>Description of Service 2</p>
+            <img src="../uploads/spo.jpg" alt="Service 2">
+            <h3>Sports Photography</h3>
         </div>
         <div class="service">
-            <img src="service_icons/service3.png" alt="Service 3">
-            <h3>Service 3</h3>
-            <p>Description of Service 3</p>
+            <img src="../uploads/new.jpg" alt="Service 3">
+            <h3> Newborn Photography</h3>
         </div>
         
         </section>
@@ -112,7 +109,7 @@ include("../include/config.php"); // Include your database connection
             <p>Explore our featured events.</p>
            
         </section>
-    </div>
+
 </body>
 </html>
 
@@ -120,6 +117,10 @@ include("../include/config.php"); // Include your database connection
 
   <!-- Add your CSS stylesheets here -->
   <style>
+
+    body {
+        background-color: #607EAA;
+    }
         /* Resetting default margin and padding */
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
@@ -232,14 +233,13 @@ include("../include/config.php"); // Include your database connection
 
         /* Welcome section */
         .welcome {
-            background-color: #f0f0f0;
             padding: 40px;
             margin-bottom: 20px;
             text-align: center;
             background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
             background-size: cover;
             background-position: center bottom; /* Lower the background image */
-            height: 400px; /* Adjust the height as needed */
+            height: 500px; /* Adjust the height as needed */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -254,7 +254,7 @@ include("../include/config.php"); // Include your database connection
 
         /* Services section */
         .services {
-            background-color: #F5EFE7;
+
             padding: 50px;
             margin-bottom: 20px;
             text-align: center;
@@ -264,26 +264,26 @@ include("../include/config.php"); // Include your database connection
             text-align: center;
             font-size: 3rem;
             font-family: 'Satisfy';
-            color: #333;
+            color: #FEFBF6;
         }
         .services h3 {
             text-align: center;
             font-size: 2rem;
             font-family: 'Satisfy';
-            color: #333;
+            color: #FEFBF6;
         }
         .services h6 {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #333;
+            color: #FEFBF6;
             margin: 20px;
         }
         .services p {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #333;
+            color: #FEFBF6;
         }
         .service-container {
             display: flex;
@@ -305,7 +305,6 @@ include("../include/config.php"); // Include your database connection
 
         /* Featured events section */
         .featured-events {
-            background-color: #F5EFE7;
             padding: 50px;
             margin-bottom: 20px;
             text-align: center;
@@ -314,12 +313,12 @@ include("../include/config.php"); // Include your database connection
             text-align: center;
             font-size: 3rem;
             font-family: 'Satisfy';
-            color: #333;
+            color: #FEFBF6;
         }
         .featured-events p {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #333;
+            color: #FEFBF6;
         }
     </style>
