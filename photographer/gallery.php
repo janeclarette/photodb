@@ -28,7 +28,6 @@ if (!$result) {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
-            background-color: #9BABB8;
             border-radius: 20px;
         }
 
