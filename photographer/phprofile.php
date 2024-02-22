@@ -90,7 +90,7 @@ if ($result->num_rows > 0) {
         max-width: 700px;
         margin: 50px auto;
         margin-bottom: 30px;
-        height: 60vh; /* Allow height to adjust based on content */
+        height: 650px; /* Allow height to adjust based on content */
         background-color: #ffffff;
         padding: 20px; /* Add padding for spacing */
         border-radius: 10px; /* Add some border radius for a rounded look */
@@ -107,7 +107,7 @@ if ($result->num_rows > 0) {
     .profile-image {
         margin-top: 100px;
         margin-bottom: 200px;
-        height: 200px;
+        height: 300px;
         border-radius: 50%;
         overflow: hidden;
         margin-right: 20px;
