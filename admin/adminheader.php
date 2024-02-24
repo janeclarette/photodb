@@ -1,6 +1,7 @@
 <?php
 // Include necessary files and establish a database connection
-include("../include/config.php"); // Include your database connection
+include("../include/config.php");
+//E0F4FF // Include your database connection
 ?>
     <title>Admin Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +56,6 @@ include("../include/config.php"); // Include your database connection
             <li><a href="/photodb/admin/userinq.php">User Inquiries</a></li>
         </ul>
     </nav>
-
 
 
 

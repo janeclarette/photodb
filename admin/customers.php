@@ -92,7 +92,7 @@ if (!$customers_result) {
     }
     ?>
 
-    <a href="../admin/admindasboard.php" class="log">Back to Admin Home</a>
+
 </body>
 </html>
 
@@ -127,36 +127,39 @@ if (!$customers_result) {
     }
 
     .book-card {
-        background-color: #776B5D;
+        background-color: #E0F4FF;
         text-align: center; /* Center the book grid */
-        max-width: 120%;
         margin-left: 100px;
         margin-right: 100px;
         margin-top: 50px;
         padding: 50px;
         border-radius: 20px;
         display: inline-block;
+        height: 200px;
     }
 
     .book-card img {
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        margin-right: 10px;
-        margin-bottom: 10px;
+
     }
 
     .book-card p {
-        color: #F3EEEA;
+        color: #333;
         margin: 0;
     }
 
     .actions {
-        margin-top: 10px;
+        background-color: #EBE3D5;
+        color: #776B5D;
+        padding: 10px 10px;
+        text-decoration: none;
+        border-radius: 5px;
     }
 
     .actions a {
-        color: #F3EEEA;
+        color: #333;
         text-decoration: none;
         margin-right: 10px;
     }
@@ -165,14 +168,5 @@ if (!$customers_result) {
         text-decoration: none;
     }
 
-    .log {
-        background-color: #EBE3D5;
-        color: #776B5D;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 50px;
-        margin-left: 90%;
-        display: inline;
-    }
+
 </style>
