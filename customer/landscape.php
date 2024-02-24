@@ -163,7 +163,7 @@ include("../customer/header.php");
             text-align: center;
             font-size: 1.5rem;
             font-family:  serif;
-            color: #FEFBF6;
+            color: #333;
             margin-bottom: 10px;
         }
 </style>
