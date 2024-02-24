@@ -1,209 +1,9 @@
 <?php
 
 include("../include/config.php"); 
-?>
-    <title>Customer Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <body>
-    <header class="navbar">
-        <div class="logo">
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <div class="sign-in">
-                <a href="/photodb/customer/profile.php"> <i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
-
-</div>
-
-    
-    </div>
-
-    </header>
-    <nav class="sub-navbar">
-        <ul>
-            <li><a href="#">Home</a></li>       
-            <li><a href="photographer.php">Photographers</a></li>
+include("../customer/header.php"); 
 
 
-            <li class="dropdown">
-    <a href="#">Services</a>
-    <div class="dropdown-content">
-        <?php
-        $serviceTypesSql = "SELECT * FROM servicetypes";
-        $serviceTypesResult = $conn->query($serviceTypesSql);
-
-        while ($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
-            $typeName = $serviceTypeRow['TypeName'];
-            $typeParam = urlencode(strtolower(str_replace(
-                array('Wedding Photography', 'Portrait Photography', 'Event Coverage', 'Commercial Photography', 'Family Photography', 'Fashion Photography', 'Newborn Photography', 'Landscape Photography', 'Food Photography', 'Sports Photography'),
-                array('wedding', 'portrait', 'event', 'commercial', 'family', 'fashion', 'newborn', 'landscape', 'food', 'sports'),
-                $typeName
-            ))); 
-
-            echo "<a href='$typeParam.php'>$typeName</a>";
-        }
-        ?>
-    </div>
-</li>
-            <li><a href="#">Reviews</a></li>
-            <li><a href="#">Photo Gallery</a></li>
-            <li><a href="price.php">Pricing</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
-        </ul>
-    </nav>
-    
-
-    </div>
-</body>
-</html>
-
-  <style>
-
-body {
-        background-color: #E0F4FF;
-        
-    }
- body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px;
-            width: auto;
-        }
-
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout {
-            margin-right: 40px; 
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; 
-        }
-
-        .message{
-            margin-right: 10px;
-        }
-
-      
-        .work-id-container {
-            background-color: #4F709C;
-            color: #E9E4D4;
-            padding: 10px;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            width: 380px;
-            text-align: center;
-            font color:white;
-            
-        }
-
-        .photographer-container {
-        width: calc(33.33% - 40px); 
-        margin: 20px;
-        box-sizing: border-box; 
-    }
-    </style>
-<?php
-include("../include/config.php");
 
 if (isset($_GET['photographer_id'])) {
     $photographerID = $_GET['photographer_id'];
@@ -213,12 +13,7 @@ if (isset($_GET['photographer_id'])) {
 
     if ($albumsResult) {
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Photographer's Albums</title>
+
             <style>
 
 
@@ -226,18 +21,18 @@ if (isset($_GET['photographer_id'])) {
                     display: flex;
                     flex-wrap: wrap;
                     justify-content: center;
-                    margin: 20px;
+                    margin: 10px;
                 }
 
                 .photographer-container {
-                    margin: 50px;
+                    margin: 40px;
                     width: 500px;
                 }
 
                 .album-card {
                     width: 100%; 
                     text-align: center;
-                    background-color: #F5EFE7;
+                    background-color: #fff;
                     padding: 30px;
                     border-radius: 10px;
                     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
