@@ -156,6 +156,7 @@ if ($result->num_rows > 0) {
         width:100px;
         text-decoration: none;
         margin-left: 80px;
+        text-align: center;
         }
 
         .edit-profile:hover {

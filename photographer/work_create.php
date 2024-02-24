@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("../include/config.php");
+include("../photographer/header.php");
 
 if (isset($_SESSION['PhotographerID'])) {
     $photographerID = $_SESSION['PhotographerID'];
@@ -76,51 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photographer Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <body>
-    <header class="navbar">
-        <div class="logo">
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <div class="sign-in">
-    <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
 
-</div>
-    </div>
-    </header>
-    <nav class="sub-navbar">
-        <ul>
-            <li><a href="phdashboard.php">Home</a></li>
-            <li><a href="work_create.php">Portfolio</a></li>
-            <li><a href="schedule.php">Schedule</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="package.php">Package</a></li>
-            <li><a href="place.php">Place</a></li>
-            <li><a href="#">Reviews</a></li>
-        </ul>
-    </nav>
     
 <body>
 <h2>Upload Images</h2>
@@ -233,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
      <style>
 
-.slideshow-container {
+    .slideshow-container {
         position: relative;
         max-width: 100%;
         margin: auto;
@@ -272,13 +229,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     display: flex;
     flex-direction: column;
     text-align: center;
-    height: 465px;
-}
+    height: 500px;
+    }
 
-.album-card img {
-    max-width: 100%;
-    height: auto%;
-}
+    .album-card img {
+        max-width: 100%;
+        height: auto%;
+    }
 
 
     .album-card:hover {
@@ -318,100 +275,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         background-color: #213555;
     }
         body {
-            background-color: #F3EEEA;
+            background-color: #E0F4FF;
             margin: 0;
             padding: 0;
         }
 
-        header {
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo img {
-            margin-left: 40px;
-            height: 60px;
-            width: auto;
-        }
-
-        .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin-right: 10px;
-            width: 200px;
-        }
-
-        .search button {
-            padding: 8px 12px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .profile a {
-            color: #fff;
-            text-decoration: none;
-            margin-right: 10px;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-
-        .profile a:hover {
-            color: #4F709C;
-        }
-
-        .sub-navbar {
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-
-        .sub-navbar ul li a:hover {
-            color: #F3EEEA;
-        }
-
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            
         }
 
         h2 {
             text-align: center;
             color: #213555; 
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            font-family: "Satisfy";
+        }
+        h3 {
+            margin-top: 30px;
+            text-align: center;
+            color: #213555; 
+            font-size: 1.5rem;
+            font-family: "Satisfy";
+        }
+        p{
+            text-align: center;
+            font-size: 1.3rem;
+            font-family:  serif;
+            color: #333;
+            margin-bottom: 10px;
         }
 
         form {
@@ -458,112 +357,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #213555;
         }
        
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
-
-
-        .navbar {
-     
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px; 
-            width: auto; 
-        }
-
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-           
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-     
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-     
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout{
-            margin-right: 40px;
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px;
-        }
-
-        .message{
-            margin-right: 10px; 
-        }
+       
         </style>

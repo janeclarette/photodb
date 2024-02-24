@@ -2,6 +2,7 @@
 session_start();
 include("../include/config.php");
 include("../photographer/header.php");
+
 if (!isset($_SESSION['PhotographerID'])) {
     header("Location: /photodb/photographer/login.php");
     exit();
@@ -18,8 +19,32 @@ if (!$result) {
 }
 ?>
 
-<style>
 
+
+
+<div class="container">
+    <?php
+    while ($row = mysqli_fetch_assoc($result)) {
+        $photoURLs = explode(',', $row['Photos']);
+        foreach ($photoURLs as $photoURL) {
+    ?>
+            <div class="image-container">
+                <img src="<?php echo trim($photoURL); ?>" alt="Photograph">
+            </div>
+    <?php
+        }
+    }
+    ?>
+</div>
+
+<?php
+mysqli_close($conn);
+?>
+
+<style>
+        body {
+            background-color: #E0F4FF;
+        }
 
         .container {
             max-width: 80%;
@@ -54,25 +79,3 @@ if (!$result) {
             display: block;
         }
 </style>
-
-</head>
-
-
-    <div class="container">
-    <?php
-    while ($row = mysqli_fetch_assoc($result)) {
-        $photoURLs = explode(',', $row['Photos']);
-        foreach ($photoURLs as $photoURL) {
-    ?>
-            <div class="image-container">
-                <img src="<?php echo trim($photoURL); ?>" alt="Photograph">
-            </div>
-    <?php
-        }
-    }
-    ?>
-</div>
-
-<?php
-mysqli_close($conn);
-?>
