@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     h2 {
         margin-top: 30px;
         text-align: center;
-        color: #213555;
+        color: #33;
         font-weight: bold;
         font-size: 4rem;
         font-family: 'Satisfy';
