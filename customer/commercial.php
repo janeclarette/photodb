@@ -74,7 +74,7 @@ include("../include/config.php");
 
     <style>
             body {
-        background-color: #607EAA;
+        background-color: #E0F4FF;
         
     }
 

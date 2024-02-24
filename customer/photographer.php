@@ -138,7 +138,7 @@ include("../include/config.php"); // Include your database connection
   <!-- Add your CSS stylesheets here -->
   <style>
     body {
-        background-color: #607EAA;
+        background-color: #E0F4FF;
         
     }
         /* Resetting default margin and padding */
@@ -336,13 +336,13 @@ include("../include/config.php"); // Include your database connection
             text-align: center;
             font-size: 4rem;
             font-family: 'Satisfy';
-            color: #FEFBF6;
+            color: #333;
         }
          p {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #FEFBF6;
+            color: #333;
             margin-bottom: 10px;
         }
     </style>

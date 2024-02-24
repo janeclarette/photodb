@@ -75,13 +75,16 @@ include("../include/config.php");
 
   <style>
 
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+body {
+        background-color: #E0F4FF;
+        
+    }
+ body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
             padding: 0;
         }
 
         .navbar {
- 
             background-color: #213555;
             color: #fff;
             padding: 10px;
@@ -92,8 +95,8 @@ include("../include/config.php");
 
         .navbar .logo img {
             margin-left: 40px;
-            height: 80px; 
-            width: auto; 
+            height: 80px;
+            width: auto;
         }
 
         .navbar .search input[type="text"] {
@@ -173,7 +176,7 @@ include("../include/config.php");
 
         .sign-in .dropdown,
         .logout a {
-            padding: 25px;
+            padding: 25px; 
         }
 
         .message{
@@ -217,9 +220,7 @@ if (isset($_GET['photographer_id'])) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Photographer's Albums</title>
             <style>
-                body {
-                    font-family: 'Arial', sans-serif;
-                }
+
 
                 .album-container {
                     display: flex;
