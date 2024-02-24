@@ -83,7 +83,7 @@ if (!$photographers_result) {
             <p>Email: <?php echo $photographer['Email']; ?></p>
             <!-- Additional fields display if needed -->
             <p class='actions'>
-                <a href='photographer.php?delete_id=<?php echo $photographer['PhotographerID']; ?>' class='delete-link'>Delete Photographer</a>
+            <a href='pdelete.php?delete_id=<?php echo $photographer['PhotographerID']; ?>' class='delete-link'>Delete Photographer</a>
             </p>
         </div>
     <?php

@@ -85,7 +85,7 @@ if (!$customers_result) {
             <p>Email: <?php echo $customer['Email']; ?></p>
             <!-- Additional fields display if needed -->
             <p class='actions'>
-                <a href='customer.php?delete_id=<?php echo $customer['CustomerID']; ?>' class='delete-link'>Delete Customer</a>
+                <a href='cdelete.php?delete_id=<?php echo $customer['CustomerID']; ?>' class='delete-link'>Delete Customer</a>
             </p>
         </div>
     <?php
