@@ -40,9 +40,7 @@ include("../include/config.php"); // Include your database connection
         <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
     </div>
 
-</div>
-
-    
+    </div> 
     </div>
 
     </header>
@@ -50,11 +48,11 @@ include("../include/config.php"); // Include your database connection
     <nav class="sub-navbar">
         <ul>
 
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Schedule</a></li>
-            <li><a href="#">Monitoring</a></li>
-            <li><a href="#">Reviews</a></li>
-            <li><a href="#">User Inquiries</a></li>
+            <li><a href="/photodb/admin/admindashboard.php">Home</a></li>
+            <li><a href="/photodb/admin/schedule.php">Schedule</a></li>
+            <li><a href="/photodb/admin/monitor.php">Monitoring</a></li>
+            <li><a href="/photodb/admin/review.php">Reviews</a></li>
+            <li><a href="/photodb/admin/userinq.php">User Inquiries</a></li>
         </ul>
     </nav>
 
