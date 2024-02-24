@@ -119,7 +119,7 @@ include("../include/config.php"); // Include your database connection
   <style>
 
     body {
-        background-color: #607EAA;
+        background-color: #E0F4FF;
     }
         /* Resetting default margin and padding */
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
@@ -249,12 +249,11 @@ include("../include/config.php"); // Include your database connection
             text-align: center;
             font-size: 6rem;
             font-family: 'Satisfy';
-            color: #FEFBF6;
+            color: #fff;
         }
 
         /* Services section */
         .services {
-
             padding: 50px;
             margin-bottom: 20px;
             text-align: center;
@@ -264,26 +263,26 @@ include("../include/config.php"); // Include your database connection
             text-align: center;
             font-size: 3rem;
             font-family: 'Satisfy';
-            color: #FEFBF6;
+            color: #333;
         }
         .services h3 {
             text-align: center;
             font-size: 2rem;
             font-family: 'Satisfy';
-            color: #FEFBF6;
+            color: #333;
         }
         .services h6 {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #FEFBF6;
+            color: #333;
             margin: 20px;
         }
         .services p {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #FEFBF6;
+            color: #333;
         }
         .service-container {
             display: flex;
@@ -313,12 +312,12 @@ include("../include/config.php"); // Include your database connection
             text-align: center;
             font-size: 3rem;
             font-family: 'Satisfy';
-            color: #FEFBF6;
+            color: #333;
         }
         .featured-events p {
             text-align: center;
             font-size: 1.5rem;
             font-family: 'Cinzel', serif;
-            color: #FEFBF6;
+            color: #333;
         }
     </style>

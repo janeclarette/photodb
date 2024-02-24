@@ -25,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_customer'])) {
     }
 }
 
-// Delete customer
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete_query = "DELETE FROM customers WHERE CustomerID = $delete_id";
