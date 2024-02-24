@@ -1,11 +1,8 @@
 <?php
 include("../include/config.php");
 include("../customer/header.php");
-?>
 
 
-
-    <?php
     $selectedServiceTypeID = '5';
     $selectedTypeName = 'Family Photography';
 
