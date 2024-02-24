@@ -170,4 +170,4 @@ include("../customer/header.php");
             color: #FEFBF6;
             margin-bottom: 10px;
         }
-    </style>
+</style>

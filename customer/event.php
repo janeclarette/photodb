@@ -26,7 +26,7 @@ include("../customer/header.php");
                 echo '<img src="' . $photo . '" alt="Work Image">';
             }
 
-            echo '<h3>Album Title: ' . $workRow['Album'] . '</h3>';
+            echo '<h2>Album Title: ' . $workRow['Album'] . '</h2>';
             echo '</div>'; 
             echo '<div class="work-id-container">';
             echo '<p>Photographer Name: ' . $workRow['Name'] . '</p>';
@@ -68,16 +68,20 @@ include("../customer/header.php");
 
 
 <style>
+        body {
+            background-color: #E0F4FF;
+        }
 
         .works-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around; 
-            margin: 0 -10px; 
+            margin-top: 50px;
             
         }
 
         .work-container {
+
             width: calc(33.33% - 20px);
             margin: 10px;
             max-width: 350px;
@@ -106,41 +110,35 @@ include("../customer/header.php");
         }
 
         .work {
-            width: 100%;
+            width: 450px;
             text-align: center;
-            padding: 20px;
-            background-color: #E9E4D4;
-            height: 400px;
+            padding: 10px;
+            background-color: #fff;
+            height: 420px;
+            border-radius: 10px;
+            
         }
 
         .work img {
-        width: 100%;
-        height: 350px; 
-        object-fit: cover; 
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 90%; 
-        margin: 0 auto; 
-        display: block;
-        
-        }
-        .work h3 {
-            font-size: 1.5rem;
-            margin-top: 10px;
+            width: 100%;
+            height: 350px; 
+            object-fit: cover; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 90%; 
+            margin-top:15px;
+            margin-left:20px;
+            display: block;
         }
 
-        .work p {
-            font-size: 1rem;
-            color: #777;
-        }
 
         .work-id-container {
-            background-color: #4F709C;
+            background-color: #213555;
             color: #fff;
             padding: 10px;
             border-bottom-left-radius: 15px;
             border-bottom-right-radius: 15px;
-            width: 470px;
+            width: 450px;
             text-align: center;
             
         }
@@ -150,7 +148,21 @@ include("../customer/header.php");
             transition: transform 0.3s ease;
         }
         .work img:not(:first-child) {
-            display: none;
+        display: none;
         }
-   
-    </style>
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-family: 'Satisfy';
+            color: #333;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+         p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family:  serif;
+            color: #333;
+            margin-bottom: 10px;
+        }
+</style>
