@@ -3,12 +3,7 @@ session_start();
 include("../include/config.php");
 include("../admin/adminheader.php");
 
-// Redirect to login page if not logged in as admin
-if (!isset($_SESSION['admin_id'])) {
-    $_SESSION['message'] = "Cannot access admin site if you are not an admin";
-    header("Location: /photodb/admin/dmindashboard.php");
-    exit();
-}
+
 
 // Insert new customer
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_customer'])) {
@@ -72,14 +67,20 @@ if (!$customers_result) {
     }
     ?>
 
-
-
     <?php
     // Loop through the customer data and display each in a separate div
     while ($customer = mysqli_fetch_assoc($customers_result)) {
     ?>
         <div class='book-card'>
-            <p><?php echo $customer['Name']; ?></p>
+            <?php
+            // Display the customer image if available
+            if ($customer['img_customer']) {
+                echo "<img src='../uploads/{$customer['img_customer']}' alt='Customer Image' class='customer-image'>";
+            } else {
+                echo "<p>No image available</p>";
+            }
+            ?>
+            <p style="font-family: 'Satisfy'; font-size:1.5rem;"><strong><?php echo $customer['Name']; ?></strong></p>
             <p>Address: <?php echo $customer['Address']; ?></p>
             <p>Contact Number: <?php echo $customer['Phone_Number']; ?></p>
             <p>Email: <?php echo $customer['Email']; ?></p>
@@ -92,13 +93,8 @@ if (!$customers_result) {
     }
     ?>
 
-
 </body>
 </html>
-
-
-
-
 
 <style>
     body {
@@ -129,37 +125,36 @@ if (!$customers_result) {
     .book-card {
         background-color: #E0F4FF;
         text-align: center; /* Center the book grid */
-        margin-left: 100px;
-        margin-right: 100px;
+        margin-left: 50px;
+        margin-right: 50px;
         margin-top: 50px;
         padding: 50px;
         border-radius: 20px;
         display: inline-block;
-        height: 200px;
+        height: 370px;
     }
 
-    .book-card img {
+    .customer-image {
         width: 200px;
         height: 200px;
         border-radius: 50%;
-
+        margin-bottom: 15px;
     }
 
     .book-card p {
         color: #333;
-        margin: 0;
+        margin-bottom: 15px;
     }
 
     .actions {
-        background-color: #EBE3D5;
-        color: #776B5D;
+        background-color: #4F709C;
         padding: 10px 10px;
         text-decoration: none;
         border-radius: 5px;
     }
 
     .actions a {
-        color: #333;
+        color: #fff;
         text-decoration: none;
         margin-right: 10px;
     }
@@ -167,6 +162,4 @@ if (!$customers_result) {
     .actions a:hover {
         text-decoration: none;
     }
-
-
 </style>
