@@ -1,187 +1,80 @@
 <?php
 include("../include/config.php");
+include("../customer/header.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <body>
- 
-    <header class="navbar">
-        <div class="logo">
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <div class="sign-in">
-                <a href="/photodb/customer/profile.php"> <i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
 
-</div>
+<?php
+    $selectedServiceTypeID = '4';
+    $selectedTypeName = 'Commercial Photography';
 
-    </header>
+    $worksSql = "SELECT w.Photos, w.Album, p.Name, w.WorkID 
+                 FROM works w
+                 JOIN photographers p ON w.PhotographerID = p.PhotographerID
+                 JOIN servicetypes st ON w.ServiceTypeID = st.ServiceTypeID
+                 WHERE st.ServiceTypeID = $selectedServiceTypeID
+                 AND st.TypeName = '$selectedTypeName'";
+    $worksResult = $conn->query($worksSql);
 
+    if ($worksResult->num_rows > 0) {
+        echo '<div class="works-container">';
+        while ($workRow = $worksResult->fetch_assoc()) {
+            echo '<div class="work-container">'; 
 
-    <nav class="sub-navbar">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="photographer.php">Photographers</a></li>
-            <li class="dropdown">
-    <a href="#">Services</a>
-    <div class="dropdown-content">
-        <?php
-        $serviceTypesSql = "SELECT * FROM servicetypes";
-        $serviceTypesResult = $conn->query($serviceTypesSql);
+            echo '<div class="work">';
 
-        while ($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
-            $typeName = $serviceTypeRow['TypeName'];
-            $typeParam = urlencode(strtolower(str_replace(
-                array('Wedding Photography', 'Portrait Photography', 'Event Coverage', 'Commercial Photography', 'Family Photography', 'Fashion Photography', 'Newborn Photography', 'Landscape Photography', 'Food Photography', 'Sports Photography'),
-                array('wedding', 'portrait', 'event', 'commercial', 'family', 'fashion', 'newborn', 'landscape', 'food', 'sports'),
-                $typeName
-            )));
+            $photosArray = explode(',', $workRow['Photos']);
 
-            echo "<a href='$typeParam.php'>$typeName</a>";
+            foreach ($photosArray as $photo) {
+                echo '<img src="' . $photo . '" alt="Work Image">';
+            }
+
+            echo '<h2>Album Title: ' . $workRow['Album'] . '</h2>';
+            echo '</div>'; 
+            echo '<div class="work-id-container">';
+            echo '<p>Photographer Name: ' . $workRow['Name'] . '</p>';
+            echo '</div>';
+
+            echo '</div>';
         }
-        ?>
-    </div>
-</li>
-            <li><a href="#">Reviews</a></li>
-            <li><a href="#">Photo Gallery</a></li>
-            <li><a href="price.php">Pricing</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
-        </ul>
-    </nav>
+
+        echo '</div>';
+    } else {
+        echo '<p>No works found for the specified service type and typename.</p>';
+    }
+    ?>
 
 
-    <style>
-            body {
-        background-color: #E0F4FF;
-        
+
+<script>
+  function changeSlide(containerIndex) {
+    let currentSlide = 0; 
+    const workContainers = document.querySelectorAll('.work-container'); 
+
+    function showNextSlide() {
+      const slides = workContainers[containerIndex].querySelectorAll('.work img'); 
+      slides[currentSlide].style.display = 'none'; 
+      currentSlide = (currentSlide + 1) % slides.length; 
+      slides[currentSlide].style.display = 'block'; 
     }
 
-      body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
+    showNextSlide();
+    setInterval(showNextSlide, 5000);
+  }
 
-        .navbar {
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  document.addEventListener('DOMContentLoaded', function() {
+    const workContainers = document.querySelectorAll('.work-container');
 
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px;
-            width: auto;
-        }
+    workContainers.forEach((container, index) => {
+      changeSlide(index);
+    });
+  });
+</script>
 
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
+    <style>
+        body {
+            background-color: #E0F4FF;
         }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout {
-            margin-right: 40px; 
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; 
-        }
-
-        .message{
-            margin-right: 10px;
-        }
-
 
         .works-container {
             display: flex;
@@ -277,69 +170,3 @@ include("../include/config.php");
             margin-bottom: 10px;
         }
     </style>
-
-    <?php
-    $selectedServiceTypeID = '4';
-    $selectedTypeName = 'Commercial Photography';
-
-    $worksSql = "SELECT w.Photos, w.Album, p.Name, w.WorkID 
-                 FROM works w
-                 JOIN photographers p ON w.PhotographerID = p.PhotographerID
-                 JOIN servicetypes st ON w.ServiceTypeID = st.ServiceTypeID
-                 WHERE st.ServiceTypeID = $selectedServiceTypeID
-                 AND st.TypeName = '$selectedTypeName'";
-    $worksResult = $conn->query($worksSql);
-
-    if ($worksResult->num_rows > 0) {
-        echo '<div class="works-container">';
-        while ($workRow = $worksResult->fetch_assoc()) {
-            echo '<div class="work-container">'; 
-
-            echo '<div class="work">';
-
-            $photosArray = explode(',', $workRow['Photos']);
-
-            foreach ($photosArray as $photo) {
-                echo '<img src="' . $photo . '" alt="Work Image">';
-            }
-
-            echo '<h2>Album Title: ' . $workRow['Album'] . '</h2>';
-            echo '</div>'; 
-            echo '<div class="work-id-container">';
-            echo '<p>Photographer Name: ' . $workRow['Name'] . '</p>';
-            echo '</div>';
-
-            echo '</div>';
-        }
-
-        echo '</div>';
-    } else {
-        echo '<p>No works found for the specified service type and typename.</p>';
-    }
-    ?>
-</body>
-</html>
-<script>
-  function changeSlide(containerIndex) {
-    let currentSlide = 0; 
-    const workContainers = document.querySelectorAll('.work-container'); 
-
-    function showNextSlide() {
-      const slides = workContainers[containerIndex].querySelectorAll('.work img'); 
-      slides[currentSlide].style.display = 'none'; 
-      currentSlide = (currentSlide + 1) % slides.length; 
-      slides[currentSlide].style.display = 'block'; 
-    }
-
-    showNextSlide();
-    setInterval(showNextSlide, 5000);
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const workContainers = document.querySelectorAll('.work-container');
-
-    workContainers.forEach((container, index) => {
-      changeSlide(index);
-    });
-  });
-</script>
