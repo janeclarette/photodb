@@ -18,34 +18,64 @@ $photographerID = $_SESSION['PhotographerID'];
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $packageName = $_POST["PackageName"];
-    $description = $_POST["Description"];
-    $price = $_POST["Price"];
-    $organization = $_POST["Organization"];
-    $inclusions = isset($_POST["inclusions"]) ? $_POST["inclusions"] : [];
-    $serviceType = $_POST["ServiceType"];
+    // Check if the deletePackageID is set in the POST request
+    if (isset($_POST['deletePackageID'])) {
+        // Retrieve the package ID to be deleted
+        $packageIDToDelete = $_POST['deletePackageID'];
 
-    // Insert data into the Packages table
-    $insertPackageQuery = "INSERT INTO Packages (PhotographerID, PackageName, Description, ServiceTypeID, Price, Organization)
-                         VALUES ($photographerID, '$packageName', '$description', $serviceType, $price, '$organization')";
-    $conn->query($insertPackageQuery);
+        // Perform deletion of the package and associated inclusions
+$deletePackageQuery = "DELETE FROM Packages WHERE PackageID = $packageIDToDelete";
 
-    // Retrieve the last inserted PackageID
-    $packageID = $conn->insert_id;
-
-    // Insert data into the PackagesInclusions table for each selected inclusion
-    foreach ($inclusions as $inclusionID) {
-        $insertInclusionQuery = "INSERT INTO PackagesInclusions (PackageID, InclusionID) VALUES ($packageID, $inclusionID)";
-        $conn->query($insertInclusionQuery);
+// Delete associated inclusions first
+$deleteInclusionsQuery = "DELETE FROM PackagesInclusions WHERE PackageID = $packageIDToDelete";
+if ($conn->query($deleteInclusionsQuery) === TRUE) {
+    // Then delete the package
+    if ($conn->query($deletePackageQuery) === TRUE) {
+        // Display alert message and redirect
+        echo '<script>';
+        echo 'alert("Package deleted successfully");';
+        echo 'window.location.href = "package.php";';
+        echo '</script>';
+        exit(); // Ensure no further execution of PHP code after redirection
+    } else {
+        echo "Error deleting package: " . $conn->error;
     }
-    
-    // Display alert and redirect using JavaScript
-    echo '<script>';
-    echo 'alert("Package created successfully");';
-    echo 'window.location.href = "package.php";';
-    echo '</script>';
+} else {
+    echo "Error deleting associated inclusions: " . $conn->error;
 }
+} else {
+    echo "Error deleting associated transactions: " . $conn->error;
+    } 
+
+        // Retrieve form data
+        $packageName = $_POST["PackageName"];
+        $description = $_POST["Description"];
+        $price = $_POST["Price"];
+        $organization = $_POST["Organization"];
+        $inclusions = isset($_POST["inclusions"]) ? $_POST["inclusions"] : [];
+        $serviceType = $_POST["ServiceType"];
+
+        // Insert data into the Packages table
+        $insertPackageQuery = "INSERT INTO Packages (PhotographerID, PackageName, Description, ServiceTypeID, Price, Organization)
+                             VALUES ($photographerID, '$packageName', '$description', $serviceType, $price, '$organization')";
+        $conn->query($insertPackageQuery);
+
+        // Retrieve the last inserted PackageID
+        $packageID = $conn->insert_id;
+
+        // Insert data into the PackagesInclusions table for each selected inclusion
+        foreach ($inclusions as $inclusionID) {
+            $insertInclusionQuery = "INSERT INTO PackagesInclusions (PackageID, InclusionID) VALUES ($packageID, $inclusionID)";
+            $conn->query($insertInclusionQuery);
+        }
+
+        // Display alert and redirect using JavaScript
+        echo '<script>';
+        echo 'alert("Package created successfully");';
+        echo 'window.location.href = "package.php";';
+        echo '</script>';
+    }
+
 ?>
 
     
@@ -121,28 +151,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Existing Packages</h2>
 
     <?php
-    // Fetch and display existing packages
-    $existingPackagesQuery = "SELECT * FROM Packages WHERE PhotographerID = $photographerID";
-    $existingPackagesResult = $conn->query($existingPackagesQuery);
+// Fetch and display existing packages
+$existingPackagesQuery = "SELECT * FROM Packages WHERE PhotographerID = $photographerID";
+$existingPackagesResult = $conn->query($existingPackagesQuery);
 
-    while ($packageRow = $existingPackagesResult->fetch_assoc()) {
-        echo '<div class="package-container">
-                <h3>' . $packageRow['PackageName'] . '</h3>
-                <p>Description: ' . $packageRow['Description'] . '</p>
-                <p>Price: ₱' . number_format($packageRow['Price'], 2) . '</p>
-                <p>Service Type: ' . getServiceTypeName($packageRow['ServiceTypeID']) . '</p>
-                <p>Inclusions: ' . getPackageInclusions($packageRow['PackageID']) . '</p>
-              </div>';
-    }
+while ($packageRow = $existingPackagesResult->fetch_assoc()) {
+    echo '<div class="package-container">
+            <h3>' . $packageRow['PackageName'] . '</h3>
+            <p>Description: ' . $packageRow['Description'] . '</p>
+            <p>Price: ₱' . number_format($packageRow['Price'], 2) . '</p>
+            <p>Service Type: ' . getServiceTypeName($packageRow['ServiceTypeID']) . '</p>
+            <p>Inclusions: ' . getPackageInclusions($packageRow['PackageID']) . '</p>
+            <div class="button-group">
+                <button class="edit-button" data-id="' . $packageRow['PackageID'] . '">Edit</button>
+                <button class="delete-button" data-id="' . $packageRow['PackageID'] . '">Delete</button>
+            </div>
+          </div>';
+}
 
-    // Function to get Service Type Name
-    function getServiceTypeName($serviceTypeID) {
-        global $conn;
-        $serviceTypeQuery = "SELECT TypeName FROM ServiceTypes WHERE ServiceTypeID = $serviceTypeID";
-        $serviceTypeResult = $conn->query($serviceTypeQuery);
-        $serviceTypeRow = $serviceTypeResult->fetch_assoc();
-        return $serviceTypeRow['TypeName'];
-    }
+// Function to get Service Type Name
+function getServiceTypeName($serviceTypeID) {
+    global $conn;
+    $serviceTypeQuery = "SELECT TypeName FROM ServiceTypes WHERE ServiceTypeID = $serviceTypeID";
+    $serviceTypeResult = $conn->query($serviceTypeQuery);
+    $serviceTypeRow = $serviceTypeResult->fetch_assoc();
+    return $serviceTypeRow['TypeName'];
+}
+
 // Function to get Package Inclusions
 function getPackageInclusions($packageID) {
     global $conn;
@@ -159,6 +194,39 @@ function getPackageInclusions($packageID) {
     return implode(', ', $inclusions);
 }
 ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add event listeners to edit and delete buttons
+        document.querySelectorAll('.edit-button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var packageID = this.getAttribute('data-id');
+                window.location.href = 'edit_package.php?id=' + packageID;
+                // Implement edit functionality using AJAX
+                // Send packageID to the server and handle the response
+            });
+        });
+
+        document.querySelectorAll('.delete-button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var packageID = this.getAttribute('data-id');
+                if (confirm("Are you sure you want to delete this package?")) {
+                    // Send packageID to the server for deletion using form submission
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '';
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'deletePackageID';
+                    input.value = packageID;
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
 
 </div>
 </div>
@@ -269,5 +337,26 @@ function getPackageInclusions($packageID) {
             font-family:  serif;
             color: #333;
             margin-top: 30px;
+        }
+        .edit-button,
+        .delete-button {
+            background-color: #4F709C;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 8px; /* Add margin between buttons */
+        }
+
+        .edit-button:hover,
+        .delete-button:hover {
+            background-color: #345981;
+        }
+
+        .button-group {
+            margin-top: 10px; /* Add margin between button group and package details */
+            text-align: center;
         }
 </style>

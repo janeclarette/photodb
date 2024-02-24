@@ -74,12 +74,9 @@
 </body>
 </html>
 
-
-
-<?php
+<?php 
 session_start();
 include("../include/config.php");
-//include("../include/header.php");
 
 // Check if the customer is logged in
 if (!isset($_SESSION['CustomerID'])) {
@@ -88,9 +85,38 @@ if (!isset($_SESSION['CustomerID'])) {
     exit();
 }
 
-
 // Get the customer ID from the session
 $customerID = $_SESSION['CustomerID'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Handle form submission for updating profile
+
+    // Retrieve updated profile information
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone_number = $_POST['phone_number'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+
+    // Update the database with new information
+    $update_customer_sql = "UPDATE customers SET Name='$name', Email='$email', Phone_Number='$phone_number', Address='$address' WHERE CustomerID=$customerID";
+    if ($conn->query($update_customer_sql) === TRUE) {
+        // Update the cities table with the given city ID
+        $update_city_sql = "UPDATE cities SET CityName='$city' WHERE CityID=(SELECT CityID FROM customers WHERE CustomerID=$customerID)";
+        if ($conn->query($update_city_sql) === TRUE) {
+            // Display JavaScript alert
+            echo '<script>';
+            echo 'alert("Profile edited successfully");';
+            echo 'window.location.href = "profile.php";';
+            echo '</script>';
+            exit(); // Exit to prevent further execution of PHP code
+        } else {
+            echo "Error updating city record: " . $conn->error;
+        }
+    } else {
+        echo "Error updating customer record: " . $conn->error;
+    }
+}
 
 // Fetch customer information including city details
 $sql = "SELECT c.Name, c.Phone_Number, c.Address, ct.CityName AS City, c.Email, c.img_customer 
@@ -103,6 +129,7 @@ if ($result->num_rows > 0) {
     // Output customer profile
     $row = $result->fetch_assoc();
 ?>
+<!-- Display profile information -->
 <h2> Customer Profile </h2>
 <div class="container">
     <div class="profile">
@@ -116,29 +143,31 @@ if ($result->num_rows > 0) {
             ?>
         </div>
         <div class="profile-details">
-            <div class="detail">
-                <span class="label">Name:</span>
-                <span class="value"><?php echo $row['Name']; ?></span>
-            </div>
-            <div class="detail">
-                <span class="label">Email:</span>
-                <span class="value"><?php echo $row['Email']; ?></span>
-            </div>
-            <div class="detail">
-                <span class="label">Phone Number:</span>
-                <span class="value"><?php echo $row['Phone_Number']; ?></span>
-            </div>
-            <div class="detail">
-                <span class="label">Address:</span>
-                <span class="value"><?php echo $row['Address']; ?></span>
-            </div>
-            <div class="detail">
-                <span class="label">City:</span>
-                <span class="value"><?php echo $row['City']; ?></span>
-            </div>
+            <form method="post">
+                <div class="detail">
+                    <span class="label">Name:</span>
+                    <input type="text" name="name" value="<?php echo $row['Name']; ?>">            
+                </div>
+                <div class="detail">
+                    <span class="label">Email:</span>
+                    <input type="email" name="email" value="<?php echo $row['Email']; ?>">
+                </div>
+                <div class="detail">
+                    <span class="label">Phone Number:</span>
+                    <input type="text" name="phone_number" value="<?php echo $row['Phone_Number']; ?>">
+                </div>
+                <div class="detail">
+                    <span class="label">Address:</span>
+                    <input type="text" name="address" value="<?php echo $row['Address']; ?>">
+                </div>
+                <div class="detail">
+                    <span class="label">City:</span>
+                    <input type="text" name="city" value="<?php echo $row['City']; ?>">
+                </div>
+                <button type="submit">Update Profile</button>
+            </form>
         </div>
     </div>
-    <a href="#" class="edit-profile">Edit Profile</a>
 </div>
 
 <?php
@@ -241,7 +270,20 @@ if ($result->num_rows > 0) {
         .edit-profile:hover {
             background-color: #375d83;
         }
+        button[type="submit"] {
+            padding: 8px 16px;
+            background-color: #4F709C;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px; /* Adjust top margin as needed */
+        }
 
+        button[type="submit"]:hover {
+            background-color: #375d83;
+        }
 
 </style>
 
