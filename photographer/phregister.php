@@ -1,41 +1,31 @@
-<?php
-include("../include/config.php");
-?>
-
+<?php include("../include/config.php"); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photographer Registration</title>
+    <link rel="stylesheet" href="style.css"> <!-- Include your CSS file -->
+</head>
 <body>
     <h2>Photographer Registration</h2>
-    <form action="phstore.php" method="post" class="form-outline">
+    <form action="phstore.php" method="post" class="form-outline" enctype="multipart/form-data">
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" class="form-control" required><br>
-            </div>
-            <div class="form-group col-md-6">
+            </div><br>
+            <div class="form-group">
                 <label for="phone_number">Phone Number:</label><br>
                 <input type="text" id="phone_number" name="phone_number" class="form-control" required><br>
             </div>
-        </div>
-        <!-- Add Service Type Dropdown -->
-        <div class="form-group">
-            <label for="service_type">Service Type:</label><br>
-            <select name="service_type" id="service_type" class="form-control" required>
-                <?php
-                $sql = "SELECT * FROM ServiceTypes";
-                $result = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<option value='{$row['ServiceTypeID']}'>{$row['TypeName']}</option>";
-                    }
-                }
-                ?>
-            </select><br><br>
-        </div>
+        </div><br>
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="address">Address:</label><br>
                 <textarea id="address" name="address" class="form-control" required></textarea><br>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="city_id">City:</label><br>
                 <select name="city_id" id="city_id" class="form-control" required>
                     <?php
@@ -51,21 +41,21 @@ include("../include/config.php");
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="email">Email:</label><br>
                 <input type="email" id="email" name="email" class="form-control" required><br>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="username">Username:</label><br>
                 <input type="text" id="username" name="username" class="form-control" required><br>
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password" class="form-control" required><br>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="img_photographer">Profile Image:</label><br>
                 <input type="file" id="img_photographer" name="img_photographer" class="form-control"><br>
             </div>
