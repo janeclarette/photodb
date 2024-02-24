@@ -1,204 +1,18 @@
 <?php
-include("../include/config.php"); 
 session_start(); 
+include("../include/config.php"); 
+include("../photographer/header.php"); 
+
 
 if (!isset($_SESSION['PhotographerID'])) {
-    header("Location: ../photodb/login.php");
+    header("Location: ../photodb/admin/login.php");
     exit();
 }
 
 $photographer_id = $_SESSION['PhotographerID']; 
 ?>
-    <title>Photographer Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <body>
-    <header class="navbar">
-        <div class="logo">
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <div class="sign-in">
-    <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
 
-</div>
 
-    
-    </div>
-
-    </header>
-    <nav class="sub-navbar">
-        <ul>
-            <li><a href="phdashboard.php">Home</a></li>
-            <li><a href="work_create.php">Portfolio</a></li>
-            <li><a href="schedule.php">Schedule</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="package.php">Package</a></li>
-            <li><a href="place.php">Place</a></li>
-            <li><a href="#">Reviews</a></li>
-        </ul>
-    </nav>
-    
-  <style>
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px; 
-            width: auto; 
-        }
-
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout{
-            margin-right: 40px; 
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; 
-        }
-
-        .message{
-            margin-right: 10px;
-        }
-#availability-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-#availability-table th, #availability-table td {
-    padding: 10px;
-    text-align: center;
-}
-
-#availability-table th {
-    background-color: #213555;
-    color: #fff;
-}
-
-#availability-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#availability-table tr:hover {
-    background-color: #ddd;
-}
-
-select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    padding: 10px;
-    background-color: #4F709C;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-        </style>
 <div class="container">
     <h2>Manage Availability Schedule</h2>
 
@@ -438,3 +252,49 @@ mysqli_close($conn);
 </body>
 
 </html>
+
+<style>
+        body {
+            background-color: #E0F4FF;
+        }  
+        #availability-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        #availability-table th, #availability-table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #availability-table th {
+            background-color: #213555;
+            color: #fff;
+        }
+
+        #availability-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #availability-table tr:hover {
+            background-color: #ddd;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4F709C;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+</style>

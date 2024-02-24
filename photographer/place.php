@@ -28,74 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<style>
-    h2 {
-        margin-top: 30px;
-        text-align: center;
-        color: #213555;
-        font-weight: bold;
-        font-size: 4rem;
-        font-family: 'Satisfy';
-    }
 
-    .container {
-        max-width: 60%;
-        margin-top: 20px;
-        padding: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        background-color: #9BABB8;
-        border-radius: 20px;
-        margin: 0 auto; /* Centering the container */
-    }
-
-    .form-container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 700px;
-        margin-bottom: 20px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 8px;
-    }
-
-    input, textarea, select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    table {
-        margin-left:150px;
-        margin-top:40px;
-        width: 80%;
-        border-collapse: collapse;
-      
-    }
-
-    th, td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
-
-    th {
-        background-color: #4F709C;
-        color: #fff;
-    }
-
-    tbody tr:hover {
-        background-color: #f5f5f5;
-    }
-</style>
 
 <body>
     <h2>Create a New Place</h2>
@@ -157,3 +90,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+
+
+<style>
+
+    body {
+        background-color: #E0F4FF;
+    }
+    h2 {
+        margin-top: 30px;
+        text-align: center;
+        color: #213555;
+        font-weight: bold;
+        font-size: 4rem;
+        font-family: 'Satisfy';
+    }
+
+    .container {
+        max-width: 60%;
+        margin-top: 20px;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        border-radius: 20px;
+        margin: 0 auto; /* Centering the container */
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 700px;
+        margin-bottom: 20px;
+        
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    table {
+        margin-left:150px;
+        margin-top:40px;
+        width: 80%;
+        border-collapse: collapse;
+        background-color: #fff;
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4F709C;
+        color: #fff;
+    }
+
+    tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+</style>
