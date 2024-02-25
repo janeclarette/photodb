@@ -1,82 +1,8 @@
-<?php include("../include/config.php"); 
-//header for general lang ?>
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>General Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="../include/style.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-</head>
-<body>
-    <!-- Main header with navigation bar -->
-    <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile"><i class="fa-regular fa-user"></i>
-
-            <div class="logout">
-                <!-- Logout link -->
-                <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-            </div>
-        </div>
-    </header>
-    <!-- Secondary navigation bar -->
-    <nav class="sub-navbar">
-        <ul>
-            <!-- Navigation links -->
-            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
-            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
-
-
-            <li class="dropdown">
-            <a href="#">Services</a>
-            <div class="dropdown-content">
-            <?php
-        $serviceTypesSql = "SELECT * FROM servicetypes";
-        $serviceTypesResult = $conn->query($serviceTypesSql);
-
-        while ($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
-            $typeName = $serviceTypeRow['TypeName'];
-            $typeParam = urlencode(strtolower(str_replace(
-                array('Wedding Photography', 'Portrait Photography', 'Event Coverage', 'Commercial Photography', 'Family Photography', 'Fashion Photography', 'Newborn Photography', 'Landscape Photography', 'Food Photography', 'Sports Photography'),
-                array('wedding', 'portrait', 'event', 'commercial', 'family', 'fashion', 'newborn', 'landscape', 'food', 'sports'),
-                $typeName
-            )));
-
-            echo "<a href='$typeParam.php'>$typeName</a>";
-        }
-        ?>
-            </div>
-            </li>
-            <li><a href="/photodb/customer/review.php">Reviews</a></li>
-            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Pricing</a></li>
-            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
-            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
-        </ul>
-    </nav>
-
-</body>
-</html>
-
 <?php
+ob_start(); //
 session_start();
 include("../include/config.php");
+include("../customer/header.php");
 
 // Check if the customer is logged in
 if (!isset($_SESSION['CustomerID'])) {
@@ -100,102 +26,96 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
 }
 
-// Check if the form is submitted
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve updated profile information
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone_number = $_POST['phone_number'];
     $address = $_POST['address'];
-    $city = $_POST['city'];
+    $cityID = $_POST['city'];
 
-    // Handle image upload
-    if (isset($_FILES["profile_image"]) && $_FILES["profile_image"]["error"] == UPLOAD_ERR_OK) {
-        // Process file upload
-        $target_dir = "../uploads/";
-        $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
-        
-        // Move uploaded file to target directory
-        if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
-            // Update database with new image path
-            $image_path = "uploads/" . basename($_FILES["profile_image"]["name"]);
-            $update_customer_sql = "UPDATE customers SET Name='$name', Email='$email', Phone_Number='$phone_number', Address='$address', img_customer='$image_path' WHERE CustomerID=$customerID";
+    // Check if a new profile picture is uploaded
+    if ($_FILES['profile_image']['error'] == 0) {
+        $profile_image = $_FILES['profile_image']['name'];
+        $temp_name = $_FILES['profile_image']['tmp_name'];
+        $file_destination = "../uploads/" . $profile_image;
 
-            if ($conn->query($update_customer_sql) === TRUE) {
-                // Update city information if needed
-                $update_city_sql = "UPDATE cities SET CityName='$city' WHERE CityID=(SELECT CityID FROM customers WHERE CustomerID=$customerID)";
-                if ($conn->query($update_city_sql) === TRUE) {
-                    // Redirect to profile page after successful update
-                    echo '<script>alert("Profile updated successfully."); window.location.href = "profile.php";</script>';
-                    exit();
-                } else {
-                    echo "Error updating city record: " . $conn->error;
-                }
-            } else {
-                echo "Error updating customer record: " . $conn->error;
-            }
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    } else {
-        // Update the database with new information (excluding the image)
-        $update_customer_sql = "UPDATE customers SET Name='$name', Email='$email', Phone_Number='$phone_number', Address='$address' WHERE CustomerID=$customerID";
-        if ($conn->query($update_customer_sql) === TRUE) {
-            // Update the cities table with the given city ID
-            $update_city_sql = "UPDATE cities SET CityName='$city' WHERE CityID=(SELECT CityID FROM customers WHERE CustomerID=$customerID)";
-            if ($conn->query($update_city_sql) === TRUE) {
-                // Redirect to profile page after successful update
-                echo '<script>alert("Profile updated successfully."); window.location.href = "profile.php";</script>';
-                exit();
-            } else {
-                echo "Error updating city record: " . $conn->error;
-            }
-        } else {
-            echo "Error updating customer record: " . $conn->error;
-        }
+        // Move the uploaded file to the specified destination
+        move_uploaded_file($temp_name, $file_destination);
+
+        // Update the customer's profile picture in the database
+        $updatePictureQuery = "UPDATE customers SET img_customer = '$file_destination' WHERE CustomerID = $customerID";
+        $conn->query($updatePictureQuery);
     }
+
+    // Update the customer's information in the database
+    $updateQuery = "UPDATE customers SET Name = '$name', Email = '$email', Phone_Number = '$phone_number', Address = '$address', CityID = $cityID WHERE CustomerID = $customerID";
+    $conn->query($updateQuery);
+
+    // Redirect back to profile.php
+    header("Location: profile.php");
+    exit();
 }
 ?>
 
 <!-- HTML code to display the profile form -->
 <h2> Customer Profile </h2>
+
 <div class="container">
     <div class="profile">
         <div class="profile-image">
-            <label for="profile_image">Profile Image:</label>
-            <img src="<?php echo $row['img_customer']; ?>" alt="Profile Image" width="150">
-            <input type="file" name="profile_image" id="profile_image">
+            <?php
+            if ($row['img_customer']) {
+                echo "<img src='{$row['img_customer']}' alt='Profile Image'>";
+            } else {
+                echo "<p>No image available</p>";
+            }
+            ?>
         </div>
-        <form method="post">
-            <div class="detail">
-                <span class="label">Name:</span>
-                <input type="text" name="name" value="<?php echo $row['Name']; ?>">            
-            </div>
-            <div class="detail">
-                <span class="label">Email:</span>
-                <input type="email" name="email" value="<?php echo $row['Email']; ?>">
-            </div>
-            <div class="detail">
-                <span class="label">Phone Number:</span>
-                <input type="text" name="phone_number" value="<?php echo $row['Phone_Number']; ?>">
-            </div>
-            <div class="detail">
-                <span class="label">Address:</span>
-                <input type="text" name="address" value="<?php echo $row['Address']; ?>">
-            </div>
-            <div class="detail">
-                <span class="label">City:</span>
-                <input type="text" name="city" value="<?php echo $row['City']; ?>">
-            </div>
-            <button type="submit">Update Profile</button>
-        </form>
+        <div class="profile-details">
+            <form method="post" enctype="multipart/form-data">
+                <div class="detail">
+                    <span class="label">Name:</span>
+                    <input type="text" name="name" value="<?php echo $row['Name']; ?>" required>
+                </div>
+                <div class="detail">
+                    <span class="label">Email:</span>
+                    <input type="email" name="email" value="<?php echo $row['Email']; ?>" required>
+                </div>
+                <div class="detail">
+                    <span class="label">Phone Number:</span>
+                    <input type="text" name="phone_number" value="<?php echo $row['Phone_Number']; ?>" required>
+                </div>
+                <div class="detail">
+                    <span class="label">Address:</span>
+                    <input type="text" name="address" value="<?php echo $row['Address']; ?>" required>
+                </div>
+                <div class="detail">
+                        <span class="label">City:</span>
+                        <select name="city" required>
+                            <option value="" disabled>Select your City</option>
+                            <?php
+                            $cityQuery = "SELECT CityID, CityName FROM Cities";
+                            $result = $conn->query($cityQuery);
+
+                            if ($result->num_rows > 0) {
+                                while ($cityRow = $result->fetch_assoc()) {
+                                    $selected = ($row['City'] == $cityRow["CityName"]) ? "selected" : "";
+                                    echo '<option value="' . $cityRow["CityID"] . '" ' . $selected . '>' . $cityRow["CityName"] . '</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                <div class="detail">
+                    <span class="label">Profile Image:</span>
+                    <input type="file" name="profile_image">
+                </div> 
+                <button type="submit" class="edit-profile">Save Changes</button>
+            </form>
+        </div>
     </div>
 </div>
-
-
-
-
-
 <style>
         h2 {
     margin-top: 30px;
@@ -233,26 +153,19 @@ body {
 }
 
 .profile-image {
-    margin-bottom: 10px;
     margin-right: 20px;
-    
+    flex: 1; /* Take 1/3 of the space */
 }
 
-.profile-image label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
-    color: #333; /* Adjust label color */
+.profile-image img {
+    width: 100%;
+    height: auto;
 }
 
-.profile-image input[type="file"] {
-    /* Customize input file appearance */
-    display: block;
-    margin-top: 5px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+.profile-details {
+    flex: 2; /* Take 2/3 of the space */
+    display: flex;
+    flex-direction: column;
 }
 
 .profile-details {
