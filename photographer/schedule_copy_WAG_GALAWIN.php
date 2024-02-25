@@ -9,11 +9,34 @@ if (!isset($_SESSION['PhotographerID'])) {
 }
 
 $photographer_id = $_SESSION['PhotographerID'];
-function insertAvailabilityData($availability_date, $time_id, $is_weekday, $is_weekend, $schedule_status_id) {
+
+function retrieveDateId($avail_date) {
+    global $conn;
+
+    $sql = "SELECT date_id FROM available_date WHERE avail_date = '$avail_date'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['date_id'];
+    } else {
+        $sqlInsertDate = "INSERT INTO available_date (avail_date) VALUES ('$avail_date')";
+        if (mysqli_query($conn, $sqlInsertDate)) {
+            return mysqli_insert_id($conn);
+        } else {
+            echo "Error: " . $sqlInsertDate . "<br>" . mysqli_error($conn);
+            return false;
+        }
+    }
+}
+
+function insertAvailabilityData($avail_date, $time_id, $is_weekday, $is_weekend, $schedule_status_id) {
     global $conn, $photographer_id;
 
-    $sql = "INSERT INTO availability_schedule (photographerID, availability_date, is_weekday, is_weekend, schedule_status_id)
-            VALUES ('$photographer_id', '$availability_date', '$is_weekday', '$is_weekend', '$schedule_status_id')";
+    $date_id = retrieveDateId($avail_date);
+
+    $sql = "INSERT INTO availability_schedule (photographerID, date_id, is_weekday, is_weekend, schedule_status_id)
+            VALUES ('$photographer_id', '$date_id', '$is_weekday', '$is_weekend', '$schedule_status_id')";
 
     if (mysqli_query($conn, $sql)) {
         $schedule_id = mysqli_insert_id($conn);
@@ -21,19 +44,16 @@ function insertAvailabilityData($availability_date, $time_id, $is_weekday, $is_w
         $sql = "INSERT INTO availability_time (scheduleid, time_id) VALUES ('$schedule_id', '$time_id')";
 
         if (mysqli_query($conn, $sql)) {
-            // Insert into the time table if not already present
             $sqlCheckTime = "SELECT * FROM time WHERE time_id = '$time_id'";
             $resultCheckTime = mysqli_query($conn, $sqlCheckTime);
 
             if (mysqli_num_rows($resultCheckTime) == 0) {
-                // Fetch time data based on time_id
                 $sqlFetchTimeData = "SELECT * FROM time WHERE time_id = '$time_id'";
                 $resultFetchTimeData = mysqli_query($conn, $sqlFetchTimeData);
 
                 if ($resultFetchTimeData) {
                     $timeData = mysqli_fetch_assoc($resultFetchTimeData);
 
-                    // Insert into the time table
                     $sqlInsertTime = "INSERT INTO time (time_id, start_time, end_time, session_duration, session_type)
                                       VALUES ('$time_id', '{$timeData['start_time']}', '{$timeData['end_time']}', '{$timeData['session_duration']}', '{$timeData['session_type']}')";
 
@@ -48,7 +68,6 @@ function insertAvailabilityData($availability_date, $time_id, $is_weekday, $is_w
     }
 }
 
-// Handle Form Submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $availability_month = $_POST["availability_month"];
     $is_weekday = isset($_POST["is_weekday"]) ? 1 : 0;
@@ -58,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($specific_date)) {
         $availability_date = date('Y-m-d', strtotime($specific_date));
-
         foreach ($_POST['selected_times'] as $time_id) {
             insertAvailabilityData($availability_date, $time_id, $is_weekday, $is_weekend, $schedule_status_id);
         }
@@ -75,7 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         while ($current_date <= $end_date) {
             if (($is_weekday && $current_date->format('N') < 6) || ($is_weekend && $current_date->format('N') >= 6)) {
                 $availability_date = $current_date->format('Y-m-d');
-
                 foreach ($_POST['selected_times'] as $time_id) {
                     insertAvailabilityData($availability_date, $time_id, $is_weekday, $is_weekend, $schedule_status_id);
                 }
@@ -90,9 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '</script>';
     }
 }
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,40 +118,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php
-$sqlFetchAddedDates = "SELECT av.*, t.start_time, t.end_time, t.session_type, s.status_name AS schedule_status
-FROM availability_schedule AS av
-JOIN availability_time AS at ON av.scheduleid = at.scheduleid
-JOIN time AS t ON at.time_id = t.time_id
-LEFT JOIN sched_status s ON av.schedule_status_id = s.schedule_status_id
-WHERE av.photographerID = '$photographer_id'
-ORDER BY av.availability_date";
+<?php
 
+$sqlFetchAddedDates = "SELECT av.*, t.start_time, t.end_time, t.session_type, s.status_name AS schedule_status, ad.avail_date
+    FROM availability_schedule AS av
+    JOIN availability_time AS at ON av.scheduleid = at.scheduleid
+    JOIN time AS t ON at.time_id = t.time_id
+    LEFT JOIN sched_status s ON av.schedule_status_id = s.schedule_status_id
+    JOIN available_date ad ON av.date_id = ad.date_id
+    WHERE av.photographerID = '$photographer_id'
+    ORDER BY av.date_id";
 
 $resultFetchAddedDates = mysqli_query($conn, $sqlFetchAddedDates);
 
 if ($resultFetchAddedDates) {
-while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
-$date = $row['availability_date'];
-$day = date('l', strtotime($date)); // Calculate the day from the date
-$start_time = $row['start_time'];
-$end_time = $row['end_time'];
-$session_type = $row['session_type'];
-$schedule_status = $row['schedule_status']; // Assuming this field exists in your table
-$schedule_status_id = $row['schedule_status_id']; // Assuming this field exists in your table
+    while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
+        $avail_date = $row['avail_date'];
+        $day = date('l', strtotime($avail_date)); 
+        $start_time = $row['start_time'];
+        $end_time = $row['end_time'];
+        $session_type = $row['session_type'];
+        $schedule_status = $row['schedule_status']; 
+        $schedule_status_id = $row['schedule_status_id']; 
 
-// Populate the $added_dates array
-$added_dates[$date] = [
-'day' => $day,
-'start_time' => $start_time,
-'end_time' => $end_time,
-'session_type' => $session_type,
-'schedule_status' => $schedule_status,
-'schedule_status_id' => [$schedule_status_id],
-];
+        $added_dates[$avail_date] = [
+            'day' => $day,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'session_type' => $session_type,
+            'schedule_status' => $schedule_status,
+            'schedule_status_id' => $schedule_status_id,
+        ];
+    }
 }
-}
-    ?>
+?>
+
     <div class="container">
         <h2>Manage Availability Schedule</h2>
 
@@ -245,12 +262,6 @@ $added_dates[$date] = [
                     row.style.display = showRow ? '' : 'none';
                 }
             }
-
-            // function handleChangeStatus(event) {
-            //     var selectedStatus = event.target.value;
-            //     var date = event.target.dataset.date;
-            //     console.log("Date: " + date + ", New Status: " + selectedStatus);
-            // }
         });
     </script>
 </body>

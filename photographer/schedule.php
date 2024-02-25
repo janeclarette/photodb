@@ -10,7 +10,6 @@ if (!isset($_SESSION['PhotographerID'])) {
 
 $photographer_id = $_SESSION['PhotographerID'];
 
-// Function to retrieve date_id based on avail_date
 function retrieveDateId($avail_date) {
     global $conn;
 
@@ -21,12 +20,10 @@ function retrieveDateId($avail_date) {
         $row = mysqli_fetch_assoc($result);
         return $row['date_id'];
     } else {
-        // Insert avail_date into available_date table and retrieve the generated date_id
         $sqlInsertDate = "INSERT INTO available_date (avail_date) VALUES ('$avail_date')";
         if (mysqli_query($conn, $sqlInsertDate)) {
             return mysqli_insert_id($conn);
         } else {
-            // Handle the error as needed
             echo "Error: " . $sqlInsertDate . "<br>" . mysqli_error($conn);
             return false;
         }
@@ -47,19 +44,16 @@ function insertAvailabilityData($avail_date, $time_id, $is_weekday, $is_weekend,
         $sql = "INSERT INTO availability_time (scheduleid, time_id) VALUES ('$schedule_id', '$time_id')";
 
         if (mysqli_query($conn, $sql)) {
-            // Insert into the time table if not already present
             $sqlCheckTime = "SELECT * FROM time WHERE time_id = '$time_id'";
             $resultCheckTime = mysqli_query($conn, $sqlCheckTime);
 
             if (mysqli_num_rows($resultCheckTime) == 0) {
-                // Fetch time data based on time_id
                 $sqlFetchTimeData = "SELECT * FROM time WHERE time_id = '$time_id'";
                 $resultFetchTimeData = mysqli_query($conn, $sqlFetchTimeData);
 
                 if ($resultFetchTimeData) {
                     $timeData = mysqli_fetch_assoc($resultFetchTimeData);
 
-                    // Insert into the time table
                     $sqlInsertTime = "INSERT INTO time (time_id, start_time, end_time, session_duration, session_type)
                                       VALUES ('$time_id', '{$timeData['start_time']}', '{$timeData['end_time']}', '{$timeData['session_duration']}', '{$timeData['session_type']}')";
 
@@ -74,7 +68,6 @@ function insertAvailabilityData($avail_date, $time_id, $is_weekday, $is_weekend,
     }
 }
 
-// Handle Form Submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $availability_month = $_POST["availability_month"];
     $is_weekday = isset($_POST["is_weekday"]) ? 1 : 0;
@@ -115,7 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Rest of your HTML and JavaScript code remains unchanged
 ?>
 
 <!DOCTYPE html>
@@ -126,40 +118,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php
- $sqlFetchAddedDates = "SELECT av.*, t.start_time, t.end_time, t.session_type, s.status_name AS schedule_status, ad.avail_date
- FROM availability_schedule AS av
- JOIN availability_time AS at ON av.scheduleid = at.scheduleid
- JOIN time AS t ON at.time_id = t.time_id
- LEFT JOIN sched_status s ON av.schedule_status_id = s.schedule_status_id
- JOIN available_date ad ON av.date_id = ad.date_id
- ORDER BY av.date_id";
+<?php
+
+$sqlFetchAddedDates = "SELECT av.*, t.start_time, t.end_time, t.session_type, s.status_name AS schedule_status, ad.avail_date
+    FROM availability_schedule AS av
+    JOIN availability_time AS at ON av.scheduleid = at.scheduleid
+    JOIN time AS t ON at.time_id = t.time_id
+    LEFT JOIN sched_status s ON av.schedule_status_id = s.schedule_status_id
+    JOIN available_date ad ON av.date_id = ad.date_id
+    WHERE av.photographerID = '$photographer_id'
+    ORDER BY av.date_id";
 
 $resultFetchAddedDates = mysqli_query($conn, $sqlFetchAddedDates);
 
 if ($resultFetchAddedDates) {
- while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
-     $avail_date = $row['avail_date'];
-     $day = date('l', strtotime($avail_date)); // Calculate the day from the date
-     $start_time = $row['start_time'];
-     $end_time = $row['end_time'];
-     $session_type = $row['session_type'];
-     $schedule_status = $row['schedule_status']; // Assuming this field exists in your table
-     $schedule_status_id = $row['schedule_status_id']; // Assuming this field exists in your table
+    while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
+        $avail_date = $row['avail_date'];
+        $day = date('l', strtotime($avail_date)); 
+        $start_time = $row['start_time'];
+        $end_time = $row['end_time'];
+        $session_type = $row['session_type'];
+        $schedule_status = $row['schedule_status']; 
+        $schedule_status_id = $row['schedule_status_id']; 
 
-     // Populate the $added_dates array
-     $added_dates[$avail_date] = [
-         'day' => $day,
-         'start_time' => $start_time,
-         'end_time' => $end_time,
-         'session_type' => $session_type,
-         'schedule_status' => $schedule_status,
-         'schedule_status_id' => $schedule_status_id,
-     ];
- }
+        $added_dates[$avail_date] = [
+            'day' => $day,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'session_type' => $session_type,
+            'schedule_status' => $schedule_status,
+            'schedule_status_id' => $schedule_status_id,
+        ];
+    }
 }
-
-// ... (rest of the code)
 ?>
 
     <div class="container">
