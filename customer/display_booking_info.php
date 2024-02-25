@@ -9,43 +9,40 @@ if (!$loggedInCustomerID) {
 
 include("../include/config.php");
 
-// Fetch booking information
 $customerID = $loggedInCustomerID;
 $packageID = isset($_GET['packageID']) ? $_GET['packageID'] : null;
 $photographerID = isset($_GET['photographerID']) ? $_GET['photographerID'] : null;
 
-// Fetch customer name
 $customerQuery = "SELECT name FROM customers WHERE CustomerID = $customerID";
 $customerResult = mysqli_query($conn, $customerQuery);
 $customerName = ($row = mysqli_fetch_assoc($customerResult)) ? $row['name'] : '';
 
-// Fetch package name
 $packageQuery = "SELECT packageName FROM packages WHERE packageID = $packageID";
 $packageResult = mysqli_query($conn, $packageQuery);
 $packageName = ($row = mysqli_fetch_assoc($packageResult)) ? $row['packageName'] : '';
 
-// Fetch photographer name
 $photographerQuery = "SELECT name FROM photographers WHERE PhotographerID = $photographerID";
 $photographerResult = mysqli_query($conn, $photographerQuery);
 $photographerName = ($row = mysqli_fetch_assoc($photographerResult)) ? $row['name'] : '';
 
-// Fetch available dates
-$currentDate = date('Y-m-d');
-$availabilityQuery = "SELECT date_id FROM availability_schedule WHERE photographerid = $photographerID AND schedule_status_id = 1 AND date_id >= '$currentDate'";
+$availabilityQuery = "SELECT DISTINCT ad.avail_date, av.date_id
+                      FROM availability_schedule av
+                      JOIN available_date ad ON av.date_id = ad.date_id
+                      WHERE av.photographerID = $photographerID
+                        AND av.schedule_status_id = 1";
 $availabilityResult = mysqli_query($conn, $availabilityQuery);
+
 $availableDates = [];
 
 while ($row = mysqli_fetch_assoc($availabilityResult)) {
-    $availableDates[] = $row['availability_date'];
+    $date_id = $row['date_id'];
+    $avail_date = $row['avail_date'];
+    $availableDates[$date_id] = $avail_date;
 }
 
 $photographerPlaceQuery = "SELECT placeid, placename FROM places WHERE photographerid = $photographerID";
 $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -170,8 +167,10 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="bookingTime">Enter Booking Time:</label><br>
-                <input type="text" id="bookingTime" name="bookingTime" class="form-control" placeholder="HH:mm AM/PM" required>
+                <label for="bookingTime">Select Booking Time:</label><br>
+                <select id="bookingTime" name="bookingTime" class="form-control" required>
+                    <option value="" disabled selected>Select Time</option>
+                </select>
             </div>
         </div>
         <div class="form-row">
@@ -209,7 +208,7 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
                 <input type="text" id="customerPlaceAddress" name="customerPlaceAddress" class="form-control">
             </div>
         </div>
-        <button type="submit"  class="btn">Book Schedule</button>
+        <button type="submit" class="btn">Book Schedule</button>
     </form>
 
     <script>
@@ -218,7 +217,6 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
             const customerPlaceInput = document.getElementById('customerPlaceInput');
             const photographerPlaceRadio = document.getElementById('photographerPlace');
             const customerPlaceRadio = document.getElementById('customerPlace');
-
 
             function updateVisibility() {
                 if (photographerPlaceRadio.checked) {
@@ -247,6 +245,33 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
             }
         }
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const bookingDateSelect = document.getElementById('bookingDate');
+        const bookingTimeSelect = document.getElementById('bookingTime');
+
+        bookingDateSelect.addEventListener('change', function () {
+            const selectedDate = bookingDateSelect.value;
+
+            bookingTimeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>';
+            if (selectedDate) {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        const timeSlots = JSON.parse(xhr.responseText);
+                        timeSlots.forEach(function (timeSlot) {
+                            bookingTimeSelect.innerHTML += `<option value="${timeSlot}">${timeSlot}</option>`;
+                        });
+                    }
+                };
+                xhr.open("GET", `get_timeslots.php?selectedDate=${selectedDate}`, true);
+                xhr.send();
+            }
+        });
+    });
+</script>
+
 
 </body>
 </html>

@@ -1,42 +1,29 @@
 <?php
-// Start the session
 session_start();
-
-// Include necessary files and establish a database connection
 include("../include/config.php");
 include("../photographer/header.php");
 
-// Check if the photographer is logged in
 if (!isset($_SESSION['PhotographerID'])) {
-    // Redirect to the login page if not logged in
     header("Location: /photodb/admin/login.php");
     exit();
 }
 
-// Get the PhotographerID from the session
 $photographerID = $_SESSION['PhotographerID'];
 
-// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if the deletePackageID is set in the POST request
     if (isset($_POST['deletePackageID'])) {
-        // Retrieve the package ID to be deleted
         $packageIDToDelete = $_POST['deletePackageID'];
 
-        // Perform deletion of the package and associated inclusions
 $deletePackageQuery = "DELETE FROM Packages WHERE PackageID = $packageIDToDelete";
 
-// Delete associated inclusions first
 $deleteInclusionsQuery = "DELETE FROM PackagesInclusions WHERE PackageID = $packageIDToDelete";
 if ($conn->query($deleteInclusionsQuery) === TRUE) {
-    // Then delete the package
     if ($conn->query($deletePackageQuery) === TRUE) {
-        // Display alert message and redirect
         echo '<script>';
         echo 'alert("Package deleted successfully");';
         echo 'window.location.href = "package.php";';
         echo '</script>';
-        exit(); // Ensure no further execution of PHP code after redirection
+        exit(); 
     } else {
         echo "Error deleting package: " . $conn->error;
     }
@@ -46,8 +33,6 @@ if ($conn->query($deleteInclusionsQuery) === TRUE) {
 } else {
     echo "Error deleting associated transactions: " . $conn->error;
     } 
-
-        // Retrieve form data
         $packageName = $_POST["PackageName"];
         $description = $_POST["Description"];
         $price = $_POST["Price"];
@@ -55,21 +40,17 @@ if ($conn->query($deleteInclusionsQuery) === TRUE) {
         $inclusions = isset($_POST["inclusions"]) ? $_POST["inclusions"] : [];
         $serviceType = $_POST["ServiceType"];
 
-        // Insert data into the Packages table
         $insertPackageQuery = "INSERT INTO Packages (PhotographerID, PackageName, Description, ServiceTypeID, Price, Organization)
                              VALUES ($photographerID, '$packageName', '$description', $serviceType, $price, '$organization')";
         $conn->query($insertPackageQuery);
 
-        // Retrieve the last inserted PackageID
         $packageID = $conn->insert_id;
 
-        // Insert data into the PackagesInclusions table for each selected inclusion
         foreach ($inclusions as $inclusionID) {
             $insertInclusionQuery = "INSERT INTO PackagesInclusions (PackageID, InclusionID) VALUES ($packageID, $inclusionID)";
             $conn->query($insertInclusionQuery);
         }
 
-        // Display alert and redirect using JavaScript
         echo '<script>';
         echo 'alert("Package created successfully");';
         echo 'window.location.href = "package.php";';
@@ -77,11 +58,6 @@ if ($conn->query($deleteInclusionsQuery) === TRUE) {
     }
 
 ?>
-
-    
-  <!-- Add your CSS stylesheets here -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

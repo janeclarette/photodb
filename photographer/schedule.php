@@ -9,6 +9,19 @@ if (!isset($_SESSION['PhotographerID'])) {
 }
 
 $photographer_id = $_SESSION['PhotographerID'];
+function deleteOldDates() {
+    global $conn;
+
+    $currentDate = date('Y-m-d');
+    $sql = "DELETE av, at, ad
+            FROM availability_schedule av
+            JOIN availability_time at ON av.scheduleid = at.scheduleid
+            JOIN available_date ad ON av.date_id = ad.date_id
+            WHERE ad.avail_date < '$currentDate'";
+
+    mysqli_query($conn, $sql);
+}
+deleteOldDates();
 
 function retrieveDateId($avail_date) {
     global $conn;
