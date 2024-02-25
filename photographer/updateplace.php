@@ -12,91 +12,79 @@ if (!isset($_SESSION['PhotographerID'])) {
 $photographerID = $_SESSION['PhotographerID'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Update the place based on the form data
+    $placeID = mysqli_real_escape_string($conn, $_POST["placeID"]);
     $placeName = mysqli_real_escape_string($conn, $_POST["placeName"]);
     $address = mysqli_real_escape_string($conn, $_POST["address"]);
     $cityID = mysqli_real_escape_string($conn, $_POST["city"]);
 
-    $insertPlaceQuery = "INSERT INTO Places (PhotographerID, PlaceName, Address, CityID) VALUES ('$photographerID', '$placeName', '$address', '$cityID')";
-    if ($conn->query($insertPlaceQuery)) {
+    $updatePlaceQuery = "UPDATE Places SET PlaceName='$placeName', Address='$address', CityID='$cityID' WHERE PlaceID='$placeID'";
+    if ($conn->query($updatePlaceQuery)) {
         echo '<script>';
-        echo 'alert("Place added successfully");';
+        echo 'alert("Place updated successfully");';
         echo 'window.location.href = "place.php";';
         echo '</script>';
     } else {
         echo "Error: " . $conn->error;
     }
 }
+
+// Fetch the details of the selected place
+if (isset($_GET["id"])) {
+    $placeID = mysqli_real_escape_string($conn, $_GET["id"]);
+    $selectPlaceQuery = "SELECT PlaceID, PlaceName, Address, CityID FROM Places WHERE PlaceID='$placeID'";
+    $result = $conn->query($selectPlaceQuery);
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $placeName = $row["PlaceName"];
+        $address = $row["Address"];
+        $cityID = $row["CityID"];
+    } else {
+        echo "Place not found";
+        exit();
+    }
+} else {
+    echo "Invalid request";
+    exit();
+}
 ?>
 
-
-
 <body>
-    <h2>Create a New Place</h2>
+    <h2>Update Place</h2>
     <div class="container">
         <div class="form-container">
             <form method="post" action="">
+                <input type="hidden" name="placeID" value="<?php echo $placeID; ?>">
+
                 <label for="placeName">Place Name:</label>
-                <input type="text" id="placeName" name="placeName" required>
+                <input type="text" id="placeName" name="placeName" value="<?php echo $placeName; ?>" required>
 
                 <label for="address">Address:</label>
-                <textarea id="address" name="address" required></textarea>
+                <textarea id="address" name="address" required><?php echo $address; ?></textarea>
 
                 <label for="city">City:</label>
                 <select id="city" name="city" required>
-                    <option value="" disabled selected>Select your City</option>
+                    <option value="" disabled>Select your City</option>
                     <?php
                     $cityQuery = "SELECT CityID, CityName FROM Cities";
                     $result = $conn->query($cityQuery);
 
                     if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<option value="' . $row["CityID"] . '">' . $row["CityName"] . '</option>';
+                        while ($cityRow = $result->fetch_assoc()) {
+                            $selected = ($cityID == $cityRow["CityID"]) ? "selected" : "";
+                            echo '<option value="' . $cityRow["CityID"] . '" ' . $selected . '>' . $cityRow["CityName"] . '</option>';
                         }
                     }
                     ?>
                 </select>
 
-                <button type="submit">Create Place</button>
+                <button type="submit">Update Place</button>
             </form>
         </div>
-        </div>
-        <table>
-    <thead>
-        <tr>
-            <th>Place Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $placesQuery = "SELECT PlaceID, PlaceName, Address, CityName FROM Places INNER JOIN Cities ON Places.CityID = Cities.CityID WHERE PhotographerID = '$photographerID'";
-        $placesResult = $conn->query($placesQuery);
-
-        if ($placesResult->num_rows > 0) {
-            while ($placeRow = $placesResult->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' . $placeRow["PlaceName"] . '</td>';
-                echo '<td>' . $placeRow["Address"] . '</td>';
-                echo '<td>' . $placeRow["CityName"] . '</td>';
-                echo '<td>';
-                echo '<a href="updateplace.php?id=' . $placeRow["PlaceID"] . '">Update</a> | ';
-                echo '<a href="deleteplace.php?id=' . $placeRow["PlaceID"] . '">Delete</a>';
-                echo '</td>';
-                echo '</tr>';
-            }
-        } else {
-            echo '<tr><td colspan="4">No places added yet</td></tr>';
-        }
-        ?>
-    </tbody>
-</table>
-
+    </div>
 </body>
 </html>
-
-
 <style>
 
     body {
