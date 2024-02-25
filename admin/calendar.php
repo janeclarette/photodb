@@ -26,7 +26,6 @@ class Calendar {
         $html .= '<a href="?date=' . $this->getPreviousMonth() . '">&lt;</a>';
         $html .= date('F Y', strtotime($this->active_year . '-' . $this->active_month . '-' . $this->active_day));
         $html .= '<a href="?date=' . $this->getNextMonth() . '">&gt;</a>';
-        
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<div class="days">';
@@ -73,6 +72,7 @@ class Calendar {
         $html .= '</div>';
         return $html;
     }
+
     private function getPreviousMonth() {
         $year = $this->active_year;
         $month = $this->active_month - 1;
@@ -92,7 +92,5 @@ class Calendar {
         }
         return $year . '-' . sprintf('%02d', $month);
     }
-    
-
 }
 ?>
