@@ -1,41 +1,40 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+document.addEventListener('DOMContentLoaded', function () {
+    var prevMonthBtn = document.getElementById('prevMonthBtn');
+    var nextMonthBtn = document.getElementById('nextMonthBtn');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['dayGrid', 'interaction'],
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        events: 'get_events.php', // PHP file to fetch events from database
-        dateClick: function(info) {
-            calendar.gotoDate(info.date); // Navigate to the clicked date
-            calendar.changeView('dayGridMonth'); // Switch to month view
-        },
-        // Navigation buttons
-        customButtons: {
-            prevYear: {
-                text: '<<', // Custom text for previous year
-                click: function() {
-                    calendar.prevYear(); // Navigate to the previous year
-                }
-            },
-            nextYear: {
-                text: '>>', // Custom text for next year
-                click: function() {
-                    calendar.nextYear(); // Navigate to the next year
-                }
-            }
-        },
-        headerToolbar: {
-            left: 'prevYear,prev,next,nextYear today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }
+    prevMonthBtn.addEventListener('click', function () {
+        updateCalendar('previous');
     });
 
-    calendar.render();
+    nextMonthBtn.addEventListener('click', function () {
+        updateCalendar('next');
+    });
 });
+
+function updateCalendar(direction) {
+    var currentDate = new Date();
+    var currentYear = currentDate.getFullYear();
+    var currentMonth = currentDate.getMonth() + 1; // Note: JavaScript months are zero-based
+
+    if (direction === 'previous') {
+        // Move to the previous month
+        currentMonth--;
+        if (currentMonth === 0) {
+            currentMonth = 12;
+            currentYear--;
+        }
+    } else if (direction === 'next') {
+        // Move to the next month
+        currentMonth++;
+        if (currentMonth === 13) {
+            currentMonth = 1;
+            currentYear++;
+        }
+    }
+
+    // Construct the new URL with updated month and year
+    var newUrl = '?year=' + currentYear + '&month=' + currentMonth;
+
+    // Redirect to the new URL
+    window.location.href = newUrl;
+}
