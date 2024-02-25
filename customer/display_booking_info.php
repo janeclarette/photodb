@@ -31,7 +31,7 @@ $photographerName = ($row = mysqli_fetch_assoc($photographerResult)) ? $row['nam
 
 // Fetch available dates
 $currentDate = date('Y-m-d');
-$availabilityQuery = "SELECT availability_date FROM availability_schedule WHERE photographerid = $photographerID AND schedule_status_id = 1 AND availability_date >= '$currentDate'";
+$availabilityQuery = "SELECT date_id FROM availability_schedule WHERE photographerid = $photographerID AND schedule_status_id = 1 AND date_id >= '$currentDate'";
 $availabilityResult = mysqli_query($conn, $availabilityQuery);
 $availableDates = [];
 
