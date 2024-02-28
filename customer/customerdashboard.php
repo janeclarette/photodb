@@ -1,6 +1,7 @@
 <?php
 // Include necessary files and establish a database connection
-include("../include/config.php"); // Include your database connection
+include("../include/config.php"); 
+include("../customer/header.php"); 
 ?>
     <title>Customer Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9,72 +10,7 @@ include("../include/config.php"); // Include your database connection
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <body>
-    <!-- Main header with navigation bar -->
-    <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <!-- Profile (upper right corner) -->
-    <div class="sign-in">
-                <a href="/photodb/customer/profile.php"> <i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <!-- Logout link -->
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <!-- Logout link -->
-        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
 
-</div>
-
-    
-    </div>
-
-    </header>
-    <!-- Secondary navigation bar -->
-    <nav class="sub-navbar">
-        <ul>
-            <!-- Navigation links -->
-            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
-            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
-
-
-            <li class="dropdown">
-            <a href="#">Services</a>
-            <div class="dropdown-content">
-            <?php
-        $serviceTypesSql = "SELECT * FROM servicetypes";
-        $serviceTypesResult = $conn->query($serviceTypesSql);
-
-        while ($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
-            $typeName = $serviceTypeRow['TypeName'];
-            $typeParam = urlencode(strtolower(str_replace(
-                array('Wedding Photography', 'Portrait Photography', 'Event Coverage', 'Commercial Photography', 'Family Photography', 'Fashion Photography', 'Newborn Photography', 'Landscape Photography', 'Food Photography', 'Sports Photography'),
-                array('wedding', 'portrait', 'event', 'commercial', 'family', 'fashion', 'newborn', 'landscape', 'food', 'sports'),
-                $typeName
-            )));
-
-            echo "<a href='$typeParam.php'>$typeName</a>";
-        }
-        ?>
-            </div>
-            </li>
-            <li><a href="/photodb/customer/review.php">Reviews</a></li>
-            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Pricing</a></li>
-            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
-            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
-        </ul>
-    </nav>
     <!-- Main content of the page -->
     
         <!-- Welcome section -->
