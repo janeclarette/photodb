@@ -16,19 +16,13 @@ include("../include/config.php");
             <!-- Logo (upper left corner) -->
             <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
         </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
         <div class="profile">
         <div class="sign-in">
         <!-- Dropdown for Sign In -->
         <div class="dropdown">
             <button class="dropbtn"><i class="fa-regular fa-user"></i></button>
             <div class="dropdown-content">
-                <a href="/photodb/admin/photographers.php"> Photographers</a>
-                <a href="/photodb/admin/customers.php"> Customers</a>
+                <a href="/photodb/admin/adminregister.php"> Register</a>
             </div>
         </div>
     </div>
@@ -50,10 +44,10 @@ include("../include/config.php");
         <ul>
 
             <li><a href="/photodb/admin/admindashboard.php">Home</a></li>
-            <li><a href="/photodb/admin/schedule.php">Schedule</a></li>
+            <li><a href="/photodb/admin/schedule.php">Satistics</a></li>
             <li><a href="/photodb/admin/monitor.php">Monitoring</a></li>
-            <li><a href="/photodb/admin/review.php">Reviews</a></li>
-            <li><a href="/photodb/admin/userinq.php">User Inquiries</a></li>
+            <li><a href="/photodb/admin/photographers.php"> Photographers</a></li>
+            <li><a href="/photodb/admin/customers.php"> Customers</a></li>
         </ul>
     </nav>
 
