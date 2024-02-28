@@ -72,7 +72,6 @@ include("../include/config.php"); // Include your database connection
             <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
             <li><a href="/photodb/customer/price.php">Pricing</a></li>
             <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
-            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
