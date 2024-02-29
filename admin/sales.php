@@ -1,5 +1,6 @@
 <?php
 include("../include/config.php");
+include("../admin/adminheader.php");
 
 
 // Monthly data and most booked photographer variables
