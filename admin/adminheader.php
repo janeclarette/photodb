@@ -43,8 +43,8 @@ include("../include/config.php");
     <nav class="sub-navbar">
         <ul>
 
-            <li><a href="/photodb/admin/admindashboard.php">Home</a></li>
-            <li><a href="/photodb/admin/schedule.php">Satistics</a></li>
+            <li><a href="/photodb/admin/schedule.php">Home</a></li>
+            <li><a href="/photodb/admin/sales.php">Satistics</a></li>
             <li><a href="/photodb/admin/monitor.php">Monitoring</a></li>
             <li><a href="/photodb/admin/photographers.php"> Photographers</a></li>
             <li><a href="/photodb/admin/customers.php"> Customers</a></li>
