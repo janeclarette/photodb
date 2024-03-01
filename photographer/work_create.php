@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h3>Album Title: <?= $album['Album']; ?></h3>
             <p>Service Type: <?= $serviceType['TypeName']; ?></p>
             <p>Description: <?= $album['Description']; ?></p>
-            <button class="view-more-btn"><a href="update_delete_portfolio.php?album=<?= $album['Album']; ?>">View More</a></button>
+            <button class="view-more-btn">View More</button>
         </div>
     <?php endforeach; ?>
 </div>
