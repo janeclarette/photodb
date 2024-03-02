@@ -265,7 +265,8 @@ if ($result) {
                 <th>Customer Place</th>
                 <th>Package Name</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th>Payment Action</th>
+                <th>Service Action</th>
             </tr>
 
             <?php
@@ -288,7 +289,8 @@ if ($result) {
                         <form action="payment.php" method="post">
     <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
     <!-- Other form fields and buttons go here -->
-    <button type="submit" name="payment" class="payment-btn" <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+    <button type="submit" name="payment" class="payment-btn" 
+    <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
         Payment
     </button>
 </form>
@@ -301,15 +303,52 @@ if ($result) {
                         }
                         ?>
                     </td>
-                </tr>
-                <?php
-            }
-            ?>
-        </table>
-        <!-- ... (your existing HTML) ... -->
+                 <td>
+<!-- Add your other actions or buttons here -->
+<?php if ($row['StatusID'] == 6): ?>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+        <button type="submit" name="confirm" class="confirm-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
+            Confirm
+        </button>
+        <button type="submit" name="decline" class="decline-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
+            Decline
+        </button>
+        <input type="hidden" name="formSubmitted" value="1">
+    </form>
+<?php endif; ?>
+</td>
+</tr>
+<?php
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
+    if (isset($_POST['confirm']) || isset($_POST['decline'])) {
+        $transactionID = $_POST['TransactionID'];
+        $newStatus = isset($_POST['confirm']) ? 2 : 3;
+
+        // Update the StatusID in the Transactions table
+        $updateQuery = "UPDATE Transactions SET StatusID = $newStatus WHERE TransactionID = $transactionID";
+        $updateResult = mysqli_query($conn, $updateQuery);
+
+        if ($updateResult) {
+            // Display a JavaScript notification
+            echo '<script>alert("Status updated successfully!");</script>';
+            echo '<script>window.location.href = "appointment.php";</script>';
+
+        } else {
+            // Handle update query error
+            echo "Error updating status: " . mysqli_error($conn);
+        }
+    }
+}
+?>
+
+
+        <!-- Add any other HTML content or closing tags as needed -->
     </body>
     </html>
-    <?php
+<?php
 } else {
     // Handle query error
     echo "Error: " . mysqli_error($conn);
