@@ -16,7 +16,15 @@ if (!isset($_SESSION['PhotographerID'])) {
 $photographerID = $_SESSION['PhotographerID'];
 
 // Fetch data from the Transactions table
-$query = "SELECT * FROM Transactions WHERE PhotographerID = $photographerID";
+$query = "SELECT t.TransactionID, t.CustomerID, t.ReservationDate, t.Time_ID, t.PlaceID, t.PackageID, t.StatusID,
+            c.Name, tm.start_time, tm.end_time, p.PlaceName, pk.PackageName, pk.Price, ts.StatusName
+            FROM Transactions t
+            JOIN customers c ON t.CustomerID = c.CustomerID
+            JOIN time tm ON t.Time_ID = tm.Time_ID
+            JOIN places p ON t.PlaceID = p.PlaceID
+            JOIN packages pk ON t.PackageID = pk.PackageID
+            JOIN transactionstatus ts ON t.StatusID = ts.StatusID
+            WHERE t.PhotographerID = $photographerID";
 
 $result = mysqli_query($conn, $query); // Use the correct connection variable $conn
 
@@ -161,6 +169,56 @@ if ($result) {
                 padding: 10px;
                 text-align: left;
             }
+            /* Table styles */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Header row */
+table th {
+    background-color: #213555;
+    color: #fff;
+}
+
+/* Alternate row colors */
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect on rows */
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Button styles */
+table button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4F709C;
+    color: #fff;
+}
+
+/* Disable style for disabled buttons */
+table button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Adjust button margin */
+table button + button {
+    margin-left: 5px;
+}
         </style>
     </head>
     <body>
@@ -209,13 +267,12 @@ if ($result) {
         <table border="1">
             <tr>
                 <th>Transaction ID</th>
-                <th>Customer ID</th>
+                <th>Customer</th>
                 <th>Reservation Date</th>
                 <th>Time</th>
-                <th>Transaction Date</th>
                 <th>Place</th>
-                <th>Customer Place</th>
                 <th>Package Name</th>
+                <th>Price</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -225,23 +282,20 @@ if ($result) {
                 ?>
                 <tr>
                     <td><?php echo $row['TransactionID']; ?></td>
-                    <td><?php echo $row['CustomerID']; ?></td>
-                    <!-- Fetch additional information from other tables based on your database structure -->
-                    <!-- For example, assuming there is a 'customers' table -->
+                    <td><?php echo $row['Name']; ?></td>
                     <td><?php echo $row['ReservationDate']; ?></td>
-                    <td><?php echo $row['Time_ID']; ?></td>
-                    <td><?php echo $row['TransactionDate']; ?></td>
-                    <td><?php echo $row['PlaceID']; ?></td>
-                    <td><?php echo $row['CustomerPlaceID']; ?></td>
-                    <td><?php echo $row['PackageID']; ?></td>
-                    <td><?php echo $row['StatusID']; ?></td>
+                    <td><?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></td>
+                    <td><?php echo $row['PlaceName']; ?></td>
+                    <td><?php echo $row['PackageName']; ?></td>
+                    <td><?php echo $row['Price']; ?></td>
+                    <td><?php echo $row['StatusName']; ?></td>
                     <td>
                         <!-- Add your actions or buttons here -->
                         <form action="" method="post">
-                            <input type="hidden" name="transaction_id" value="<?php echo $row['TransactionID']; ?>">
-                            <button type="submit" name="accept">Accept</button>
-                            <button type="submit" name="decline">Decline</button>
-                        </form>
+        <input type="hidden" name="transaction_id" value="<?php echo $row['TransactionID']; ?>">
+        <button type="submit" name="accept" <?php if ($row['StatusID'] == 4 || $row['StatusID'] == 5) echo 'disabled'; ?>>Accept</button>
+        <button type="submit" name="decline" <?php if ($row['StatusID'] == 4 || $row['StatusID'] == 5) echo 'disabled'; ?>>Decline</button>
+    </form>
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $transactionID = $_POST['transaction_id'];
@@ -251,6 +305,11 @@ if ($result) {
                                 // Handle accept action, update the status to 4
                                 $updateQuery = "UPDATE Transactions SET StatusID = 4 WHERE TransactionID = $transactionID";
                                 mysqli_query($conn, $updateQuery);
+                                // Add JavaScript alert and redirect
+                                echo '<script>';
+                                echo 'alert("Accepted successfully");';
+                                echo 'window.location.href = "phdashboard.php";';
+                                echo '</script>';
                             } elseif ($action === 'decline') {
                                 // Handle decline action, update the status to 5
                                 $updateQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
