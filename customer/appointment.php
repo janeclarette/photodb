@@ -1,7 +1,27 @@
 <?php
 // Include necessary files and establish a database connection
-include("../include/config.php"); // Include your database connection
-?>
+include("../include/config.php");
+// Start the session
+session_start();
+include("../customer/header.php");
+// Check if customerID is set in the session
+if (!isset($_SESSION['CustomerID'])) {
+    // Redirect to login page or handle the case when the customer is not logged in
+    header("Location: ../customer/login.php");
+    exit();
+}
+
+// Retrieve customerID from the session
+$customerID = $_SESSION['CustomerID'];
+
+// Fetch data from the Transactions table based on customerID
+$query = "SELECT * FROM Transactions WHERE CustomerID = $customerID";
+
+$result = mysqli_query($conn, $query);
+
+// Check for query execution success
+if ($result) {
+    ?>
     <title>Customer Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -9,73 +29,6 @@ include("../include/config.php"); // Include your database connection
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <body>
-    <!-- Main header with navigation bar -->
-    <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <!-- Profile (upper right corner) -->
-    <div class="sign-in">
-                <a href="/photodb/customer/profile.php"> <i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <!-- Logout link -->
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <!-- Logout link -->
-        <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
-
-</div>
-
-    
-    </div>
-
-    </header>
-    <!-- Secondary navigation bar -->
-    <nav class="sub-navbar">
-        <ul>
-            <!-- Navigation links -->
-            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
-            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
-
-
-            <li class="dropdown">
-            <a href="#">Services</a>
-            <div class="dropdown-content">
-            <?php
-        $serviceTypesSql = "SELECT * FROM servicetypes";
-        $serviceTypesResult = $conn->query($serviceTypesSql);
-
-        while ($serviceTypeRow = $serviceTypesResult->fetch_assoc()) {
-            $typeName = $serviceTypeRow['TypeName'];
-            $typeParam = urlencode(strtolower(str_replace(
-                array('Wedding Photography', 'Portrait Photography', 'Event Coverage', 'Commercial Photography', 'Family Photography', 'Fashion Photography', 'Newborn Photography', 'Landscape Photography', 'Food Photography', 'Sports Photography'),
-                array('wedding', 'portrait', 'event', 'commercial', 'family', 'fashion', 'newborn', 'landscape', 'food', 'sports'),
-                $typeName
-            )));
-
-            echo "<a href='$typeParam.php'>$typeName</a>";
-        }
-        ?>
-            </div>
-            </li>
-            <li><a href="/photodb/customer/review.php">Reviews</a></li>
-            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Pricing</a></li>
-            <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
-            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
-        </ul>
-    </nav>
-    <!-- Main content of the page -->
 
 </body>
 </html>
@@ -287,4 +240,92 @@ include("../include/config.php"); // Include your database connection
             font-family: 'Cinzel', serif;
             color: #333;
         }
+    .payment-btn {
+        .payment-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Always set the cursor to pointer */
+    background-color: #4F709C; /* Force the background color to be blue */
+    color: #fff;
+    margin-top: 10px;
+}
+
+    }
     </style>
+       <table border="1">
+            <tr>
+                <th>Transaction ID</th>
+                <!-- Add more headers as needed -->
+                <th>Photographer ID</th>
+                <th>Reservation Date</th>
+                <th>Time</th>
+                <th>Transaction Date</th>
+                <th>Place</th>
+                <th>Customer Place</th>
+                <th>Package Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            <?php
+            while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                <tr>
+                    <!-- Display data for each transaction -->
+                    <td><?php echo $row['TransactionID']; ?></td>
+                    <td><?php echo $row['PhotographerID']; ?></td>
+                    <!-- Fetch additional information from other tables based on your database structure -->
+                    <td><?php echo $row['ReservationDate']; ?></td>
+                    <td><?php echo $row['Time_ID']; ?></td>
+                    <td><?php echo $row['TransactionDate']; ?></td>
+                    <td><?php echo $row['PlaceID']; ?></td>
+                    <td><?php echo $row['CustomerPlaceID']; ?></td>
+                    <td><?php echo $row['PackageID']; ?></td>
+                    <td><?php echo $row['StatusID']; ?></td>
+                    <td>
+                        <!-- Add your actions or buttons here -->
+                        <form action="payment.php" method="post">
+    <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+    <!-- Other form fields and buttons go here -->
+    <button type="submit" name="payment" class="payment-btn" <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+        Payment
+    </button>
+</form>
+                        </form>
+                        <?php
+                        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
+                            // Handle payment action or redirection
+                            header("Location: payment.php?TransactionID=" . $row['TransactionID']);
+                            exit();
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <?php
+            }
+            ?>
+        </table>
+        <!-- ... (your existing HTML) ... -->
+    </body>
+    </html>
+    <?php
+} else {
+    // Handle query error
+    echo "Error: " . mysqli_error($conn);
+}
+
+// Function to get customer name based on customer ID
+function getCustomerName($conn, $customerID)
+{
+    $query = "SELECT CustomerName FROM customers WHERE CustomerID = $customerID";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['CustomerName'];
+    }
+
+    return "N/A"; // Return a default value if customer name is not found
+}
+?>

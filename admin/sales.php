@@ -12,42 +12,54 @@ for ($month = 1; $month <= 12; $month++) {
     $startDate = "2024-$month-01";
     $endDate = date('Y-m-t', strtotime($startDate));
 
-    // Monthly total transactions
-    $query = "SELECT COUNT(*) AS totalTransactions
-              FROM Transactions
-              WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
-    $monthlyData[$month] = $row['totalTransactions'];
-
-    // Monthly total sales
-    $querySales = "SELECT SUM(Price) AS totalSales
-                   FROM Transactions T
-                   JOIN Packages P ON T.PackageID = P.PackageID
-                   WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate';";
-    $resultSales = mysqli_query($conn, $querySales);
-    $rowSales = mysqli_fetch_assoc($resultSales);
-    $monthlySales[$month] = $rowSales['totalSales'];
-
-    // Most booked photographer
-    $queryPhotographer = "SELECT P.Name AS PhotographerName, COUNT(*) AS bookings
-                          FROM Transactions T
-                          JOIN Photographers P ON T.PhotographerID = P.PhotographerID
-                          WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
-                          GROUP BY P.PhotographerID
-                          ORDER BY bookings DESC
-                          LIMIT 1;";
-    $resultPhotographer = mysqli_query($conn, $queryPhotographer);
-    $rowPhotographer = mysqli_fetch_assoc($resultPhotographer);
-
-    if ($rowPhotographer['bookings'] > $mostBookedPhotographer['bookings']) {
-        $mostBookedPhotographer['name'] = $rowPhotographer['PhotographerName'];
-        $mostBookedPhotographer['bookings'] = $rowPhotographer['bookings'];
-    }
+ // Monthly total transactions
+$query = "SELECT COUNT(*) AS totalTransactions
+FROM Transactions
+WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
+$result = mysqli_query($conn, $query);
+if ($result) {
+$row = mysqli_fetch_assoc($result);
+$monthlyData[$month] = $row['totalTransactions'];
+} else {
+// Handle query error
+echo "Error retrieving total transactions for month $month: " . mysqli_error($conn);
 }
 
-// Close your database connection
-mysqli_close($conn);
+// Monthly total sales
+$querySales = "SELECT SUM(Price) AS totalSales
+     FROM Transactions T
+     JOIN Packages P ON T.PackageID = P.PackageID
+     WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate';";
+$resultSales = mysqli_query($conn, $querySales);
+if ($resultSales) {
+$rowSales = mysqli_fetch_assoc($resultSales);
+$monthlySales[$month] = $rowSales['totalSales'];
+} else {
+// Handle query error
+echo "Error retrieving total sales for month $month: " . mysqli_error($conn);
+}
+
+// Most booked photographer
+$queryPhotographer = "SELECT P.Name AS PhotographerName, COUNT(*) AS bookings
+            FROM Transactions T
+            JOIN Photographers P ON T.PhotographerID = P.PhotographerID
+            WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
+            GROUP BY P.PhotographerID
+            ORDER BY bookings DESC
+            LIMIT 1;";
+$resultPhotographer = mysqli_query($conn, $queryPhotographer);
+if ($resultPhotographer) {
+$rowPhotographer = mysqli_fetch_assoc($resultPhotographer);
+
+if ($rowPhotographer && $rowPhotographer['bookings'] > $mostBookedPhotographer['bookings']) {
+$mostBookedPhotographer['name'] = $rowPhotographer['PhotographerName'];
+$mostBookedPhotographer['bookings'] = $rowPhotographer['bookings'];
+}
+} else {
+// Handle query error
+echo "Error retrieving most booked photographer for month $month: " . mysqli_error($conn);
+}
+}
 
 // Convert data to JSON for use in JavaScript
 $monthlyDataJSON = json_encode(array_values($monthlyData));
