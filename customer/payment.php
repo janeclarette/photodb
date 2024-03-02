@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
 
             if (mysqli_stmt_execute($stmtStatus)) {
                 echo '<script>
-                    alert("Image updated successfully");
+                    alert("Successful Transaction");
                     window.location.href = "customerdashboard.php";
                   </script>';
             } else {
@@ -81,7 +81,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
             $packageRow = mysqli_fetch_assoc($packageResult);
             $price = $packageRow['Price'];
 
-            // You may fetch additional values as needed
+            // Calculate admin fee (assuming 10%)
+            $adminFee = $price * 0.10;
+
+            // Update admin fee and photographer earning
+            $updateTransactionQuery = "UPDATE transactions SET AdminFee = ?, PhotographerEarning = ? WHERE TransactionID = ?";
+            $stmtUpdateTransaction = mysqli_prepare($conn, $updateTransactionQuery);
+            $photographerEarning = $price - $adminFee;
+
+            mysqli_stmt_bind_param($stmtUpdateTransaction, "ddi", $adminFee, $photographerEarning, $transactionID);
+
+            if (mysqli_stmt_execute($stmtUpdateTransaction)) {
+                // echo "10% of the Price will serve as the Admin Fee";
+            } else {
+                echo "Error updating transaction: " . mysqli_error($conn);
+            }
+
+            // Close the prepared statement for updating transaction
+            mysqli_stmt_close($stmtUpdateTransaction);
+        } else {
+            echo "Error fetching package data: " . mysqli_error($conn);
         }
     } else {
         echo "Error fetching transaction data: " . mysqli_error($conn);
@@ -93,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
 
 mysqli_close($conn); // Close the database connection
 ?>
+
 
 
 <!DOCTYPE html>
@@ -109,7 +129,7 @@ mysqli_close($conn); // Close the database connection
     <div class="form-row">
 
     <div class="form-group">
-                <label for="photographerid">Photographer ID:</label><br>
+                <label for="photographerid">Transaction ID:</label><br>
                 <input type="text" id="TransactionID" name="TransactionID" class="form-control" value="<?php echo $transactionID; ?>" required><br>
             </div><br>
    
@@ -134,13 +154,13 @@ mysqli_close($conn); // Close the database connection
             </div>
             <div class="form-group">
                 <label for="customer_place_id">Customer Place ID:</label><br>
-                <input type="text" id="customer_place_id" name="customer_place_id" class="form-control" value="<?php echo $packageID; ?>" ><br>
+                <input type="text" id="customer_place_id" name="customer_place_id" class="form-control" value="<?php echo $customerPlaceID; ?>" ><br>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="package_id">Package ID:</label><br>
-                <input type="text" id="package_id" name="package_id" class="form-control" value="<?php echo $customerPlaceID; ?>" required><br>
+                <input type="text" id="package_id" name="package_id" class="form-control" value="<?php echo $packageID; ?>" required><br>
             </div>
             <div class="form-group">
                 <label for="price">Price:</label><br>
