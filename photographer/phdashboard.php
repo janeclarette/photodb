@@ -17,7 +17,7 @@ $photographerID = $_SESSION['PhotographerID'];
 
 // Fetch data from the Transactions table
 $query = "SELECT t.TransactionID, t.CustomerID, t.ReservationDate, t.Time_ID, t.PlaceID, t.PackageID, t.StatusID,
-            c.Name, tm.start_time, tm.end_time, p.PlaceName, pk.PackageName, pk.Price, ts.StatusName
+            t.TransactionDate, c.Name, tm.start_time, tm.end_time, p.PlaceName, pk.PackageName, pk.Price, ts.StatusName
             FROM Transactions t
             JOIN customers c ON t.CustomerID = c.CustomerID
             JOIN time tm ON t.Time_ID = tm.Time_ID
@@ -270,6 +270,7 @@ table button + button {
                 <th>Customer</th>
                 <th>Reservation Date</th>
                 <th>Time</th>
+                <th>Transaction Date</th>
                 <th>Place</th>
                 <th>Package Name</th>
                 <th>Price</th>
@@ -285,6 +286,7 @@ table button + button {
                     <td><?php echo $row['Name']; ?></td>
                     <td><?php echo $row['ReservationDate']; ?></td>
                     <td><?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></td>
+                    <td><?php echo $row['TransactionDate']; ?></td> 
                     <td><?php echo $row['PlaceName']; ?></td>
                     <td><?php echo $row['PackageName']; ?></td>
                     <td><?php echo $row['Price']; ?></td>
@@ -292,10 +294,11 @@ table button + button {
                     <td>
                         <!-- Add your actions or buttons here -->
                         <form action="" method="post">
-        <input type="hidden" name="transaction_id" value="<?php echo $row['TransactionID']; ?>">
-        <button type="submit" name="accept" <?php if ($row['StatusID'] == 4 || $row['StatusID'] == 5) echo 'disabled'; ?>>Accept</button>
-        <button type="submit" name="decline" <?php if ($row['StatusID'] == 4 || $row['StatusID'] == 5) echo 'disabled'; ?>>Decline</button>
-    </form>
+    <input type="hidden" name="transaction_id" value="<?php echo $row['TransactionID']; ?>">
+    <button type="submit" name="accept" <?php echo ($row['StatusID'] == 1) ? '' : 'disabled'; ?>>Accept</button>
+    <button type="submit" name="decline" <?php echo ($row['StatusID'] == 1) ? '' : 'disabled'; ?>>Decline</button>
+</form>
+
                         <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $transactionID = $_POST['transaction_id'];

@@ -15,7 +15,15 @@ if (!isset($_SESSION['CustomerID'])) {
 $customerID = $_SESSION['CustomerID'];
 
 // Fetch data from the Transactions table based on customerID
-$query = "SELECT * FROM Transactions WHERE CustomerID = $customerID";
+$query = "SELECT t.TransactionID, t.PhotographerID, t.ReservationDate, t.Time_ID, t.PlaceID, t.PackageID, t.StatusID,
+            t.TransactionDate, pt.Name, tm.start_time, tm.end_time, p.PlaceName, pk.PackageName, pk.Price, ts.StatusName
+            FROM Transactions t
+            JOIN photographers pt ON t.PhotographerID = pt.PhotographerID
+            JOIN time tm ON t.Time_ID = tm.Time_ID
+            JOIN places p ON t.PlaceID = p.PlaceID
+            JOIN packages pk ON t.PackageID = pk.PackageID
+            JOIN transactionstatus ts ON t.StatusID = ts.StatusID
+            WHERE t.CustomerID = $customerID";
 
 $result = mysqli_query($conn, $query);
 
@@ -36,254 +44,97 @@ if ($result) {
 
 
   <!-- Add your CSS stylesheets here -->
-  <style>
 
-    body {
-        background-color: #E0F4FF;
+<style>
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
     }
-        /* Resetting default margin and padding */
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
 
-        /* Add your custom styles for the header and navigation bars */
-        .navbar {
-            /* Styles for the main navigation bar */
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px; /* Adjust as needed */
-            width: auto; /* Ensures the image scales with height */
-        }
+    th {
+        background-color: #4F709C;
+        color: white;
+    }
 
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
+    tr:hover {
+        background-color: #f2f2f2;
+    }
 
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-            /* Styles for the secondary navigation bar */
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-          /* Dropdown menu */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        /* Container for sections */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout {
-            margin-right: 40px; /* Adjust the margin between the items */
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; /* Adjust the padding for better spacing */
-        }
-
-        .message{
-            margin-right: 10px; /* Adjust the margin between the items */
-        }
-
-        /* Welcome section */
-        .welcome {
-            padding: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center bottom; /* Lower the background image */
-            height: 500px; /* Adjust the height as needed */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .welcome h2 {
-            text-align: center;
-            font-size: 6rem;
-            font-family: 'Satisfy';
-            color: #fff;
-        }
-
-        /* Services section */
-        .services {
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .services h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h3 {
-            text-align: center;
-            font-size: 2rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h6 {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-            margin: 20px;
-        }
-        .services p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
-        .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* Centers the items horizontally */
-        }
-
-        .service {
-            width: 200px; /* Adjust the width of each service */
-            margin: 40px; /* Adjust the spacing between services */
-            text-align: center;
-        }
-
-        .service img {
-            width: 150px; /* Adjust the width of the service icons */
-            height: auto;
-            margin: 20px;
-        }
-
-        /* Featured events section */
-        .featured-events {
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .featured-events h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .featured-events p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
+    /* Button styles */
     .payment-btn {
-        .payment-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer; /* Always set the cursor to pointer */
-    background-color: #4F709C; /* Force the background color to be blue */
-    color: #fff;
-    margin-top: 10px;
-}
-
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #4F709C;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
     }
-    </style>
+
+    .payment-btn:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+    .confirm-btn, .decline-btn {
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        font-size: 14px;
+    }
+
+    .confirm-btn {
+        background-color: #4CAF50;
+    }
+
+    .decline-btn {
+        background-color: #f44336;
+    }
+
+    .confirm-btn:hover, .decline-btn:hover {
+        opacity: 0.8;
+    }
+</style>
+
        <table border="1">
             <tr>
                 <th>Transaction ID</th>
                 <!-- Add more headers as needed -->
-                <th>Photographer ID</th>
+                <th>Photographer</th>
                 <th>Reservation Date</th>
                 <th>Time</th>
                 <th>Transaction Date</th>
                 <th>Place</th>
-                <th>Customer Place</th>
                 <th>Package Name</th>
+                <th>Price</th>
                 <th>Status</th>
                 <th>Payment Action</th>
                 <th>Service Action</th>
             </tr>
-
+          
             <?php
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <tr>
-                    <!-- Display data for each transaction -->
                     <td><?php echo $row['TransactionID']; ?></td>
-                    <td><?php echo $row['PhotographerID']; ?></td>
-                    <!-- Fetch additional information from other tables based on your database structure -->
+                    <td><?php echo $row['Name']; ?></td>
                     <td><?php echo $row['ReservationDate']; ?></td>
-                    <td><?php echo $row['Time_ID']; ?></td>
-                    <td><?php echo $row['TransactionDate']; ?></td>
-                    <td><?php echo $row['PlaceID']; ?></td>
-                    <td><?php echo $row['CustomerPlaceID']; ?></td>
-                    <td><?php echo $row['PackageID']; ?></td>
-                    <td><?php echo $row['StatusID']; ?></td>
+                    <td><?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></td>
+                    <td><?php echo $row['TransactionDate']; ?></td> 
+                    <td><?php echo $row['PlaceName']; ?></td>
+                    <td><?php echo $row['PackageName']; ?></td>
+                    <td><?php echo $row['Price']; ?></td>
+                    <td><?php echo $row['StatusName']; ?></td>
                     <td>
                         <!-- Add your actions or buttons here -->
                         <form action="payment.php" method="post">
