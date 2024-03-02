@@ -6,13 +6,21 @@ include("../photographer/header.php");
 if (isset($_SESSION['PhotographerID'])) {
     $photographerID = $_SESSION['PhotographerID'];
 
-    $sql = "SELECT WorkID, Album, Description FROM works WHERE PhotographerID = $photographerID";
-    $result = $conn->query($sql);
+    if (isset($_GET['workID'])) {
+        $workID = $_GET['workID'];
 
-    if ($result && $result->num_rows > 0) {
-        $albums = $result->fetch_all(MYSQLI_ASSOC);
+        $sql = "SELECT * FROM works WHERE WorkID=$workID AND PhotographerID=$photographerID";
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $albumData = $result->fetch_assoc();
+        } else {
+            echo "Album not found.";
+            exit();
+        }
     } else {
-        $albums = [];
+        echo "WorkID not provided.";
+        exit();
     }
 } else {
     header("Location: /photodb/admin/login.php");
@@ -20,6 +28,28 @@ if (isset($_SESSION['PhotographerID'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['delete'])) {
+        // Delete album from the database
+        $sql = "DELETE FROM works WHERE WorkID=$workID AND PhotographerID=$photographerID";
+        $result = $conn->query($sql);
+
+        if ($result) {
+            echo '<script>';
+            echo 'alert("Album deleted successfully");';
+            echo 'window.location.href = "work_create.php";';
+            echo '</script>';
+            exit();
+        } else {
+            echo "Error deleting album: " . $conn->error;
+        }
+    }
+
+    // Update album information in the database
+    $album = $conn->real_escape_string($_POST['album']);
+    $description = $conn->real_escape_string($_POST['description']);
+    $serviceType = $_POST['serviceType'];
+
+    // Check if new images are uploaded
     if (isset($_FILES["images"]) && !empty($_FILES["images"]["name"][0])) {
         $uploadDirectory = "../uploads/";
         $allowedFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
@@ -44,40 +74,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $allImagePathsString = implode(",", $imagePaths);
 
-        $album = $conn->real_escape_string($_POST['album']);
-        $description = $conn->real_escape_string($_POST['description']);
-        $serviceType = $_POST['serviceType'];
-
-        $sql = "INSERT INTO works (Photos, PhotographerID, Album, Description, ServiceTypeID) 
-                VALUES ('$allImagePathsString', '$photographerID', '$album', '$description', '$serviceType')";
-
-        $result = $conn->query($sql);
-
-        if ($result) {
-            echo '<script>';
-            echo 'alert("File uploaded successfully");';
-            echo 'window.location.href = "work_create.php";';
-            echo '</script>';
-        } else {
-            echo "Error inserting images into the database.<br>";
-        }
+        // Update Photos column with new image paths
+        $sql = "UPDATE works SET Album='$album', Description='$description', ServiceTypeID='$serviceType', Photos='$allImagePathsString' WHERE WorkID=$workID AND PhotographerID=$photographerID";
     } else {
-        echo "Please select at least one file to upload.<br>";
+        // No new images uploaded, update other fields only
+        $sql = "UPDATE works SET Album='$album', Description='$description', ServiceTypeID='$serviceType' WHERE WorkID=$workID AND PhotographerID=$photographerID";
+    }
+
+    $result = $conn->query($sql);
+
+    if ($result) {
+        echo '<script>';
+        echo 'alert("Album updated successfully");';
+        echo 'window.location.href = "work_create.php";';
+        echo '</script>';
+    } else {
+        echo "Error updating album: " . $conn->error;
     }
 }
 ?>
 
 <body>
-    <h2>Upload Images</h2>
+    <h2>Update Album</h2>
 
     <div class="container">
-
         <form action="" method="post" enctype="multipart/form-data">
+            <div class="slideshow-container">
+                <?php
+                $imagePaths = explode(',', $albumData['Photos']);
+                foreach ($imagePaths as $imagePath) {
+                    echo "<img src='$imagePath' alt='Album Image' class='slideshow-image'>";
+                }
+                ?>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const slideshowImages = document.querySelectorAll('.slideshow-image');
+                    let currentImageIndex = 0;
+
+                    function showNextImage() {
+                        slideshowImages[currentImageIndex].classList.remove('active');
+                        currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
+                        slideshowImages[currentImageIndex].classList.add('active');
+                    }
+
+                    if (slideshowImages.length > 0) {
+                        slideshowImages[currentImageIndex].classList.add('active');
+                        setInterval(showNextImage, 2000);
+                    }
+                });
+            </script>
+
             <label for="images">Select Images (Multiple):</label>
             <input type="file" name="images[]" id="images" multiple accept="image/*">
             <br>
             <label for="album">Album:</label>
-            <input type="text" name="album" id="album" required>
+            <input type="text" name="album" id="album" value="<?= $albumData['Album']; ?>" required>
             <br>
             <label for="serviceType">Service Type:</label>
             <select name="serviceType" id="serviceType" required>
@@ -86,109 +139,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $result = mysqli_query($conn, $sql);
 
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<option value='" . $row['ServiceTypeID'] . "'>" . $row['TypeName'] . "</option>";
+                    $selected = ($row['ServiceTypeID'] == $albumData['ServiceTypeID']) ? 'selected' : '';
+                    echo "<option value='" . $row['ServiceTypeID'] . "' $selected>" . $row['TypeName'] . "</option>";
                 }
                 ?>
             </select>
             <br>
             <label for="description">Description:</label>
-            <textarea name="description" id="description" rows="4" required></textarea>
+            <textarea name="description" id="description" rows="4" required><?= $albumData['Description']; ?></textarea>
             <br>
-            <input type="submit" value="Upload">
+            <input type="submit" value="Update">
+            <input type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure you want to delete this album? This action cannot be undone.');">
         </form>
     </div>
-    <div class="albums-container">
-        <?php foreach ($albums as $album) : ?>
-            <div class="album-card" data-album="<?= $album['Album']; ?>">
-                <?php
-                $albumID = $album['WorkID'];
-                $sqlImages = "SELECT Photos FROM works WHERE PhotographerID = $photographerID AND WorkID = $albumID";
-                $resultImages = $conn->query($sqlImages);
-
-                if ($resultImages && $resultImages->num_rows > 0) {
-                    $images = $resultImages->fetch_all(MYSQLI_ASSOC);
-                } else {
-                    $images = [];
-                }
-                $sqlServiceType = "SELECT st.TypeName FROM works w
-                                    JOIN ServiceTypes st ON w.ServiceTypeID = st.ServiceTypeID
-                                    WHERE w.PhotographerID = $photographerID AND w.WorkID = $albumID";
-                $resultServiceType = $conn->query($sqlServiceType);
-
-                if ($resultServiceType) {
-                    if ($resultServiceType->num_rows > 0) {
-                        $serviceType = $resultServiceType->fetch_assoc();
-                    } else {
-                        $serviceType = ['TypeName' => 'No Service Type'];
-                    }
-                } else {
-                    echo "Error in Service Type query: " . $conn->error;
-                    $serviceType = ['TypeName' => ''];
-                }
-                ?>
-
-                <div class="slideshow-container">
-                    <?php foreach ($images as $key => $image) : ?>
-                        <?php $imagePaths = explode(',', $image['Photos']); ?>
-                        <?php foreach ($imagePaths as $imagePath): ?>
-                            <img src="<?= $imagePath ?>" alt="Album Image" class="slideshow-image">
-                        <?php endforeach; ?>
-                    <?php endforeach; ?>
-                </div>
-
-                <h3>Album Title: <?= $album['Album']; ?></h3>
-                <p>Service Type: <?= $serviceType['TypeName']; ?></p>
-                <p>Description: <?= $album['Description']; ?></p>
-                <button class="view-more-btn"><a href="update_portfolio.php?workID=<?php echo $album['WorkID']; ?>">View More</a></button>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll('.album-card').forEach(function (albumCard) {
-                const slideshowContainer = albumCard.querySelector('.slideshow-container');
-                const slideshowImages = albumCard.querySelectorAll('.slideshow-image');
-                let currentImageIndex = 0;
-
-                function showNextImage() {
-                    slideshowImages[currentImageIndex].style.display = 'none';
-                    currentImageIndex = (currentImageIndex + 1) % slideshowImages.length;
-                    slideshowImages[currentImageIndex].style.display = 'block';
-                }
-
-                if (slideshowImages.length > 0) {
-                    slideshowImages[currentImageIndex].style.display = 'block';
-
-                    setInterval(showNextImage, 2000);
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>
 
-     <style>
+<style>
+.slideshow-container {
+            max-width: 500px; /* Set the maximum width of the slideshow container */
+            overflow: hidden; /* Hide any overflowing content */
+            position: relative;
+            margin: auto;
+        }
 
-    .slideshow-container {
-        position: relative;
-        max-width: 100%;
-        margin: auto;
-        overflow: hidden; 
-    }
+        .slideshow-image {
+            width: 100%; /* Make the images fill the width of the container */
+            height: auto; /* Maintain the aspect ratio of the images */
+            display: none; /* Hide all images by default */
+        }
 
-    .slideshow-image {
-        width: 100%;
-        height: 95%%;
-        display: none;
-        transition: opacity 0.5s ease; 
-    }
-
-    .slideshow-image.active {
-        display: block;
-        opacity: 1; 
-    }
+        .slideshow-image.active {
+            display: block; /* Show the active image */
+        }
 
     .albums-container {
         display: flex;
