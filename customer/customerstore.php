@@ -5,6 +5,7 @@ include("../include/alert.php");
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $phone_number = $_POST['phone_number'];
+    $gcash_number = $_POST['gcash_number'];
     $address = $_POST['address'];
     $city_id = $_POST['city_id'];
     $email = $_POST['email'];
@@ -19,8 +20,8 @@ if (isset($_POST['submit'])) {
         // Move the uploaded file to the desired directory
         if(move_uploaded_file($_FILES["img_customer"]["tmp_name"], $img_customer)) {
             // Insert into the 'customers' table
-            $sql = "INSERT INTO customers (Name, Phone_Number, Address, CityID, Email, Username, Password, img_customer) 
-                    VALUES ('$name', '$phone_number', '$address', '$city_id', '$email', '$username', '$password', '$img_customer')";
+            $sql = "INSERT INTO customers (Name, Phone_Number, Gcash_Number, Address, CityID, Email, Username, Password, img_customer) 
+                    VALUES ('$name', '$phone_number', '$gcash_number', '$address', '$city_id', '$email', '$username', '$password', '$img_customer')";
             if(mysqli_query($conn, $sql)) {
                 $_SESSION['message'] = 'Customer registration successful. You can now log in.';
                 header("Location: /photodb/admin/login.php");

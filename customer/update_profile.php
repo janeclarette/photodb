@@ -15,7 +15,7 @@ if (!isset($_SESSION['CustomerID'])) {
 $customerID = $_SESSION['CustomerID'];
 
 // Fetch customer information including city details
-$sql = "SELECT c.Name, c.Phone_Number, c.Address, ct.CityName AS City, c.Email, c.img_customer 
+$sql = "SELECT c.Name, c.Phone_Number, c.Gcash_Number,c.Address, ct.CityName AS City, c.Email, c.img_customer 
         FROM customers c
         LEFT JOIN cities ct ON c.CityID = ct.CityID
         WHERE c.CustomerID = $customerID";
@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone_number = $_POST['phone_number'];
+    $gcash_number = $_POST['gcash_number'];
     $address = $_POST['address'];
     $cityID = $_POST['city'];
 
@@ -49,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update the customer's information in the database
-    $updateQuery = "UPDATE customers SET Name = '$name', Email = '$email', Phone_Number = '$phone_number', Address = '$address', CityID = $cityID WHERE CustomerID = $customerID";
+    $updateQuery = "UPDATE customers SET Name = '$name', Email = '$email', Phone_Number = '$phone_number', Gcash_Number = '$gcash_number',Address = '$address', CityID = $cityID WHERE CustomerID = $customerID";
     $conn->query($updateQuery);
 
     // Redirect back to profile.php
@@ -86,6 +87,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <span class="label">Phone Number:</span>
                     <input type="text" name="phone_number" value="<?php echo $row['Phone_Number']; ?>" required>
                 </div>
+
+                <div class="detail">
+                    <span class="label">Gcash Number:</span>
+                    <input type="text" name="gcash_number" value="<?php echo $row['Gcash_Number']; ?>" required>
+                </div>
+
                 <div class="detail">
                     <span class="label">Address:</span>
                     <input type="text" name="address" value="<?php echo $row['Address']; ?>" required>

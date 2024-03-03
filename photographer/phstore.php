@@ -5,6 +5,7 @@ include("../include/config.php");
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $phone_number = $_POST['phone_number'];
+    $gcash_number = $_POST['gcash_number'];
     $address = $_POST['address'];
     $city_id = $_POST['city_id'];
     $email = $_POST['email'];
@@ -19,8 +20,8 @@ if (isset($_POST['submit'])) {
         // Move the uploaded file to the desired directory
         if(move_uploaded_file($_FILES["img_photographer"]["tmp_name"], $img_photographer)) {
             // Insert into the 'photographers' table
-            $sql = "INSERT INTO photographers (Name, Phone_Number, Address, CityID, Email, Username, Password, img_photographer) 
-                    VALUES ('$name', '$phone_number', '$address', '$city_id', '$email', '$username', '$password', '$img_photographer')";
+            $sql = "INSERT INTO photographers (Name, Phone_Number, Gcash_Number, Address, CityID, Email, Username, Password, img_photographer) 
+                    VALUES ('$name', '$phone_number', '$gcash_number','$address', '$city_id', '$email', '$username', '$password', '$img_photographer')";
             if(mysqli_query($conn, $sql)) {
                 $_SESSION['message'] = 'Photographer registration successful. You can now log in as a photographer.';
                 header("Location: /photodb/admin/login.php");

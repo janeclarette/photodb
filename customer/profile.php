@@ -19,7 +19,7 @@ if (!isset($_SESSION['CustomerID'])) {
 $customerID = $_SESSION['CustomerID'];
 
 // Fetch customer information including city details
-$sql = "SELECT c.Name, c.Phone_Number, c.Address, ct.CityName AS City, c.Email, c.img_customer 
+$sql = "SELECT c.Name, c.Phone_Number, c.Gcash_Number,c.Address, ct.CityName AS City, c.Email, c.img_customer 
         FROM customers c
         LEFT JOIN cities ct ON c.CityID = ct.CityID
         WHERE c.CustomerID = $customerID";
@@ -53,6 +53,10 @@ if ($result->num_rows > 0) {
             <div class="detail">
                 <span class="label">Phone Number:</span>
                 <span class="value"><?php echo $row['Phone_Number']; ?></span>
+            </div>
+            <div class="detail">
+                <span class="label">Gcash Number:</span>
+                <span class="value"><?php echo $row['Gcash_Number']; ?></span>
             </div>
             <div class="detail">
                 <span class="label">Address:</span>

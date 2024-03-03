@@ -28,7 +28,7 @@ include("../include/config.php");
     </div>
     <div class="message">
         <!-- Logout link -->
-        <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
+        <a href="/photodb/admin/message.php"><i class="fa-regular fa-message"></i></a>
     </div>
     <div class="logout">
         <!-- Logout link -->

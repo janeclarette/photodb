@@ -7,7 +7,7 @@ $photographerID = $reservationDate = $timeID = $placeID = $customerPlaceID = $pa
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
     // Retrieve transaction ID from the form submission
     $transactionID = $_POST['TransactionID'];
-
+    
     // Check if 'img_transac' key exists in the $_FILES array
     if (isset($_FILES['img_transac'])) {
         // Upload image file
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
             mysqli_stmt_bind_param($stmtUpdateTransaction, "ddi", $adminFee, $photographerEarning, $transactionID);
 
             if (mysqli_stmt_execute($stmtUpdateTransaction)) {
-                // echo "10% of the Price will serve as the Admin Fee";
+                echo "10% of the Price will serve as the Admin Fee";
             } else {
                 echo "Error updating transaction: " . mysqli_error($conn);
             }

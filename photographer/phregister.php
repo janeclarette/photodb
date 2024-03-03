@@ -60,6 +60,11 @@
                 <input type="file" id="img_photographer" name="img_photographer" class="form-control"><br>
             </div>
         </div>
+        <div class="form-group">
+                <label for="gcash_number">Gcash Number:</label><br>
+                <input type="text" id="gcash_number" name="gcash_number" class="form-control" required><br>
+            </div>
+        </div><br>
         <input type="submit" value="Register" name="submit" class="btn">
     </form>
 </body>

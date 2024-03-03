@@ -15,7 +15,7 @@ if (!isset($_SESSION['PhotographerID'])) {
 $photographerID = $_SESSION['PhotographerID'];
 
 // Fetch photographer information including city name by joining with cities table
-$sql = "SELECT p.Name, p.Phone_Number, p.Address, c.CityName AS City, p.Email, p.img_photographer 
+$sql = "SELECT p.Name, p.Phone_Number, p.Gcash_Number, p.Address, c.CityName AS City, p.Email, p.img_photographer 
         FROM photographers p
         LEFT JOIN cities c ON p.CityID = c.CityID
         WHERE p.PhotographerID = $photographerID";
@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone_number = $_POST['phone_number'];
+    $gcash_number = $_POST['gcash_number'];
     $address = $_POST['address'];
     $cityID = $_POST['city'];
 
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update the photographer's information in the database
-    $updateQuery = "UPDATE photographers SET Name = '$name', Email = '$email', Phone_Number = '$phone_number', Address = '$address', CityID = $cityID WHERE PhotographerID = $photographerID";
+    $updateQuery = "UPDATE photographers SET Name = '$name', Email = '$email', Phone_Number = '$phone_number', Gcash_Number = '$gcash_number' ,Address = '$address', CityID = $cityID WHERE PhotographerID = $photographerID";
     $conn->query($updateQuery);
 
     // Redirect back to phprofile.php
@@ -89,6 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="detail">
                         <span class="label">Phone Number:</span>
                         <input type="text" name="phone_number" value="<?php echo $row['Phone_Number']; ?>" required>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Gcash Number:</span>
+                        <input type="text" name="gcash_number" value="<?php echo $row['Gcash_Number']; ?>" required>
                     </div>
                     <div class="detail">
                         <span class="label">Address:</span>

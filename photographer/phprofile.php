@@ -14,7 +14,7 @@ if (!isset($_SESSION['PhotographerID'])) {
 $photographerID = $_SESSION['PhotographerID'];
 
 // Fetch photographer information including city name by joining with cities table
-$sql = "SELECT p.Name, p.Phone_Number, p.Address, c.CityName AS City, p.Email, p.img_photographer 
+$sql = "SELECT p.Name, p.Phone_Number, p.Gcash_Number,p.Address, c.CityName AS City, p.Email, p.img_photographer 
         FROM photographers p
         LEFT JOIN cities c ON p.CityID = c.CityID
         WHERE p.PhotographerID = $photographerID";
@@ -54,6 +54,10 @@ if ($result->num_rows > 0) {
                 <div class="detail">
                     <span class="label">Phone Number:</span>
                     <span class="value"><?php echo $row['Phone_Number']; ?></span>
+                </div>
+                <div class="detail">
+                    <span class="label">Gcash Number:</span>
+                    <span class="value"><?php echo $row['Gcash_Number']; ?></span>
                 </div>
                 <div class="detail">
                     <span class="label">Address:</span>
