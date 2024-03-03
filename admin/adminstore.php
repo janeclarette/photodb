@@ -35,3 +35,5 @@ if (isset($_POST['submit'])) {
 header("Location: /photodb/admin/adminregister.php");
 exit();
 ?>
+
+<!-- up -->
