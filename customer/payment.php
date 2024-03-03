@@ -2,7 +2,7 @@
 include("../include/config.php");
 
 // Initialize variables to store values
-$photographerID = $reservationDate = $timeID = $placeID = $customerPlaceID = $packageID = $price = '';
+$transactionID = $photographerID = $reservationDate = $timeID = $placeID = $customerPlaceID = $packageID = $price = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
     // Retrieve transaction ID from the form submission
@@ -20,8 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
 
         // Update image file name into Transactions table
         $updateImageQuery = "UPDATE transactions SET img_transac = ? WHERE TransactionID = ?";
-
-        // Use prepared statement to prevent SQL injection
         $stmt = mysqli_prepare($conn, $updateImageQuery);
         mysqli_stmt_bind_param($stmt, "si", $imgTransacFileName, $transactionID);
 
@@ -40,80 +38,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
                 echo "Error updating status: " . mysqli_error($conn);
             }
 
-            // Close the prepared statement for status update
             mysqli_stmt_close($stmtStatus);
         } else {
             echo "Error updating image: " . mysqli_error($conn);
         }
 
-        // Close the prepared statement for image update
         mysqli_stmt_close($stmt);
     }
 
-    // Fetch additional data if needed
-    $transactionQuery = "SELECT * FROM transactions WHERE TransactionID = ?";
+    // Fetch transaction data along with photographer, place, package, time, and customer place details using JOIN
+    $transactionQuery = "SELECT t.*, 
+                                ph.name AS photographer_name, 
+                                pl.placename, 
+                                pk.packagename, 
+                                pk.price,
+                                tm.time_id, 
+                                t.CustomerPlaceID
+                         FROM transactions t
+                         JOIN photographers ph ON t.PhotographerID = ph.PhotographerID
+                         JOIN places pl ON t.PlaceID = pl.PlaceID
+                         JOIN packages pk ON t.PackageID = pk.PackageID
+                         JOIN time tm ON t.Time_ID = tm.Time_ID
+                         WHERE t.TransactionID = ?";
+
     $stmt = mysqli_prepare($conn, $transactionQuery);
-    mysqli_stmt_bind_param($stmt, "i", $transactionID);
-    mysqli_stmt_execute($stmt);
-
-    // Get the result and check if the query was successful
-    $transactionResult = mysqli_stmt_get_result($stmt);
-    if ($transactionResult && mysqli_num_rows($transactionResult) > 0) {
-        $transactionRow = mysqli_fetch_assoc($transactionResult);
-
-        // Assign fetched values to variables
-        $photographerID = $transactionRow['PhotographerID'];
-        $reservationDate = $transactionRow['ReservationDate'];
-        $timeID = $transactionRow['Time_ID'];
-        $placeID = $transactionRow['PlaceID'];
-        $customerPlaceID = $transactionRow['CustomerPlaceID'];
-        $packageID = $transactionRow['PackageID'];
-
-        // Fetch price based on the PackageID from Packages table
-        $packageQuery = "SELECT Price FROM Packages WHERE PackageID = ?";
-        $stmt = mysqli_prepare($conn, $packageQuery);
-        mysqli_stmt_bind_param($stmt, "i", $packageID);
-        mysqli_stmt_execute($stmt);
-
-        // Get the result and check if the query was successful
-        $packageResult = mysqli_stmt_get_result($stmt);
-        if ($packageResult && mysqli_num_rows($packageResult) > 0) {
-            $packageRow = mysqli_fetch_assoc($packageResult);
-            $price = $packageRow['Price'];
-
-            // Calculate admin fee (assuming 10%)
-            $adminFee = $price * 0.10;
-
-            // Update admin fee and photographer earning
-            $updateTransactionQuery = "UPDATE transactions SET AdminFee = ?, PhotographerEarning = ? WHERE TransactionID = ?";
-            $stmtUpdateTransaction = mysqli_prepare($conn, $updateTransactionQuery);
-            $photographerEarning = $price - $adminFee;
-
-            mysqli_stmt_bind_param($stmtUpdateTransaction, "ddi", $adminFee, $photographerEarning, $transactionID);
-
-            if (mysqli_stmt_execute($stmtUpdateTransaction)) {
-                // echo "10% of the Price will serve as the Admin Fee";
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $transactionID);
+        if (mysqli_stmt_execute($stmt)) {
+            $transactionResult = mysqli_stmt_get_result($stmt);
+            if ($transactionResult && mysqli_num_rows($transactionResult) > 0) {
+                $transactionRow = mysqli_fetch_assoc($transactionResult);
+                $photographerID = $transactionRow['PhotographerID'];
+                $reservationDate = $transactionRow['ReservationDate'];
+                $timeID = $transactionRow['Time_ID'];
+                $placeID = $transactionRow['PlaceID'];
+                $customerPlaceID = $transactionRow['CustomerPlaceID'];
+                $packageID = $transactionRow['PackageID'];
+                $photographerName = $transactionRow['photographer_name'];
+                $placeName = $transactionRow['placename'];
+                $packageName = $transactionRow['packagename'];
+                $price = $transactionRow['price'];
+                $time = $transactionRow['time_id'];
+                $customerPlaceID = $transactionRow['CustomerPlaceID'];
             } else {
-                echo "Error updating transaction: " . mysqli_error($conn);
+                echo "No transaction data found for Transaction ID: " . $transactionID;
             }
-
-            // Close the prepared statement for updating transaction
-            mysqli_stmt_close($stmtUpdateTransaction);
         } else {
-            echo "Error fetching package data: " . mysqli_error($conn);
+            echo "Error executing query: " . mysqli_error($conn);
         }
+        mysqli_stmt_close($stmt);
     } else {
-        echo "Error fetching transaction data: " . mysqli_error($conn);
+        echo "Error preparing statement: " . mysqli_error($conn);
     }
-
-    // Close the prepared statement
-    mysqli_stmt_close($stmt);
 }
 
 mysqli_close($conn); // Close the database connection
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -125,59 +105,56 @@ mysqli_close($conn); // Close the database connection
 </head>
 <body>
 <h2>PAYMENT</h2>
-    <form action="" method="post" class="form-outline" enctype="multipart/form-data">
+<form action="" method="post" class="form-outline" enctype="multipart/form-data">
     <div class="form-row">
-
-    <div class="form-group">
-                <label for="photographerid">Transaction ID:</label><br>
-                <input type="text" id="TransactionID" name="TransactionID" class="form-control" value="<?php echo $transactionID; ?>" required><br>
-            </div><br>
-   
-
-             <div class="form-group">
-                <label for="photographerid">Photographer ID:</label><br>
-                <input type="text" id="photographerid" name="photographerid" class="form-control" value="<?php echo $photographerID; ?>" required><br>
-            </div><br>
-            <div class="form-group">
-                <label for="reservation_date">Reservation Date:</label><br>
-                <input type="text" id="reservation_date" name="reservation_date" class="form-control" value="<?php echo $reservationDate; ?>" required><br>
-            </div><br>
-            <div class="form-group">
-                <label for="time_id">Time ID:</label><br>
-                <input type="text" id="time_id" name="time_id" class="form-control" value="<?php echo $timeID; ?>" required><br>
-            </div>
+        <div class="form-group">
+            <label for="TransactionID">Transaction ID:</label><br>
+            <input type="text" id="TransactionID" name="TransactionID" class="form-control" value="<?php echo $transactionID; ?>" required><br>
         </div><br>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="place_id">Place ID:</label><br>
-                <input type="text" id="place_id" name="place_id" class="form-control"  value="<?php echo $placeID; ?>" ><br>
-            </div>
-            <div class="form-group">
-                <label for="customer_place_id">Customer Place ID:</label><br>
-                <input type="text" id="customer_place_id" name="customer_place_id" class="form-control" value="<?php echo $customerPlaceID; ?>" ><br>
-            </div>
+        <div class="form-group">
+            <label for="photographerName">Photographer ID:</label><br>
+            <input type="text" id="photographername" name="photographername" class="form-control" value="<?php echo $photographerName; ?>" required><br>
+        </div><br>
+        <div class="form-group">
+            <label for="reservation_date">Reservation Date:</label><br>
+            <input type="text" id="reservation_date" name="reservation_date" class="form-control" value="<?php echo $reservationDate; ?>" required><br>
+        </div><br>
+        <div class="form-group">
+            <label for="time_id">Time ID:</label><br>
+            <input type="text" id="time_id" name="time_id" class="form-control" value="<?php echo $timeID; ?>" required><br>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="package_id">Package ID:</label><br>
-                <input type="text" id="package_id" name="package_id" class="form-control" value="<?php echo $packageID; ?>" required><br>
-            </div>
-            <div class="form-group">
-                <label for="price">Price:</label><br>
-                <input type="text" id="price" name="price" class="form-control" value="<?php echo $price; ?>" required><br>
-
-            </div>
+    </div><br>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="placeName">Place ID:</label><br>
+            <input type="text" id="placename" name="placename" class="form-control"  value="<?php echo $placeName; ?>" ><br>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="img_transac">Transaction Image:</label><br>
-                <input type="file" id="img_transac" name="img_transac" class="form-control"><br>
-            </div>
+        <div class="form-group">
+            <label for="customer_place_id">Customer Place ID:</label><br>
+            <input type="text" id="customer_place_id" name="customer_place_id" class="form-control" value="<?php echo $customerPlaceID; ?>" ><br>
         </div>
-        <input type="submit" value="SEND PAYMENT" name="payment" class="btn">
-    </form>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="packageName">Package ID:</label><br>
+            <input type="text" id="packagename" name="packagename" class="form-control" value="<?php echo $packageName; ?>" required><br>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label><br>
+            <input type="text" id="price" name="price" class="form-control" value="<?php echo $price; ?>" required><br>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="img_transac">Transaction Image:</label><br>
+            <input type="file" id="img_transac" name="img_transac" class="form-control"><br>
+        </div>
+    </div>
+    <input type="submit" value="SEND PAYMENT" name="payment" class="btn">
+</form>
 </body>
 </html>
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

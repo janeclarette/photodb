@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <style>
 .slideshow-container {
-            max-width: 500px; /* Set the maximum width of the slideshow container */
+            max-width: 300px; /* Set the maximum width of the slideshow container */
             overflow: hidden; /* Hide any overflowing content */
             position: relative;
             margin: auto;
@@ -179,6 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         gap: 20px;
         justify-content: space-evenly;
         margin-top: 20px;
+        
     }
 
    .album-card {
@@ -245,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .container {
-            max-width: 900px;
+            max-width: 500px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
