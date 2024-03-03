@@ -98,3 +98,91 @@ mysqli_close($conn);
 ?>
 
 <!-- nakdnakwknadklwad -->
+
+
+
+<title>Customer Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <body>
+    </body>
+    </html>
+
+    <!-- Add your CSS stylesheets here -->
+    <style>
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4F709C;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Button styles */
+        .payment-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4F709C;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .payment-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .confirm-btn, .decline-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+        }
+
+        .confirm-btn {
+            background-color: #4CAF50;
+        }
+
+        .decline-btn {
+            background-color: #f44336;
+        }
+
+        .confirm-btn:hover, .decline-btn:hover {
+            opacity: 0.8;
+        }
+
+        .review-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            background-color: #4F709C;
+            color: white;
+            font-size: 14px;
+        }
+
+        .review-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
