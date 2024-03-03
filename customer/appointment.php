@@ -50,8 +50,6 @@ if ($result) {
         </tr>
 
         <?php
-        // Initialize an array to track reviewed photographers
-        $reviewedPhotographers = [];
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <tr>
@@ -95,8 +93,14 @@ if ($result) {
                 </td>
                 <td>
                     <?php
-                    // Check if the photographer has not been reviewed yet
-                    if (!in_array($row['PhotographerID'], $reviewedPhotographers)) {
+                    // Check if the transaction has been reviewed
+                    $reviewQuery = "SELECT * FROM review WHERE TransactionID = {$row['TransactionID']}";
+                    $reviewResult = mysqli_query($conn, $reviewQuery);
+                    if (mysqli_num_rows($reviewResult) > 0) {
+                        // Transaction has been reviewed
+                        echo "Reviewed";
+                    } else {
+                        // Transaction has not been reviewed
                         ?>
                         <form action="review.php" method="post">
                             <input type="hidden" name="PhotographerID"
@@ -108,8 +112,6 @@ if ($result) {
                             </button>
                         </form>
                         <?php
-                        // Mark photographer as reviewed
-                        $reviewedPhotographers[] = $row['PhotographerID'];
                     }
                     ?>
                 </td>
@@ -128,25 +130,11 @@ if ($result) {
     // Handle query error
     echo "Error: " . mysqli_error($conn);
 }
-
-// Function to get customer name based on customer ID
-function getCustomerName($conn, $customerID)
-{
-    $query = "SELECT CustomerName FROM customers WHERE CustomerID = $customerID";
-    $result = mysqli_query($conn, $query);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        return $row['CustomerName'];
-    }
-
-    return "N/A"; // Return a default value if customer name is not found
-}
 ?>
 
 
 
-<title>Customer Page</title>
+  <title>Customer Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
