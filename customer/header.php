@@ -68,7 +68,7 @@ include("../include/config.php"); // Include your database connection
         ?>
             </div>
             </li>
-            <li><a href="/photodb/customer/review.php">Reviews</a></li>
+            <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
             <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
             <li><a href="/photodb/customer/price.php">Pricing</a></li>
             <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
