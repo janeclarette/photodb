@@ -18,6 +18,7 @@ $sql = "SELECT
             T.img_transac,
             T.AdminFee,
             T.PhotographerEarning,
+            T.gcash_admin,
             T.img_admin
         FROM
             Transactions T
@@ -48,6 +49,7 @@ if ($result) {
                 <th>Transaction Image</th>
                 <th>Admin Fee</th>
                 <th>Photographer Earning</th>
+                <th>Admin Gcash</th>
                 <th>Admin Image</th>
                 <th>Action</th>
             </tr>";
@@ -78,6 +80,7 @@ if ($result) {
                 <td><img src='{$transactionImage}' alt='Transaction Image' style='max-width: 100px; max-height: 100px;'></td>
                 <td>{$row['AdminFee']}</td>
                 <td>{$row['PhotographerEarning']}</td>
+                <td>{$row['gcash_admin']}</td>
                 <td><img src='{$adminImage}' alt='Admin Image' style='max-width: 100px; max-height: 100px;'></td>
                 <td>{$paymentButton}</td>
             </tr>";
