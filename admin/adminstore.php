@@ -7,11 +7,12 @@ if (isset($_POST['submit'])) {
     $password = hash('sha256', $_POST['password']);
     $name = $_POST['name'];
     $phone_number = $_POST['phone_number'];
+    $gcash_number = $_POST['gcash_number'];
     $email = $_POST['email'];
 
     // Insert into the 'Admin' table
-    $sql = "INSERT INTO Admin (Name, Phone_Number, Email, Username, Password) 
-            VALUES ('$name', '$phone_number', '$email', '$username', '$password')";
+    $sql = "INSERT INTO Admin (Name, Phone_Number, Gcash_number,Email, Username, Password) 
+            VALUES ('$name', '$phone_number', '$gcash_number','$email', '$username', '$password')";
 
     if (mysqli_query($conn, $sql)) {
         // Check if any rows were affected
@@ -34,3 +35,5 @@ if (isset($_POST['submit'])) {
 header("Location: /photodb/admin/adminregister.php");
 exit();
 ?>
+
+<!-- up -->

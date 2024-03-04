@@ -87,6 +87,7 @@ $monthlySalesJSON = json_encode(array_values($monthlySales));
         <!-- Add the following HTML code within the body tag -->
         <div>
             <h2 id="chartLabel">Total Transactions</h2>
+            <h2>Most Booked Photographer: <?php echo $mostBookedPhotographer ['name']; ?></h2>
             <p id="chartValue">Total Transactions: <?php echo $mostBookedPhotographer['bookings']; ?></p>
         </div>
     </div>

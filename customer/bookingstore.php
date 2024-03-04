@@ -40,6 +40,12 @@ list($startTime, $endTime) = explode(" - ", $_POST['bookingTime']);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $row = mysqli_fetch_assoc($result);
+
+if (!$row || !isset($row['time_id'])) {
+    echo "Booking failed: The selected time is not valid.";
+    exit();
+}
+
 $timeID = $row['time_id'];
 mysqli_stmt_close($stmt);
 
@@ -55,7 +61,6 @@ if (!$photographerExists) {
     echo "Booking failed: The photographer does not exist.";
     exit();
 }
-
 $checkAvailabilityQuery = "SELECT scheduleid FROM availability_time WHERE time_id = ?";
 $stmt = mysqli_prepare($conn, $checkAvailabilityQuery);
 mysqli_stmt_bind_param($stmt, "i", $timeID);
@@ -63,7 +68,7 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $row = mysqli_fetch_assoc($result);
 
-if (!$row) {
+if (!$row || !isset($row['scheduleid'])) {
     echo "Booking failed: The selected time is not available.";
     exit();
 }

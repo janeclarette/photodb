@@ -247,31 +247,43 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
     </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const bookingDateSelect = document.getElementById('bookingDate');
-        const bookingTimeSelect = document.getElementById('bookingTime');
+  document.addEventListener("DOMContentLoaded", function () {
+    const bookingDateSelect = document.getElementById('bookingDate');
+    const bookingTimeSelect = document.getElementById('bookingTime');
 
-        bookingDateSelect.addEventListener('change', function () {
-            const selectedDate = bookingDateSelect.value;
+    bookingDateSelect.addEventListener('change', function () {
+        const selectedDate = bookingDateSelect.value;
 
-            bookingTimeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>';
-            if (selectedDate) {
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        const timeSlots = JSON.parse(xhr.responseText);
-                        timeSlots.forEach(function (timeSlot) {
-                            bookingTimeSelect.innerHTML += `<option value="${timeSlot}">${timeSlot}</option>`;
-                        });
-                    }
-                };
-                xhr.open("GET", `get_timeslots.php?selectedDate=${selectedDate}`, true);
-                xhr.send();
-            }
-        });
+        bookingTimeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>';
+        if (selectedDate) {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    const timeSlots = JSON.parse(xhr.responseText);
+                    timeSlots.forEach(function (timeSlot) {
+                        bookingTimeSelect.innerHTML += `<option value="${timeSlot}">${timeSlot}</option>`;
+                    });
+                }
+            };
+            xhr.open("GET", `get_timeslots.php?selectedDate=${selectedDate}`, true);
+            xhr.send();
+        }
     });
+});
+
+// Function to format time to 12-hour format
+function formatMilitaryTime(time) {
+    const [hours, minutes] = time.split(':');
+    const formattedHours = parseInt(hours) % 12 || 12; // Convert to 12-hour format
+    const period = parseInt(hours) >= 12 ? 'PM' : 'AM';
+    return `${formattedHours}:${minutes} ${period}`;
+}
+
+
+
 </script>
 
 
 </body>
-</html>
+</html>   
+<!-- not sure if na push -->

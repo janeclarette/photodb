@@ -23,6 +23,12 @@
                 <label for="phone_number">Phone Number:</label><br>
                 <input type="text" id="phone_number" name="phone_number" class="form-control" required>
             </div>
+
+                 
+            <div class="form-group">
+                <label for="phone_number">Gcash Number:</label><br>
+                <input type="text" id="gcash_number" name="gcash_number" class="form-control" required>
+            </div>
             
             <div class="form-group">
                 <label for="email">Email:</label><br>
@@ -123,3 +129,5 @@
         margin-right: 0; /* Remove right margin for the last column */
     }
     </style>
+
+    <!-- up -->
