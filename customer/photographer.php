@@ -32,7 +32,10 @@ include("../customer/header.php");  // Include your database connection
                 echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
                 echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
                 echo '</form>';
-
+                echo '<form action="bookp.php" method="GET" style="display: inline;">';
+                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
+                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Book Photographer</button>';
+                echo '</form>';
                 echo '</div>';
             }
             ?>
@@ -71,114 +74,7 @@ include("../customer/header.php");  // Include your database connection
         
     }
         /* Resetting default margin and padding */
-        body, h1, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Add your custom styles for the header and navigation bars */
-        .navbar {
-            /* Styles for the main navigation bar */
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px; /* Adjust as needed */
-            width: auto; /* Ensures the image scales with height */
-        }
-
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-            /* Styles for the secondary navigation bar */
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-          /* Dropdown menu */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        /* Container for sections */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout {
-            margin-right: 40px; /* Adjust the margin between the items */
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; /* Adjust the padding for better spacing */
-        }
-
-        .message{
-            margin-right: 10px; /* Adjust the margin between the items */
-        }
+      
 
 
         .photographer-container {

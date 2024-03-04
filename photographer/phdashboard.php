@@ -4,6 +4,7 @@ include("../include/config.php");
 
 // Start the session
 session_start();
+include("../photographer/header.php");
 
 // Check if photographerID is set
 if (!isset($_SESSION['PhotographerID'])) {
@@ -220,48 +221,7 @@ table button + button {
     margin-left: 5px;
 }
         </style>
-    </head>
-    <body>
-        <!-- Main header with navigation bar -->
-        <header class="navbar">
-            <div class="logo">
-                <!-- Logo (upper left corner) -->
-                <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-            </div>
-            <div class="search">
-                <!-- Search (center) -->
-                <input type="text" placeholder="Search">
-                <button type="submit">Search</button>
-            </div>
-            <div class="profile">
-                <!-- Profile (upper right corner) -->
-                <div class="sign-in">
-                    <a href="phprofile.php?photographerID=<?php echo $photographerID; ?>"><i class="fa-regular fa-user"></i></a>
-                </div>
-                <div class="message">
-                    <!-- Logout link -->
-                    <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
-                </div>
-                <div class="logout">
-                    <!-- Logout link -->
-                    <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
-                </div>
-            </div>
-        </header>
 
-        <!-- Secondary navigation bar -->
-        <nav class="sub-navbar">
-            <ul>
-                <!-- Navigation links -->
-                <li><a href="phdashboard.php">Home</a></li>
-                <li><a href="work_create.php">Portfolio</a></li>
-                <li><a href="schedule.php">Schedule</a></li>
-                <li><a href="gallery.php">Gallery</a></li>
-                <li><a href="package.php">Package</a></li>
-                <li><a href="place.php">Place</a></li>
-                <li><a href="#">Reviews</a></li>
-            </ul>
-        </nav>
 
         <!-- Table to display transactions -->
         <table border="1">

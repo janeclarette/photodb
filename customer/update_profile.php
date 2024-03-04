@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     text-align: center;
     color: #F3EEEA;
     font-weight: bold;
-    font-size: 6rem;
+    font-size: 3rem;
     font-family: 'Satisfy';
 }
 
@@ -152,48 +152,68 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
 }
 
-.profile {
-    display: flex;
-    flex-wrap: wrap; /* Allow flex items to wrap */
-    margin-left: 50px;
-    margin-top: 20px;
-}
+.container {
+        max-width: 700px;
+        margin: 50px auto;
+        margin-bottom: 30px;
+        height: 800px; /* Allow height to adjust based on content */
+        background-color: #ffffff;
+        padding: 20px; /* Add padding for spacing */
+        border-radius: 10px; /* Add some border radius for a rounded look */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    }
 
-.profile-image {
-    margin-right: 20px;
-    flex: 1; /* Take 1/3 of the space */
-}
+    .profile {
+        display: flex;
+        flex-wrap: wrap; /* Allow flex items to wrap */
+        margin-left: 60px;
+        margin-top: 20px;
+    }
 
-.profile-image img {
-    width: 100%;
-    height: auto;
-}
+    .profile-image {
+        margin-top: 100px;
+        margin-bottom: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
 
-.profile-details {
-    flex: 2; /* Take 2/3 of the space */
-    display: flex;
-    flex-direction: column;
-}
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-.profile-details {
-    flex: 1; /* Take remaining space */
-    display: flex;
-    flex-direction: column;
-    margin-left: 30px;
-}
+    .profile-details {
+        flex: 1; /* Take remaining space */
+        display: flex;
+        flex-direction: column;
+        margin-left: 30px;
+    }
 
-.profile-details .detail {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 40px;
-    display: block;
-}
+    .profile-details .detail {
+        margin-bottom: 20px;
+        margin-top: 20px;
+        margin-left: 30px;
+        display: block;
+    }
 
-.profile-details .label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
-}
+    .profile-details .label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .profile-details .value {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        width: 200px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
 
 button[type="submit"] {
     padding: 8px 16px;
@@ -204,10 +224,63 @@ button[type="submit"] {
     cursor: pointer;
     font-size: 16px;
     margin-top: 20px; /* Adjust top margin as needed */
+    margin-left: 30px;
 }
 
 button[type="submit"]:hover {
     background-color: #375d83;
 }
 
+        /* Style for input fields */
+        input[type="text"],
+input[type="email"],
+input[type="file"],
+select,
+textarea {
+    padding: 8px; /* Add padding for spacing */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 5px; /* Add some border radius for a rounded look */
+    margin-bottom: 10px; /* Add margin at the bottom for spacing between fields */
+    width: 100%; /* Set the width to fill the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Style for select dropdown */
+select {
+    appearance: none; /* Remove default appearance */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M7 10l5 5 5-5H7z"/></svg>'); /* Add custom arrow icon */
+    background-repeat: no-repeat; /* Prevent default arrow icon from showing */
+    background-position: right 10px center; /* Position arrow icon */
+    background-size: 16px; /* Size of the arrow icon */
+}
+
+/* Style for textarea */
+textarea {
+    height: 100px; /* Set a fixed height for textarea */
+}
+
+/* Style for file input */
+input[type="file"] {
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Style for buttons */
+button[type="submit"],
+.edit-profile {
+    padding: 8px 16px; /* Add padding for button size */
+    background-color: #4F709C; /* Set background color */
+    color: #ffffff; /* Set text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add border radius for a rounded look */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s; /* Add smooth transition for background color */
+    text-decoration: none; /* Remove underline from anchor tags */
+    display: inline-block; /* Ensure buttons display inline */
+    text-align: center; /* Center text */
+}
+
+button[type="submit"]:hover,
+.edit-profile:hover {
+    background-color: #375d83; /* Change background color on hover */
+}
 </style>

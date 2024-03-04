@@ -52,12 +52,16 @@ include("../include/config.php"); // Include your database connection
             <li><a href="gallery.php">Gallery</a></li>
             <li><a href="package.php">Package</a></li>
             <li><a href="place.php">Place</a></li>
-            <li><a href="#">Reviews</a></li>
+            <li><a href="reviews.php">Reviews</a></li>
         </ul>
     </nav>
     
   <!-- Add your CSS stylesheets here -->
   <style>
+    
+    body {
+        background-color: #E0F4FF;
+    }
         /* Resetting default margin and padding */
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
