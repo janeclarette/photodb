@@ -30,8 +30,91 @@ $result = mysqli_query($conn, $query);
 // Check for query execution success
 if ($result) {
     ?>
-  
+    <html>
+    <head>
+        <title>Customer Page</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+        <!-- Add your CSS stylesheets here -->
+        <style>
+            /* Table styles */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
 
+            th, td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #4F709C;
+                color: white;
+            }
+
+            tr:hover {
+                background-color: #f2f2f2;
+            }
+
+            /* Button styles */
+            .payment-btn {
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                background-color: #4F709C;
+                color: white;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            .payment-btn:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
+
+            .confirm-btn, .decline-btn {
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                color: white;
+                font-size: 14px;
+            }
+
+            .confirm-btn {
+                background-color: #4CAF50;
+            }
+
+            .decline-btn {
+                background-color: #f44336;
+            }
+
+            .confirm-btn:hover, .decline-btn:hover {
+                opacity: 0.8;
+            }
+
+            .review-btn {
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                background-color: #4F709C;
+                color: white;
+                font-size: 14px;
+            }
+
+            .review-btn:hover {
+                opacity: 0.8;
+            }
+        </style>
+    </head>
+    <body>
     <table border="1">
         <tr>
             <th>Transaction ID</th>
@@ -68,7 +151,7 @@ if ($result) {
                         <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
                         <!-- Other form fields and buttons go here -->
                         <button type="submit" name="payment" class="payment-btn"
-                                <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+                            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
                             Payment
                         </button>
                     </form>
@@ -78,7 +161,7 @@ if ($result) {
                     <?php if ($row['StatusID'] == 6): ?>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <input type="hidden" name="TransactionID"
-                                   value="<?php echo $row['TransactionID']; ?>">
+                                value="<?php echo $row['TransactionID']; ?>">
                             <button type="submit" name="confirm" class="confirm-btn"
                                 <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
                                 Confirm
@@ -104,9 +187,9 @@ if ($result) {
                         ?>
                         <form action="review.php" method="post">
                             <input type="hidden" name="PhotographerID"
-                                   value="<?php echo $row['PhotographerID']; ?>">
+                                value="<?php echo $row['PhotographerID']; ?>">
                             <input type="hidden" name="TransactionID"
-                                   value="<?php echo $row['TransactionID']; ?>">
+                                value="<?php echo $row['TransactionID']; ?>">
                             <button type="submit" name="review" class="review-btn">
                                 Review
                             </button>
@@ -130,92 +213,34 @@ if ($result) {
     // Handle query error
     echo "Error: " . mysqli_error($conn);
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
+    $transactionID = $_POST['TransactionID'];
+
+    if (isset($_POST['confirm'])) {
+        // Update the status to confirmed (statusID = 2)
+        $updateQuery = "UPDATE Transactions SET StatusID = 2 WHERE TransactionID = $transactionID";
+        $updateResult = mysqli_query($conn, $updateQuery);
+
+        if ($updateResult) {
+            echo '<script>alert("Transaction confirmed!");</script>';
+            echo '<script> window.location.href = "appointment.php"; </script>';
+        } else {
+            echo '<script>alert("Error confirming the transaction.");</script>';
+        }
+    }
+
+    if (isset($_POST['decline'])) {
+        // Update the status to declined (statusID = 3)
+        $updateQuery = "UPDATE Transactions SET StatusID = 3 WHERE TransactionID = $transactionID";
+        $updateResult = mysqli_query($conn, $updateQuery);
+
+        if ($updateResult) {
+            echo '<script>alert("Transaction declined.");</script>';
+            echo '<script> window.location.href = "appointment.php"; </script>';
+        } else {
+            echo '<script>alert("Error declining the transaction.");</script>';
+        }
+    }
+}
 ?>
-
-
-
-  <title>Customer Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <body>
-    </body>
-    </html>
-
-    <!-- Add your CSS stylesheets here -->
-    <style>
-        /* Table styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #4F709C;
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f2f2f2;
-        }
-
-        /* Button styles */
-        .payment-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            background-color: #4F709C;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .payment-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .confirm-btn, .decline-btn {
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            color: white;
-            font-size: 14px;
-        }
-
-        .confirm-btn {
-            background-color: #4CAF50;
-        }
-
-        .decline-btn {
-            background-color: #f44336;
-        }
-
-        .confirm-btn:hover, .decline-btn:hover {
-            opacity: 0.8;
-        }
-
-        .review-btn {
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            background-color: #4F709C;
-            color: white;
-            font-size: 14px;
-        }
-
-        .review-btn:hover {
-            opacity: 0.8;
-        }
-    </style>

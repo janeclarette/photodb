@@ -1,69 +1,77 @@
 <?php
+// Include database connection and other necessary files
 include("../include/config.php");
 include("../admin/adminheader.php");
 
-
-// Monthly data and most booked photographer variables
+// Monthly data and total sales variables
 $monthlyData = array();
-$mostBookedPhotographer = array('name' => '', 'bookings' => 0);
 $monthlySales = array();
+$monthlyNetSales = array();
+$monthlyOverallSales = array();
 
 for ($month = 1; $month <= 12; $month++) {
     $startDate = "2024-$month-01";
     $endDate = date('Y-m-t', strtotime($startDate));
 
- // Monthly total transactions
-$query = "SELECT COUNT(*) AS totalTransactions
-FROM Transactions
-WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
-$result = mysqli_query($conn, $query);
-if ($result) {
-$row = mysqli_fetch_assoc($result);
-$monthlyData[$month] = $row['totalTransactions'];
-} else {
-// Handle query error
-echo "Error retrieving total transactions for month $month: " . mysqli_error($conn);
-}
+    // Monthly total transactions
+    $query = "SELECT COUNT(*) AS totalTransactions
+              FROM Transactions
+              WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $monthlyData[$month] = (int) $row['totalTransactions'];
+    } else {
+        // Handle query error
+        echo "Error retrieving total transactions for month $month: " . mysqli_error($conn);
+    }
 
-// Monthly total sales
-$querySales = "SELECT SUM(Price) AS totalSales
-     FROM Transactions T
-     JOIN Packages P ON T.PackageID = P.PackageID
-     WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate';";
-$resultSales = mysqli_query($conn, $querySales);
-if ($resultSales) {
-$rowSales = mysqli_fetch_assoc($resultSales);
-$monthlySales[$month] = $rowSales['totalSales'];
-} else {
-// Handle query error
-echo "Error retrieving total sales for month $month: " . mysqli_error($conn);
-}
+    // Monthly total sales
+    $querySales = "SELECT COALESCE(SUM(Price), 0) AS totalSales
+                   FROM Transactions T
+                   JOIN Packages P ON T.PackageID = P.PackageID
+                   WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate';";
+    $resultSales = mysqli_query($conn, $querySales);
+    if ($resultSales) {
+        $rowSales = mysqli_fetch_assoc($resultSales);
+        $monthlySales[$month] = floatval($rowSales['totalSales']);
+    } else {
+        // Handle query error
+        echo "Error retrieving total sales for month $month: " . mysqli_error($conn);
+    }
 
-// Most booked photographer
-$queryPhotographer = "SELECT P.Name AS PhotographerName, COUNT(*) AS bookings
-            FROM Transactions T
-            JOIN Photographers P ON T.PhotographerID = P.PhotographerID
-            WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
-            GROUP BY P.PhotographerID
-            ORDER BY bookings DESC
-            LIMIT 1;";
-$resultPhotographer = mysqli_query($conn, $queryPhotographer);
-if ($resultPhotographer) {
-$rowPhotographer = mysqli_fetch_assoc($resultPhotographer);
+    // Monthly total admin fees (Net Sales)
+    $queryNetSales = "SELECT COALESCE(SUM(AdminFee), 0) AS totalAdminFees
+                     FROM Transactions
+                     WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
+    $resultNetSales = mysqli_query($conn, $queryNetSales);
+    if ($resultNetSales) {
+        $rowNetSales = mysqli_fetch_assoc($resultNetSales);
+        $monthlyNetSales[$month] = floatval($rowNetSales['totalAdminFees']);
+    } else {
+        // Handle query error
+        echo "Error retrieving total admin fees for month $month: " . mysqli_error($conn);
+    }
 
-if ($rowPhotographer && $rowPhotographer['bookings'] > $mostBookedPhotographer['bookings']) {
-$mostBookedPhotographer['name'] = $rowPhotographer['PhotographerName'];
-$mostBookedPhotographer['bookings'] = $rowPhotographer['bookings'];
-}
-} else {
-// Handle query error
-echo "Error retrieving most booked photographer for month $month: " . mysqli_error($conn);
-}
+    // Monthly total photographer earnings (Overall Sales)
+    $queryOverallSales = "SELECT COALESCE(SUM(PhotographerEarning), 0) AS totalPhotographerEarnings
+                         FROM Transactions
+                         WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
+    $resultOverallSales = mysqli_query($conn, $queryOverallSales);
+    if ($resultOverallSales) {
+        $rowOverallSales = mysqli_fetch_assoc($resultOverallSales);
+        $monthlyOverallSales[$month] = floatval($rowOverallSales['totalPhotographerEarnings']);
+    } else {
+        // Handle query error
+        echo "Error retrieving total photographer earnings for month $month: " . mysqli_error($conn);
+    }
 }
 
 // Convert data to JSON for use in JavaScript
 $monthlyDataJSON = json_encode(array_values($monthlyData));
 $monthlySalesJSON = json_encode(array_values($monthlySales));
+$monthlyNetSalesJSON = json_encode(array_values($monthlyNetSales));
+$monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
 ?>
 
 <!DOCTYPE html>
@@ -77,75 +85,89 @@ $monthlySalesJSON = json_encode(array_values($monthlySales));
 </head>
 <body>
     <div style="width: 80%; margin: auto;">
-        <!-- Dropdown menu for selecting data type -->
-        <select id="dataType" onchange="updateChart()">
-            <option value="totalTransactions">Total Transactions</option>
-            <option value="mostBookedPhotographer">Most Booked Photographer</option>
-            <option value="monthlySales">Monthly Sales</option>
-        </select>
+        <div style="margin-top: 10px;">
+            <label for="dataType">Select Data Type:</label>
+            <select id="dataType" onchange="updateChart()">
+                <option value="totalTransactions">Total Transactions</option>
+                <option value="monthlySales">Total Sales</option>
+                <option value="netSales">Admin Profit</option>
+                <option value="overallSales">Photographer Revenue</option>
+            </select>
+        </div>
         <canvas id="salesChart"></canvas>
-        <!-- Add the following HTML code within the body tag -->
-        <div>
-            <h2 id="chartLabel">Total Transactions</h2>
-            <h2>Most Booked Photographer: <?php echo $mostBookedPhotographer ['name']; ?></h2>
-            <p id="chartValue">Total Transactions: <?php echo $mostBookedPhotographer['bookings']; ?></p>
+        <div id="chartInfo" style="display: none;">
+            <h2 id="chartLabel"></h2>
+            <p id="chartValue"></p>
         </div>
     </div>
 
     <script>
-        // Parse the JSON data
-        var monthlyData = <?php echo $monthlyDataJSON; ?>;
-        var mostBookedPhotographerData = [<?php echo $mostBookedPhotographer['bookings']; ?>];
-        var monthlySalesData = <?php echo $monthlySalesJSON; ?>;
+    var monthlyData = <?php echo $monthlyDataJSON; ?>;
+    var monthlySalesData = <?php echo $monthlySalesJSON; ?>;
+    var monthlyNetSalesData = <?php echo $monthlyNetSalesJSON; ?>;
+    var monthlyOverallSalesData = <?php echo $monthlyOverallSalesJSON; ?>;
 
-        // Create a bar chart using Chart.js
-        var ctx = document.getElementById('salesChart').getContext('2d');
-        var salesChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                datasets: [{
-                    label: 'Total Transactions',
-                    data: monthlyData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+    var ctx = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [{
+                label: 'Total Transactions',
+                data: monthlyData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-
-        // Update chart data based on selected option
-        function updateChart() {
-            var dataType = document.getElementById('dataType').value;
-            var chartLabelElement = document.getElementById('chartLabel');
-            var chartValueElement = document.getElementById('chartValue');
-
-            if (dataType === 'totalTransactions') {
-                salesChart.data.datasets[0].label = 'Total Transactions';
-                salesChart.data.datasets[0].data = monthlyData;
-                chartLabelElement.innerHTML = 'Total Transactions';
-                chartValueElement.innerHTML = 'Total Transactions: ' + monthlyData.reduce((a, b) => a + b, 0);
-            } else if (dataType === 'mostBookedPhotographer') {
-                salesChart.data.datasets[0].label = 'Most Booked Photographer';
-                salesChart.data.datasets[0].data = mostBookedPhotographerData;
-                chartLabelElement.innerHTML = 'Most Booked Photographer';
-                chartValueElement.innerHTML = 'Total Bookings: ' + mostBookedPhotographerData[0];
-            } else if (dataType === 'monthlySales') {
-                salesChart.data.datasets[0].label = 'Monthly Sales';
-                salesChart.data.datasets[0].data = monthlySalesData;
-                chartLabelElement.innerHTML = 'Monthly Sales';
-                chartValueElement.innerHTML = 'Total Sales: $' + monthlySalesData.reduce((a, b) => a + b, 0);
-            }
-
-            salesChart.update();
         }
+    });
+
+    function updateChart() {
+        var dataType = document.getElementById('dataType').value;
+        var chartLabelElement = document.getElementById('chartLabel');
+        var chartValueElement = document.getElementById('chartValue');
+        var chartInfoElement = document.getElementById('chartInfo');
+
+        if (dataType === 'totalTransactions') {
+            salesChart.data.datasets[0].label = 'Total Transactions';
+            salesChart.data.datasets[0].data = monthlyData;
+            chartLabelElement.innerHTML = 'Total Transactions';
+
+            var totalTransactions = monthlyData.reduce((a, b) => a + b, 0);
+            chartValueElement.innerHTML = 'Total Transactions: ' + totalTransactions;
+        } else if (dataType === 'monthlySales') {
+            salesChart.data.datasets[0].label = 'Total Sales';
+            salesChart.data.datasets[0].data = monthlySalesData;
+            chartLabelElement.innerHTML = 'Sales';
+
+            var totalSales = parseFloat(monthlySalesData.reduce((a, b) => a + b, 0)).toFixed(2);
+            chartValueElement.innerHTML = 'Total Sales: ₱' + totalSales;
+        } else if (dataType === 'netSales') {
+            salesChart.data.datasets[0].label = 'Admin Profit';
+            salesChart.data.datasets[0].data = monthlyNetSalesData;
+            chartLabelElement.innerHTML = 'Admin Profit';
+
+            var totalNetSales = parseFloat(monthlyNetSalesData.reduce((a, b) => a + b, 0)).toFixed(2);
+            chartValueElement.innerHTML = 'Profit: ₱' + totalNetSales;
+        } else if (dataType === 'overallSales') {
+            salesChart.data.datasets[0].label = 'Photographer Revenue';
+            salesChart.data.datasets[0].data = monthlyOverallSalesData;
+            chartLabelElement.innerHTML = 'Photographer Revenue';
+
+            var totalOverallSales = parseFloat(monthlyOverallSalesData.reduce((a, b) => a + b, 0)).toFixed(2);
+            chartValueElement.innerHTML = 'Revenue: ₱' + totalOverallSales;
+        }
+
+        salesChart.update();
+        chartInfoElement.style.display = 'block';
+    }
     </script>
 </body>
 </html>

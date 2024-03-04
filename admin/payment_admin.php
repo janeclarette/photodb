@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
     // Retrieve transaction ID from the form submission
     $transactionID = isset($_POST['TransactionID']) ? $_POST['TransactionID'] : '';
 
-    
     // Check if 'img_transac' key exists in the $_FILES array
     if (isset($_FILES['img_admin'])) {
         // Upload image file
@@ -30,11 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
-        
-    echo '<script>
-    alert("Successful Transaction");
-    window.location.href = "transaction.php";
-  </script>';
+        echo '<script>
+            alert("Successful Transaction");
+            window.location.href = "transaction.php";
+        </script>';
     }
 
     $sql = "SELECT 
@@ -49,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
         CASE
             WHEN T.StatusID = 2 THEN P.Gcash_number
             WHEN T.StatusID = 3 THEN C.Gcash_number
-        END AS GcashNumber
+        END AS GcashNumber,
+        ROUND(Pa.Price * 0.10, 2) AS CalculatedAdminFee  -- Calculate Admin Fee as 10% of the Package Price with 2 decimal places
     FROM Transactions T
     INNER JOIN Customers C ON T.CustomerID = C.CustomerID
     INNER JOIN Photographers P ON T.PhotographerID = P.PhotographerID
@@ -70,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
             $photographerName = $row['PhotographerName'];
             $packageName = $row['PackageName'];
             $packagePrice = $row['PackagePrice'];
-            $adminFee = $row['AdminFee'];
-            $photographerEarning = $row['PhotographerEarning'];
+            $adminFee = number_format($row['CalculatedAdminFee'], 2);  // Use the calculated Admin Fee with 2 decimal places
+            $photographerEarning = number_format($packagePrice - $row['CalculatedAdminFee'], 2);  // Calculate Photographer Earning with 2 decimal places
             $gcashNumber = $row['GcashNumber'];
             $statusName = $row['StatusName'];
 
@@ -87,6 +86,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
 
         // Close the result set
         mysqli_stmt_close($stmt);
+
+        // Update AdminFee and PhotographerEarning columns in the transactions table
+        $updateTransactionQuery = "UPDATE transactions SET AdminFee = ?, PhotographerEarning = ? WHERE TransactionID = ?";
+        $stmtUpdate = mysqli_prepare($conn, $updateTransactionQuery);
+        mysqli_stmt_bind_param($stmtUpdate, "ddi", $adminFee, $photographerEarning, $transactionID);
+        mysqli_stmt_execute($stmtUpdate);
+        mysqli_stmt_close($stmtUpdate);
     } else {
         // Query error
         echo "Error: " . mysqli_error($conn);
@@ -167,6 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
                         <label for='gcash'>Gcash Number:</label><br>
                         <input type='text' id='gcash' name='gcash' class='form-control' value='{$gcashNumber}' readonly>
                     </div>";
+            
 
             echo "<div class='form-row'>
                     <div class='form-group'>
