@@ -20,8 +20,8 @@ if (isset($_GET['selectedDate'])) {
     $timeSlots = [];
 
     while ($row = mysqli_fetch_assoc($timeResult)) {
-        $startTime = date("h:i A", strtotime($row['start_time']));
-        $endTime = date("h:i A", strtotime($row['end_time']));
+        $startTime = date("h:i A", strtotime($row['start_time'])); // Format to 12-hour
+        $endTime = date("h:i A", strtotime($row['end_time'])); // Format to 12-hour
         $timeSlots[] = "{$startTime} - {$endTime}";
     }
 
@@ -32,5 +32,3 @@ if (isset($_GET['selectedDate'])) {
 
 mysqli_close($conn);
 ?>
-
-<!-- eto pa -->

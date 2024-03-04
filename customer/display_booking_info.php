@@ -12,7 +12,7 @@ include("../include/config.php");
 $customerID = $loggedInCustomerID;
 $packageID = isset($_GET['packageID']) ? $_GET['packageID'] : null;
 $photographerID = isset($_GET['photographerID']) ? $_GET['photographerID'] : null;
-
+    
 $customerQuery = "SELECT name FROM customers WHERE CustomerID = $customerID";
 $customerResult = mysqli_query($conn, $customerQuery);
 $customerName = ($row = mysqli_fetch_assoc($customerResult)) ? $row['name'] : '';
@@ -270,17 +270,12 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
         }
     });
 });
-
-// Function to format time to 12-hour format
-function formatMilitaryTime(time) {
+function format12HourTime(time) {
     const [hours, minutes] = time.split(':');
-    const formattedHours = parseInt(hours) % 12 || 12; // Convert to 12-hour format
-    const period = parseInt(hours) >= 12 ? 'PM' : 'AM';
+    const formattedHours = (hours % 12 || 12).toString(); // Convert 0 to 12 for midnight
+    const period = hours < 12 ? 'AM' : 'PM';
     return `${formattedHours}:${minutes} ${period}`;
 }
-
-
-
 </script>
 
 

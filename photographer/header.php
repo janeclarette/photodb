@@ -33,7 +33,7 @@ include("../include/config.php"); // Include your database connection
     </div>
     <div class="logout">
         <!-- Logout link -->
-        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
+        <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
     </div>
 
 </div>
