@@ -35,7 +35,7 @@ $packagesResult = $conn->query($packagesSql);
             <h2>Available Packages</h2>
 
             <div class="container">
-                <h2>Service Type Dropdown</h2>
+
                     <label for="service-type">Select Service Type:</label>
                     <select id="service-type" name="service-type" class="service-type-dropdown" onchange="filterPackages()">
                         <option value="" enable selected>Select Service Type</option>
@@ -53,6 +53,7 @@ $packagesResult = $conn->query($packagesSql);
          
          
 
+                    <br><br>
                 <p>Secure your moments, schedule your experience</p>
                 <div class="service-container">
                     <?php
@@ -108,200 +109,10 @@ $packagesResult = $conn->query($packagesSql);
 
 
 <style>
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
-        .navbar {
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            margin-left: 40px;
-            height: 80px;
-            width: auto; 
-        }
-
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .navbar .profile a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .sub-navbar {
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
-
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
-
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .sign-in,
-        .logout {
-            margin-right: 40px;
-        }
-
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; 
-        }
-
-        .message{
-            margin-right: 10px; 
-        }
-
-        .welcome {
-            background-color: #f0f0f0;
-            padding: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-            background-image: url('../uploads/cover.jpg'); 
-            background-size: cover;
-            background-position: center bottom; 
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .welcome h2 {
-            text-align: center;
-            font-size: 6rem;
-            font-family: 'Satisfy';
-            color: #FEFBF6;
-        }
-
-        .services {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .services h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h3 {
-            text-align: center;
-            font-size: 2rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .services h6 {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-            margin: 20px;
-        }
-        .services p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
-        .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .service {
-            width: 200px; 
-            margin: 40px; 
-            text-align: center;
-        }
-
-        .service img {
-            width: 150px; 
-            height: auto;
-            margin: 20px;
-        }
-
-
-        .featured-events {
-            background-color: #F5EFE7;
-            padding: 50px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .featured-events h2 {
-            text-align: center;
-            font-size: 3rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        .featured-events p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-        }
+body {
+        background-color: #E0F4FF;
+    }
+      
 
 
         .package-container {
