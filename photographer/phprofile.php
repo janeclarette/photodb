@@ -78,7 +78,7 @@ if ($result->num_rows > 0) {
         text-align: center;
         color: #F3EEEA;
         font-weight: bold;
-        font-size: 6rem;
+        font-size: 3rem;
         font-family: 'Satisfy';
     }
 
@@ -94,7 +94,7 @@ if ($result->num_rows > 0) {
         max-width: 700px;
         margin: 50px auto;
         margin-bottom: 30px;
-        height: 650px; /* Allow height to adjust based on content */
+        height: 770px; /* Allow height to adjust based on content */
         background-color: #ffffff;
         padding: 20px; /* Add padding for spacing */
         border-radius: 10px; /* Add some border radius for a rounded look */
@@ -114,7 +114,7 @@ if ($result->num_rows > 0) {
         height: 200px;
         border-radius: 50%;
         overflow: hidden;
-        margin-right: 20px;
+        margin-right: 10px;
     }
 
     .profile-image img {
@@ -133,7 +133,7 @@ if ($result->num_rows > 0) {
     .profile-details .detail {
         margin-bottom: 20px;
         margin-top: 20px;
-        margin-left: 50px;
+        margin-left: 30px;
         display: block;
     }
 
@@ -148,7 +148,7 @@ if ($result->num_rows > 0) {
         border: 1px solid #ccc;
         border-radius: 5px;
         background-color: #f9f9f9;
-        width: 200px;
+        width: 250px;
         display: block;
         margin-bottom: 10px;
     }
@@ -167,5 +167,6 @@ if ($result->num_rows > 0) {
             background-color: #375d83;
         }
 
+        
     </style>
 

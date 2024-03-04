@@ -33,68 +33,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <h2>Create a New Place</h2>
     <div class="container">
-        <div class="form-container">
-            <form method="post" action="">
-                <label for="placeName">Place Name:</label>
-                <input type="text" id="placeName" name="placeName" required>
+        <div class="left-column">
+            <div class="form-container">
+                <form method="post" action="">
+                    <label for="placeName">Place Name:</label>
+                    <input type="text" id="placeName" name="placeName" required>
 
-                <label for="address">Address:</label>
-                <textarea id="address" name="address" required></textarea>
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" required></textarea>
 
-                <label for="city">City:</label>
-                <select id="city" name="city" required>
-                    <option value="" disabled selected>Select your City</option>
-                    <?php
-                    $cityQuery = "SELECT CityID, CityName FROM Cities";
-                    $result = $conn->query($cityQuery);
+                    <label for="city">City:</label>
+                    <select id="city" name="city" required>
+                        <option value="" disabled selected>Select your City</option>
+                        <?php
+                        $cityQuery = "SELECT CityID, CityName FROM Cities";
+                        $result = $conn->query($cityQuery);
 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<option value="' . $row["CityID"] . '">' . $row["CityName"] . '</option>';
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<option value="' . $row["CityID"] . '">' . $row["CityName"] . '</option>';
+                            }
                         }
+                        ?>
+                    </select>
+
+                    <button type="submit">Create Place</button>
+                </form>
+            </div>
+        </div>
+        <div class="right-column">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Place Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $placesQuery = "SELECT PlaceID, PlaceName, Address, CityName FROM Places INNER JOIN Cities ON Places.CityID = Cities.CityID WHERE PhotographerID = '$photographerID'";
+                    $placesResult = $conn->query($placesQuery);
+
+                    if ($placesResult->num_rows > 0) {
+                        while ($placeRow = $placesResult->fetch_assoc()) {
+                            echo '<tr>';
+                            echo '<td>' . $placeRow["PlaceName"] . '</td>';
+                            echo '<td>' . $placeRow["Address"] . '</td>';
+                            echo '<td>' . $placeRow["CityName"] . '</td>';
+                            echo '<td>';
+                            echo '<a href="updateplace.php?id=' . $placeRow["PlaceID"] . '"><button type="button">Update</button></a>';
+                            echo '<a href="deleteplace.php?id=' . $placeRow["PlaceID"] . '"><button type="button">Delete</button></a>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="4">No places added yet</td></tr>';
                     }
                     ?>
-                </select>
-
-                <button type="submit">Create Place</button>
-            </form>
+                </tbody>
+            </table>
         </div>
-        </div>
-        <table>
-    <thead>
-        <tr>
-            <th>Place Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $placesQuery = "SELECT PlaceID, PlaceName, Address, CityName FROM Places INNER JOIN Cities ON Places.CityID = Cities.CityID WHERE PhotographerID = '$photographerID'";
-        $placesResult = $conn->query($placesQuery);
-
-        if ($placesResult->num_rows > 0) {
-            while ($placeRow = $placesResult->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' . $placeRow["PlaceName"] . '</td>';
-                echo '<td>' . $placeRow["Address"] . '</td>';
-                echo '<td>' . $placeRow["CityName"] . '</td>';
-                echo '<td>';
-                echo '<a href="updateplace.php?id=' . $placeRow["PlaceID"] . '">Update</a> | ';
-                echo '<a href="deleteplace.php?id=' . $placeRow["PlaceID"] . '">Delete</a>';
-                echo '</td>';
-                echo '</tr>';
-            }
-        } else {
-            echo '<tr><td colspan="4">No places added yet</td></tr>';
-        }
-        ?>
-    </tbody>
-</table>
-
+    </div>
 </body>
 </html>
+
 
 
 <style>
@@ -111,27 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-family: 'Satisfy';
     }
 
-    .container {
-        max-width: 60%;
-        margin-top: 20px;
-        padding: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
 
-        border-radius: 20px;
-        margin: 0 auto; /* Centering the container */
-    }
-
-    .form-container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 700px;
-        margin-bottom: 20px;
-        
-    }
 
     label {
         display: block;
@@ -147,26 +131,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         box-sizing: border-box;
     }
 
-    table {
-        margin-left:150px;
-        margin-top:40px;
-        width: 80%;
-        border-collapse: collapse;
-        background-color: #fff;
-    }
+    .container {
+    display: flex;
+    justify-content: space-between;
+        }
 
-    th, td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
+        .left-column,
+        .right-column {
+            width: 48%; /* Adjust as needed */
+        }
 
-    th {
-        background-color: #4F709C;
-        color: #fff;
-    }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    tbody tr:hover {
-        background-color: #f5f5f5;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4F709C;
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        button[type="button"] {
+            padding: 8px 16px;
+            background-color: #4F709C;
+            color: #ffffff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-left: 10px;
+        }
+
+        button[type="button"]:hover {
+            background-color: #375d83;
+        }
+        
 </style>
