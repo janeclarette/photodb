@@ -173,9 +173,11 @@ if ($result) {
             border-radius: 8px;
             margin-bottom: 20px;
             width: 1000px;
+           
         }
 
         .rating-summary h2 {
+            font-family: 'Satisfy';
             margin-top: 0;
         }
 
@@ -197,81 +199,72 @@ if ($result) {
 
         /* Style each bar based on its star rating */
         .bar:nth-child(1) {
-            background-color: #FFD700; /* Gold color for 5 stars */
+            background-color: #2D4356; /* Gold color for 5 stars */
         }
 
         .bar:nth-child(2) {
-            background-color: #FFA500; /* Orange color for 4 stars */
+            background-color: #435B66; /* Orange color for 4 stars */
         }
 
         .bar:nth-child(3) {
-            background-color: #FF6347; /* Tomato color for 3 stars */
+            background-color: #A76F6F; /* Tomato color for 3 stars */
         }
 
         .bar:nth-child(4) {
-            background-color: #4169E1; /* Royal Blue color for 2 stars */
+            background-color: #EAB2A0; /* Royal Blue color for 2 stars */
         }
 
         .bar:nth-child(5) {
-            background-color: #7FFF00; /* Chartreuse color for 1 star */
+            background-color: #D8C4B6; /* Chartreuse color for 1 star */
         }
 
 
-        .photographer-review {
-            width: 45%;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #ccc;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex; /* Added */
-            justify-content: center; /* Added */
-            align-items: center; /* Added */
-            flex-direction: column; /* Added */
-            text-align: center; /* Added */
-        }
+        .container {
+                max-width: 100%;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
 
-        .photographer-review:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
+            .photographer-review {
+                display: flex;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #ccc;
+            }
 
-        .photographer-image {
-            width: 40%;
-            margin-right: 5%;
-            padding: 20px;
-        }
+            .photographer-image {
+                flex: 0 0 100px;
+                margin-right: 20px;
+            }
 
-        .photographer-image img {
-            width: 100%;
-            border-radius: 50%;
-            display: block; /* Added */
-            margin: 0 auto; /* Added */
-        }
+            .photographer-image img {
+                width: 100%;
+                border-radius: 50%;
+            }
 
-        .review-details {
-            width: 100%; /* Changed from 55% to 100% */
-            padding: 20px;
-        }
+            .review-details {
+                flex: 1;
+            }
 
-        .photographer-review h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #333;
-        }
+            .photographer-review h3 {
+                margin-top: 0;
+                margin-bottom: 10px;
+                color: #333;
+            }
 
-        .rating {
-            margin-bottom: 10px;
-            color: #ffac00; /* Star color */
-        }
+            .rating {
+                margin-bottom: 10px;
+                color: #ffac00; /* Star color */
+            }
 
-        .comments p {
-            margin: 0;
-        }
+            .comments p {
+                margin: 0;
+            }
 
-        .fas.fa-star {
-            color: #ffac00; /* Filled star color */
-        }
+            .fas.fa-star {
+                color: #ffac00; /* Filled star color */
+            }
     </style>
