@@ -36,7 +36,7 @@ $packagesResult = $conn->query($packagesSql);
 
             <div class="container">
 
-                    <label for="service-type">Select Service Type:</label>
+                    <label for="service-type" >Select Service Type:</label>
                     <select id="service-type" name="service-type" class="service-type-dropdown" onchange="filterPackages()">
                         <option value="" enable selected>Select Service Type</option>
 

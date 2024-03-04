@@ -142,14 +142,14 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
             <div class="form-group">
                 <label for="packageID">Package Name:</label><br>
                 <input type="text" name="packageID" value="<?php echo $packageID; ?>" style="display: none;">
-                <input type="text" value="<?php echo $packageName; ?>" readonly>
+                <input type="text"  class="form-control" value="<?php echo $packageName; ?>" readonly>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="photographerID">Photographer Name:</label><br>
                 <input type="text" name="photographerID" value="<?php echo $photographerID; ?>" style="display: none;">
-                <input type="text" value="<?php echo $photographerName; ?>" readonly>
+                <input type="text"  class="form-control" value="<?php echo $photographerName; ?>" readonly>
             </div>
         </div>
         <div class="form-row">
