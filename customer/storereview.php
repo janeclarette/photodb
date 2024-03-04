@@ -1,35 +1,30 @@
 <?php
-// Include necessary files and establish a database connection
+session_start(); // Start the session
 include("../include/config.php");
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['review'])) {
-    // Retrieve data from the form
-    $transactionID = $_POST['TransactionID'];
-    $photographerID = $_POST['PhotographerID'];
-    $rating = $_POST['rating'];
-    $comments = $_POST['comments'];
+// Retrieve the customer ID from the session
+$customerID = $_SESSION['CustomerID'];
 
-    // Insert the review into the database
-    $insertQuery = "INSERT INTO review (TransactionID, PhotographerID, Rate, Comment)
-                    VALUES ('$transactionID', '$photographerID', '$rating', '$comments')";
-    $insertResult = mysqli_query($conn, $insertQuery);
+// Retrieve other form data
+$transactionID = $_POST['TransactionID'];
+$photographerID = $_POST['PhotographerID'];
+$rating = $_POST['rating'];
+$comments = $_POST['comments'];
+$display = isset($_POST['Name']) ? 1 : 0; // Check if the checkbox is checked
 
-    if ($insertResult) {
-        // Review successfully inserted
-        echo "Review submitted successfully!";
-        // Redirect to a confirmation page or any other page as needed
-        
-        header("Location: appointment.php?review_success=true");
-        exit();
-        // exit();
-    } else {
-        // Handle insertion error
-        echo "Error: " . mysqli_error($conn);
-    }
-} else {
-    // If the form is not submitted, redirect to the review page or handle accordingly
-    header("Location: review.php");
+// Insert the review into the database
+$insertQuery = "INSERT INTO review (CustomerID, PhotographerID, TransactionID, Rate, Comment, DisplayCustomerName)
+                VALUES ('$customerID', '$photographerID', '$transactionID', '$rating', '$comments', '$display')";
+$insertResult = mysqli_query($conn, $insertQuery);
+
+if ($insertResult) {
+    // Review successfully inserted
+    echo "Review submitted successfully!";
+    // Redirect to a confirmation page or any other page as needed
+    header("Location: appointment.php?review_success=true");
     exit();
+} else {
+    // Handle insertion error
+    echo "Error: " . mysqli_error($conn);
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 // Include necessary files and establish a database connection
 include("../include/config.php");
-include("../customer/header.php");
+include("../admin/adminheader.php");
 
 // Fetch photographer reviews from the database along with transaction date for reviewed ones
 $query = "SELECT p.Name AS PhotographerName, 
@@ -9,8 +9,78 @@ $query = "SELECT p.Name AS PhotographerName,
                   r.Rate AS Rating, 
                   r.Comment AS Comment,
                   t.TransactionDate AS TransactionDate,
-                  c.Name,
-                  r.DisplayCustomerName
+                  IF(r.CustomerID IS NOT NULL, c.Name, SHA1(r.CustomerID)) AS CustomerName,
+                  r.CustomerID
+          FROM photographers p
+          LEFT JOIN review r ON p.PhotographerID = r.PhotographerID
+          LEFT JOIN transactions t ON r.TransactionID = t.TransactionID
+          LEFT JOIN customers c ON r.CustomerID = c.CustomerID
+          WHERE r.Rate IS NOT NULL AND r.Comment IS NOT NULL";
+
+$result = mysqli_query($conn, $query);
+
+// Initialize variables for rating summary
+$totalRatings = 0;
+$totalStars = 0;
+$ratingsDistribution = array_fill(0, 5, 0); // Initialize array to store counts for each star rating
+
+// Check for query execution success
+if ($result) {
+    // Calculate rating summary
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rating = $row['Rating'];
+        $totalStars += $rating;
+        $totalRatings++;
+        $ratingsDistribution[$rating - 1]++; // Increment count for respective star rating
+    }
+    
+    // Calculate overall rating
+    $overallRating = $totalRatings > 0 ? round($totalStars / $totalRatings, 1) : 0;
+
+    ?>
+
+    <body>
+    <div class="container">
+        <!-- Rating summary -->
+        <div class="rating-summary">
+            <h2>Rating Summary</h2>
+            <p>Overall Rating: <?php echo $overallRating; ?></p>
+            <!-- Bar chart for ratings distribution -->
+            <div class="ratings-chart">
+                <?php
+                for ($i = 5; $i >= 1; $i--) {
+                    $count = $ratingsDistribution[$i - 1];
+                    echo "<div class='bar' style='width: " . ($count / $totalRatings * 100) . "%;'>$i star: $count</div>";
+                }
+                ?>
+            </div>
+        </div>
+        <!-- Photographer reviews -->
+        <?php
+        mysqli_data_seek($result, 0); // Reset result pointer to start from the beginning
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Display individual reviews
+            // Code for displaying reviews (same as before)
+        }
+        ?>
+    </div>
+    </body>
+    </html>
+    <?php
+} else {
+    // Handle query error
+    echo "Error: " . mysqli_error($conn);
+}
+
+
+// Fetch photographer reviews from the database along with transaction date for reviewed ones
+$query = "SELECT p.Name AS PhotographerName, 
+                  p.img_photographer AS PhotographerImage, 
+                  r.Rate AS Rating, 
+                  r.Comment AS Comment,
+                  t.TransactionDate AS TransactionDate,
+                  IF(r.CustomerID IS NOT NULL, c.Name, SHA1(r.CustomerID)) AS CustomerName,
+                  r.CustomerID
           FROM photographers p
           LEFT JOIN review r ON p.PhotographerID = r.PhotographerID
           LEFT JOIN transactions t ON r.TransactionID = t.TransactionID
@@ -46,16 +116,7 @@ if ($result) {
             <div class="review-details">
                 <h3><?php echo $row['PhotographerName']; ?></h3>
                 <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
-                <p>
-                    <?php 
-                    // Display customer name based on checkbox state
-                    if ($row['DisplayCustomerName'] == 1) {
-                        echo $row['Name'];
-                    } else {
-                        echo 'Anonymous';
-                    }
-                    ?>
-                </p>
+                <p>Customer Name: <?php echo isset($_POST['Name']) && $_POST['Name'] == 1 ? $row['CustomerName'] : 'Anonymous'; ?></p>
 
                 <div class="rating">
                     <?php
@@ -93,16 +154,68 @@ if ($result) {
 
 
 
-
         <style>
-
+                body {
+        background-color: #E0F4FF;
+    }
         .container {
-            max-width: 1000px;
+            width: 1000px;
             margin: 20px auto;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
+
+
+        .rating-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 1000px;
+        }
+
+        .rating-summary h2 {
+            margin-top: 0;
+        }
+
+        .rating-summary p {
+            margin: 5px 0;
+        }
+
+        .ratings-chart {
+            margin-top: 20px;
+        }
+
+        .bar {
+            background-color: #4F709C;
+            color: #fff;
+            padding: 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        /* Style each bar based on its star rating */
+        .bar:nth-child(1) {
+            background-color: #FFD700; /* Gold color for 5 stars */
+        }
+
+        .bar:nth-child(2) {
+            background-color: #FFA500; /* Orange color for 4 stars */
+        }
+
+        .bar:nth-child(3) {
+            background-color: #FF6347; /* Tomato color for 3 stars */
+        }
+
+        .bar:nth-child(4) {
+            background-color: #4169E1; /* Royal Blue color for 2 stars */
+        }
+
+        .bar:nth-child(5) {
+            background-color: #7FFF00; /* Chartreuse color for 1 star */
+        }
+
 
         .photographer-review {
             width: 45%;
