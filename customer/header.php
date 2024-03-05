@@ -11,20 +11,39 @@ include("../include/config.php"); // Include your database connection
     <body>
     <!-- Main header with navigation bar -->
     <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <!-- Profile (upper right corner) -->
-    <div class="sign-in">
-                <a href="/photodb/customer/profile.php"> <i class="fa-regular fa-user"></i></a>
+    <div class="logo">
+        <!-- Logo (upper left corner) -->
+        <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
     </div>
+    <div class="search">
+        <!-- Search (center) -->
+        <input type="text" placeholder="Search">
+        <button type="submit">Search</button>
+    </div>
+    <div class="profile">
+    <!-- Profile (upper right corner) -->
+    <?php if (isset($_SESSION['CustomerID'])): ?>
+        <?php
+        $customerId = $_SESSION['CustomerID'];
+        $sql = "SELECT * FROM customers WHERE CustomerID = '$customerId'";
+        $result = mysqli_query($conn, $sql);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $customerInfo = mysqli_fetch_assoc($result);
+            ?>
+            <div class="user-info">
+                <?php if (!empty($customerInfo['img_customer'])): ?>
+                    <!-- Link the image to the profile.php page -->
+                    <a href="/photodb/customer/profile.php">
+                        <img src="<?php echo $customerInfo['img_customer']; ?>" alt="Profile Image">
+                    </a>
+                <?php endif; ?>
+                <span class="username"><?php echo $customerInfo['Name']; ?></span>
+            </div>
+        <?php } ?>
+    <?php endif; ?>
+
+
+
     <div class="message">
         <!-- Logout link -->
         <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
@@ -131,6 +150,24 @@ include("../include/config.php"); // Include your database connection
         .navbar .profile a {
             color: #fff;
             text-decoration: none;
+            margin-right: 5px;
+        }
+        .navbar .profile .user-info {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .navbar .profile .user-info img {
+            width: 30px; /* Adjust image size as needed */
+            height: 30px; /* Adjust image size as needed */
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .navbar .profile .user-info .username {
+            color: #fff;
+            font-size: 14px;
         }
 
         .sub-navbar {

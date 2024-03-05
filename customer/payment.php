@@ -1,4 +1,5 @@
 <?php
+
 include("../include/config.php");
 
 // Initialize variables to store values

@@ -79,8 +79,8 @@ $query = "SELECT p.Name AS PhotographerName,
                   r.Rate AS Rating, 
                   r.Comment AS Comment,
                   t.TransactionDate AS TransactionDate,
-                  IF(r.CustomerID IS NOT NULL, c.Name, SHA1(r.CustomerID)) AS CustomerName,
-                  r.CustomerID
+                  c.Name,
+                  r.DisplayCustomerName
           FROM photographers p
           LEFT JOIN review r ON p.PhotographerID = r.PhotographerID
           LEFT JOIN transactions t ON r.TransactionID = t.TransactionID
@@ -116,8 +116,15 @@ if ($result) {
             <div class="review-details">
                 <h3><?php echo $row['PhotographerName']; ?></h3>
                 <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
-                <p>Customer Name: <?php echo isset($_POST['Name']) && $_POST['Name'] == 1 ? $row['CustomerName'] : 'Anonymous'; ?></p>
-
+                <?php 
+                    // Display customer name based on checkbox state
+                    if ($row['DisplayCustomerName'] == 1) {
+                        echo $row['Name'];
+                    } else {
+                        echo 'Anonymous';
+                    }
+                    ?>
+                </p>
                 <div class="rating">
                     <?php
                     // Display stars based on rating

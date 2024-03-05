@@ -1,30 +1,67 @@
 <?php
-session_start(); // Start the session
 include("../include/config.php");
 
-// Retrieve the customer ID from the session
-$customerID = $_SESSION['CustomerID'];
+// Start the session
+session_start();
 
-// Retrieve other form data
-$transactionID = $_POST['TransactionID'];
-$photographerID = $_POST['PhotographerID'];
-$rating = $_POST['rating'];
-$comments = $_POST['comments'];
-$display = isset($_POST['Name']) ? 1 : 0; // Check if the checkbox is checked
+// Function to retrieve customer details from the database
+function getCustomerDetails($customerID, $conn) {
+    $query = "SELECT Name FROM Customers WHERE CustomerID = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $customerID);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Insert the review into the database
-$insertQuery = "INSERT INTO review (CustomerID, PhotographerID, TransactionID, Rate, Comment, DisplayCustomerName)
-                VALUES ('$customerID', '$photographerID', '$transactionID', '$rating', '$comments', '$display')";
-$insertResult = mysqli_query($conn, $insertQuery);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['Name'];
+    } else {
+        return null;
+    }
+}
 
-if ($insertResult) {
-    // Review successfully inserted
-    echo "Review submitted successfully!";
-    // Redirect to a confirmation page or any other page as needed
-    header("Location: appointment.php?review_success=true");
-    exit();
+if (isset($_SESSION['CustomerID'])) {
+    // Get customer information from the session
+    $customerID = $_SESSION['CustomerID'];
+
+    // Check if the form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review'])) {
+        // Get the form data
+        $rating = isset($_POST['rating']) ? $_POST['rating'] : '';
+        $comments = isset($_POST['comments']) ? $_POST['comments'] : '';
+        $displayCustomerName = isset($_POST['Name']) ? 1 : 0; // 1 if checked, 0 if not checked
+
+        // Fetch customer name from the database
+        $customerName = getCustomerDetails($customerID, $conn);
+
+        // Display a message based on the checkbox value
+        echo "<p>Review submitted successfully!</p>";
+        if ($displayCustomerName) {
+            echo "<p>Review submitted by: $customerName</p>";
+        } else {
+            echo "<p>Review submitted anonymously</p>";
+        }
+
+        // Insert the review into the Review table using prepared statements
+        $insertReviewQuery = "INSERT INTO Review (CustomerID, PhotographerID, Rate, Comment, TransactionID, DisplayCustomerName)
+                             VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($insertReviewQuery);
+        $stmt->bind_param("iiisii", $customerID, $_POST['PhotographerID'], $rating, $comments, $_POST['TransactionID'], $displayCustomerName);
+
+        if ($stmt->execute()) {
+            echo "<p>Review inserted into the database</p>";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+        
+        // JavaScript to notify after submitting the review
+        header("Location: appointment.php");
+    }
+    ?>
+    <?php
 } else {
-    // Handle insertion error
-    echo "Error: " . mysqli_error($conn);
+    // Redirect to the login page or handle as needed
+    header("Location: login.php");
+    exit();
 }
 ?>

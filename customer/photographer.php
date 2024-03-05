@@ -1,4 +1,5 @@
 <?php
+session_start(); // Start the session
 // Include necessary files and establish a database connection
 include("../include/config.php");
 include("../customer/header.php");  // Include your database connection
