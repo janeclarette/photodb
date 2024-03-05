@@ -35,7 +35,9 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
 <body>
     <div class='cover-section'><h2>Photographers</h2></div>
 
-    <canvas id="photographerChart"></canvas>
+    <canvas id="photographerChart" style="background-color: white; width: 100px; margin-left: 40px; margin-top: 40px;"></canvas>
+
+
 
     <script>
         // Parse PHP variables into JavaScript
@@ -161,8 +163,8 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
         }
         
     h2 {
-        margin-top: 20px;
-        margin-bottom: 70px;
+        margin-top: 70px;
+        margin-bottom: 50px;
         text-align: center;
         color: #fff;
         font-weight: bold;
@@ -185,6 +187,7 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
         margin-left: 50px;
         margin-right: 50px;
         margin-top: 50px;
+        margin-bottom: 50px;
         padding: 50px;
         border-radius: 20px;
         display: inline-block;
