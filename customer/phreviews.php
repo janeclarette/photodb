@@ -9,7 +9,7 @@ $query = "SELECT p.Name AS PhotographerName,
                   r.Rate AS Rating, 
                   r.Comment AS Comment,
                   t.TransactionDate AS TransactionDate,
-                  c.Name,
+                  c.Email,
                   r.DisplayCustomerName
           FROM photographers p
           LEFT JOIN review r ON p.PhotographerID = r.PhotographerID
@@ -48,11 +48,14 @@ if ($result) {
                 <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
                 <p>
                     <?php 
-                    // Display customer name based on checkbox state
+                    // Display customer name or email based on checkbox state
                     if ($row['DisplayCustomerName'] == 1) {
-                        echo $row['Name'];
+                        echo $row['Email'];
                     } else {
-                        echo 'Anonymous';
+                        // Get the length of the email
+                        $emailLength = strlen($row['Email']);
+                        // Print asterisks equivalent to the length of the email
+                        echo str_repeat('*', $emailLength - 10) . substr($row['Email'], -10);
                     }
                     ?>
                 </p>
@@ -90,6 +93,7 @@ if ($result) {
     echo "Error: " . mysqli_error($conn);
 }
 ?>
+
 
 
 

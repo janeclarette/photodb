@@ -20,7 +20,6 @@ function getCustomerDetails($customerID, $conn) {
     }
 }
 
-// Check if the customer is logged in
 if (isset($_SESSION['CustomerID'])) {
     // Get customer information from the session
     $customerID = $_SESSION['CustomerID'];
@@ -44,10 +43,10 @@ if (isset($_SESSION['CustomerID'])) {
         }
 
         // Insert the review into the Review table using prepared statements
-        $insertReviewQuery = "INSERT INTO Review (CustomerID, PhotographerID, Rate, Comment, TransactionID)
-                             VALUES (?, ?, ?, ?, ?)";
+        $insertReviewQuery = "INSERT INTO Review (CustomerID, PhotographerID, Rate, Comment, TransactionID, DisplayCustomerName)
+                             VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($insertReviewQuery);
-        $stmt->bind_param("iiisi", $customerID, $_POST['PhotographerID'], $rating, $comments, $_POST['TransactionID']);
+        $stmt->bind_param("iiisii", $customerID, $_POST['PhotographerID'], $rating, $comments, $_POST['TransactionID'], $displayCustomerName);
 
         if ($stmt->execute()) {
             echo "<p>Review inserted into the database</p>";
@@ -56,7 +55,7 @@ if (isset($_SESSION['CustomerID'])) {
         }
         
         // JavaScript to notify after submitting the review
-        echo '<script>alert("Review submitted successfully!");</script>';
+        header("Location: appointment.php");
     }
     ?>
     <?php
