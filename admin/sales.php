@@ -27,10 +27,12 @@ for ($month = 1; $month <= 12; $month++) {
     }
 
     // Monthly total sales
-    $querySales = "SELECT COALESCE(SUM(Price), 0) AS totalSales
-                   FROM Transactions T
-                   JOIN Packages P ON T.PackageID = P.PackageID
-                   WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate';";
+    $querySales = "SELECT COALESCE(SUM(P.Price), 0) AS totalSales
+    FROM Transactions T
+    JOIN Packages P ON T.PackageID = P.PackageID
+    WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
+    AND T.StatusID = '2';";
+
     $resultSales = mysqli_query($conn, $querySales);
     if ($resultSales) {
         $rowSales = mysqli_fetch_assoc($resultSales);
