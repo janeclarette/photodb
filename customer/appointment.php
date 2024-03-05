@@ -112,6 +112,21 @@ if ($result) {
             .review-btn:hover {
                 opacity: 0.8;
             }
+
+            .download-pdf-btn {
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                background-color: #4F709C;
+                color: white;
+                font-size: 14px;
+            }
+
+            .download-pdf-btn:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
         </style>
     </head>
     <body>
@@ -130,6 +145,7 @@ if ($result) {
             <th>Payment Action</th>
             <th>Service Action</th>
             <th>Review</th>
+            <th>Receipt</th> <!-- New column for Receipt -->
         </tr>
 
         <?php
@@ -197,6 +213,16 @@ if ($result) {
                         <?php
                     }
                     ?>
+                </td>
+                <td>
+                    <!-- Add the Receipt column content -->
+                    <form action="download_pdf.php" method="post" id="downloadPdfForm<?php echo $row['TransactionID']; ?>">
+                        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+                        <button type="submit" name="downloadPDF" class="download-pdf-btn"
+                            <?php echo in_array($row['StatusID'], [2, 3, 6]) ? '' : 'disabled'; ?>>
+                            Download PDF
+                        </button>
+                    </form>
                 </td>
             </tr>
             <?php
