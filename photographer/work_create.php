@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO works (Photos, PhotographerID, Album, Description, ServiceTypeID) 
                 VALUES ('$allImagePathsString', '$photographerID', '$album', '$description', '$serviceType')";
 
-        $result = $conn->query($sql); 
+        $result = $conn->query($sql);
 
         if ($result) {
             echo '<script>';
@@ -340,6 +340,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        
        
         </style>
-
-
-
