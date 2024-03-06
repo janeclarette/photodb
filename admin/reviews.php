@@ -113,22 +113,13 @@ if ($result) {
     // Loop through each review
     while ($row = mysqli_fetch_assoc($result)) {
         ?>
+
         <div class="photographer-review">
             <div class="photographer-image">
                 <img src="<?php echo $row['PhotographerImage']; ?>" alt="Photographer Image">
             </div>
             <div class="review-details">
                 <h3><?php echo $row['PhotographerName']; ?></h3>
-                <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
-                <?php 
-                    // Display customer name based on checkbox state
-                    if ($row['DisplayCustomerName'] == 1) {
-                        echo $row['Name'];
-                    } else {
-                        echo 'Anonymous';
-                    }
-                    ?>
-                </p>
                 <div class="rating">
                     <?php
                     // Display stars based on rating
@@ -144,6 +135,17 @@ if ($result) {
                     }
                     ?>
                 </div>
+                <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
+                <?php 
+                    // Display customer name based on checkbox state
+                    if ($row['DisplayCustomerName'] == 1) {
+                        echo $row['Name'];
+                    } else {
+                        echo 'Anonymous';
+                    }
+                    ?>
+                </p>
+               
                 <div class="comments">
                     <p><?php echo $row['Comment']; ?></p>
                 </div>
@@ -167,14 +169,17 @@ if ($result) {
 
         <style>
                 
-h4 {
-            
-            text-align: center;
-            font-size: 5rem;
-            color: #333;
-            font-family: 'Satisfy';}
+        h4 {
+        margin-top: 40px;
+        margin-bottom: 70px;
+        text-align: center;
+        color: #333;
+        font-weight: bold;
+        font-size: 6rem;
+        font-family: 'Satisfy';
+    }
 
-            body {
+body {
         background-image: url('../uploads/cover.jpg');
         background-size: cover;
         background-attachment: fixed;
@@ -182,6 +187,7 @@ h4 {
     }
 
     .rating-summary {
+        margin-top: 250px;
     background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
     border: 2px solid rgba(255,255,255, .5);
     backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
@@ -189,13 +195,11 @@ h4 {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     color: black;
         border-radius: 8px;
-        margin: 20px auto;
         width: 80%; /* Adjust width as needed */
         max-width: 600px; /* Adjust max-width as needed */
         position: absolute;
         top: 50%;
         left: 50%;
-
         transform: translate(-50%, -50%);
         z-index: 1; /* Ensure rating summary is on top of background */
     }
@@ -205,7 +209,7 @@ h4 {
         font-size: 4rem;
         color: black;
         font-family: 'Satisfy';
-        margin-top: 0;
+
     }
 
         .rating-summary p {
@@ -246,27 +250,31 @@ h4 {
         }
 
 
-        
+        .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribute items evenly */
+    margin-top: 300px;
+    margin-left: 400px;
+    
+}
 
-            .photographer-review {
-                width: 80%;
+.photographer-review {
+    width: calc(40% ); /* Adjust width to fit three columns with some spacing */
+    margin-bottom: 20px; /* Adjust as needed */
     background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-    border: 2px solid rgba(255,255,255, .5);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
     padding: 30px 40px;
     color: #333;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-    position: absolute;
-    top: 95%;
-    left: 50%;
-    width: 30%;
     transform: translate(-50%, -50%);
-                display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        animation: fadeInUp 1s ease-out; /* Add fade-in animation */
-            }
+    display: flex;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out; /* Add fade-in animation */
+
+}
 
             .photographer-image {
                 flex: 0 0 100px;

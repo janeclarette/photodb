@@ -132,7 +132,7 @@ if (!$customers_result) {
     text-align: center; /* Center the content horizontally */
     margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
     max-width: 300px; /* Set a maximum width if needed */
-    height: 370px; /* Set the height as needed */
+    height: 450px; /* Set the height as needed */
     
 }
 

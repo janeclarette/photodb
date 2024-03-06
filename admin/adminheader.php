@@ -10,7 +10,7 @@ include("../include/config.php"); // Include your database connection
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <body>
     <!-- Main header with navigation bar -->
-    <header class="navbar">
+
  <!-- Main header with navigation bar -->
 <header class="navbar">
     <div class="logo">
@@ -45,18 +45,21 @@ include("../include/config.php"); // Include your database connection
 
     </header>
     <!-- Secondary navigation bar -->
+    <div class="left-side">
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
             <li><a href="/photodb/admin/admindashboard.php">Home</a></li>       
-            <li><a href="/photodb/admin/sales.php">Statistic</a></li>
+            <li><a href="/photodb/admin/sales.php">Statistics</a></li>
+            <li><a href="/photodb/admin/transaction.php">Transactions</a></li>
             <li><a href="/photodb/admin/reviews.php">Reviews</a></li>
             <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
             <li><a href="/photodb/admin/customers.php">Customers</a></li>
         </ul>
     </nav>
+</div>
     <!-- Main content of the page -->
-<div class="overlay"></div>
+
 </body>
 </html>
 
@@ -64,22 +67,47 @@ include("../include/config.php"); // Include your database connection
 
   <!-- Add your CSS stylesheets here -->
   <style>
+    .left-side {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px; /* Set the width of the left side area */
+    height: 100%;/* Background color of the left side area */
+    transition: width 0.3s; /* Add transition for smooth animation */
+}
+
+.left-side:hover .sub-navbar {
+    left: 0; /* Show the sub-navbar when hovering over the left side */
+}
+
+.content {
+    margin-left: 50px; /* Adjust content margin to make space for the left side navigation bar */
+    transition: margin-left 0.3s; /* Add transition for smooth animation */
+}
+
+/* Adjust content margin when the left side navigation bar is expanded */
+.left-side:hover + .content {
+    margin-left: 200px; /* Adjust the width of the left side navigation bar */
+}
+
 
 body {
         background-color: #E0F4FF;
     }
-        /* Resetting default margin and padding */
-        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-            margin: 0;
-            padding: 0;
-        }
 
-        /* Add your custom styles for the header and navigation bars */
        
+        .navbar {
+            /* Styles for the main navigation bar */
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
 
         .navbar .logo img {
             margin-left: 40px;
-            margin-top: 20px;
             height: 80px; /* Adjust as needed */
             width: auto; /* Ensures the image scales with height */
         }
@@ -114,7 +142,7 @@ body {
         padding: 10px;
         position: fixed;
         top: 0;
-        left: -200px; /* Initially hidden off-screen to the left */
+        left: -300px; /* Initially hidden off-screen to the left */
         height: 100vh;
         width: 150px;
         overflow-x: hidden;
@@ -122,10 +150,7 @@ body {
     }
 
     /* Show the sub-navbar when hovering over the left side of the screen */
-    body:hover .sub-navbar,
-body:hover .content {
-    left: 0;
-}
+
 
     .sub-navbar ul {
         list-style-type: none;
@@ -147,6 +172,7 @@ body:hover .content {
     .sub-navbar ul li a:hover {
         background-color: #32475C;
     }
+
 
 
           /* Dropdown menu */
@@ -171,7 +197,6 @@ body:hover .content {
         /* Container for sections */
         .container {
             max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
         }
         .profile {
