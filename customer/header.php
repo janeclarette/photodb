@@ -64,7 +64,7 @@ include("../include/config.php"); // Include your database connection
     </div>
 
     </header>
-    <!-- Secondary navigation bar -->
+    <!-- Secondary navigation bar -->    <div class="left-side">
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
@@ -100,7 +100,7 @@ include("../include/config.php"); // Include your database connection
         </ul>
     </nav>
     <!-- Main content of the page -->
-
+</div>
 </body>
 </html>
 
@@ -108,6 +108,29 @@ include("../include/config.php"); // Include your database connection
 
   <!-- Add your CSS stylesheets here -->
   <style>
+
+    .left-side {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 20%; /* Adjust the width of the left side */
+        z-index: 1; /* Ensure it's above other elements */
+        transition: width 0.3s; /* Smooth transition for resizing */
+    }
+
+    .left-side:hover {
+        width: 100%; /* Expand to full width on hover */
+    }
+
+    .left-side:hover .sub-navbar {
+        left: 0;
+    }
+
+    .left-side .sub-navbar {
+    left: -200px;
+}
+
 
     body {
         background-color: #E0F4FF;
@@ -176,13 +199,13 @@ include("../include/config.php"); // Include your database connection
             font-size: 14px;
         }
 
-        .sub-navbar {
+    .sub-navbar {
     background-color: #4F709C;
     color: #fff;
     padding: 10px;
     position: fixed;
     top: 0;
-    left: -200px; /* Initially hidden off-screen to the left */
+    left: -300; /* Initially hidden off-screen to the left */
     height: 100vh;
     width: 150px;
     overflow-x: hidden;
@@ -190,10 +213,11 @@ include("../include/config.php"); // Include your database connection
 }
 
 /* Show the sub-navbar when hovering over the left side of the content */
-body:hover .sub-navbar,
-.content:hover .sub-navbar {
-    left: 0;
-}
+
+.sub-navbar ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
 .content {
     position: absolute;

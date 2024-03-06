@@ -32,295 +32,207 @@ $result = mysqli_query($conn, $query); // Use the correct connection variable $c
 // Check for query execution success
 if ($result) {
     ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Photographer Page</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-        <!-- Add your CSS stylesheets here -->
-        <style>
-            /* Resetting default margin and padding */
-            body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-                margin: 0;
-                padding: 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photographer Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        /* Resetting default margin and padding */
+        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Add your custom styles for the header and navigation bars */
+        .navbar {
+            /* Styles for the main navigation bar */
+            background-color: #213555;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            margin-left: 40px;
+            height: 80px; /* Adjust as needed */
+            width: auto; /* Ensures the image scales with height */
+        }
+
+        .navbar .search input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            margin-right: 10px;
+            width: 300px;
+        }
+
+        .navbar .search button {
+            padding: 5px 10px;
+            background-color: #4F709C;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .navbar .profile a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .sub-navbar {
+            /* Styles for the secondary navigation bar */
+            background-color: #4F709C;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .sub-navbar ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sub-navbar ul li {
+            margin-right: 10px;
+        }
+
+        .sub-navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Container for cards */
+        .container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                margin-top: 50px;
+                max-width: 100%;
+                margin-left: 50px;
             }
 
-            /* Add your custom styles for the header and navigation bars */
-            .navbar {
-                /* Styles for the main navigation bar */
-                background-color: #213555;
-                color: #fff;
-                padding: 10px;
+            .card {
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                width: 300px;
+                margin-bottom: 20px;
+            }
+
+            .card-content-divider {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+            .card-header {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .card-content {
+                margin-bottom: 10px;
+            }
+
+            .card-content span {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .card-actions {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                
             }
 
-            .navbar .logo img {
-                margin-left: 40px;
-                height: 80px; /* Adjust as needed */
-                width: auto; /* Ensures the image scales with height */
-            }
+        .action-btn {
+            margin-top: 20px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            background-color: #4F709C;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
 
-            .navbar .search input[type="text"] {
-                padding: 10px;
-                border: none;
-                border-radius: 10px;
-                margin-right: 10px;
-                width: 300px;
-            }
+        .cancel-btn {
+            background-color: #f44336;
+        }
 
-            .navbar .search button {
-                padding: 5px 10px;
-                background-color: #4F709C;
-                border: none;
-                border-radius: 5px;
-                color: #fff;
-                cursor: pointer;
-            }
+        .confirm-btn {
+            background-color: #4CAF50;
+        }
 
-            .navbar .profile a {
-                color: #fff;
-                text-decoration: none;
-            }
+        .decline-btn {
+            background-color: #f44336;
+        }
 
-            .sub-navbar {
-                /* Styles for the secondary navigation bar */
-                background-color: #4F709C;
-                color: #fff;
-                padding: 10px;
-            }
+        .review-btn {
+            background-color: #4F709C;
+        }
 
-            .sub-navbar ul {
-                list-style-type: none;
-                display: flex;
-                justify-content: space-around;
-            }
+        .download-pdf-btn {
+            background-color: #4F709C;
+        }
 
-            .sub-navbar ul li {
-                margin-right: 10px;
-            }
+        .action-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
 
-            .sub-navbar ul li a {
-                color: #fff;
-                text-decoration: none;
-            }
-            /* Dropdown menu */
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #9BABB8;
-                min-width: 160px;
-                z-index: 1=;
-            }
+        .action-btn:not(:last-child) {
+            margin-right: 10px;
+        }
 
-            .dropdown-content a {
-                color: #fff;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-            }
-
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-            /* Container for sections */
-            .container {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 20px;
-            }
-            .profile {
-                display: flex;
-                align-items: center;
-            }
-
-            .sign-in,
-            .logout{
-                margin-right: 40px; /* Adjust the margin between the items */
-            }
-
-            .sign-in .dropdown,
-            .logout a {
-                padding: 25px; /* Adjust the padding for better spacing */
-            }
-
-            .message{
-                margin-right: 10px; /* Adjust the margin between the items */
-            }
-
-            /* Add your table styles here */
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                margin-top: 20px;
-            }
-
-            table, th, td {
-                border: 1px solid #ddd;
-            }
-
-            th, td {
-                padding: 10px;
-                text-align: left;
-            }
-            /* Table styles */
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-}
-
-table th,
-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-/* Header row */
-table th {
-    background-color: #213555;
-    color: #fff;
-}
-
-/* Alternate row colors */
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-/* Hover effect on rows */
-table tr:hover {
-    background-color: #ddd;
-}
-
-/* Button styles */
-table button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #4F709C;
-    color: #fff;
-}
-
-/* Disable style for disabled buttons */
-table button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-/* Adjust button margin */
-table button + button {
-    margin-left: 5px;
-}
-        </style>
-
-
-        <!-- Table to display transactions -->
-        <table border="1">
-            <tr>
-                <th>Transaction ID</th>
-                <th>Customer</th>
-                <th>Reservation Date</th>
-                <th>Time</th>
-                <th>Transaction Date</th>
-                <th>Place</th>
-                <th>Package Name</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-
-            <?php
-            while ($row = mysqli_fetch_assoc($result)) {
-                ?>
-                <tr>
-                    <td><?php echo $row['TransactionID']; ?></td>
-                    <td><?php echo $row['Name']; ?></td>
-                    <td><?php echo $row['ReservationDate']; ?></td>
-                    <td><?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></td>
-                    <td><?php echo $row['TransactionDate']; ?></td> 
-                    <td><?php echo $row['PlaceName']; ?></td>
-                    <td><?php echo $row['PackageName']; ?></td>
-                    <td><?php echo $row['Price']; ?></td>
-                    <td><?php echo $row['StatusName']; ?></td>
-                    <td>
-                        <!-- Add your actions or buttons here -->
-                        <form action="" method="post">
-    <input type="hidden" name="transaction_id" value="<?php echo $row['TransactionID']; ?>">
-    <button type="submit" name="accept" <?php echo ($row['StatusID'] == 1) ? '' : 'disabled'; ?>>Accept</button>
-    <button type="submit" name="decline" <?php echo ($row['StatusID'] == 1) ? '' : 'disabled'; ?>>Decline</button>
-</form>
-
-                        <?php
-                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                            $transactionID = $_POST['transaction_id'];
-                            $action = isset($_POST['accept']) ? 'accept' : (isset($_POST['decline']) ? 'decline' : '');
-                            
-                            if ($action === 'accept') {
-                                // Start a transaction
-                                mysqli_begin_transaction($conn);
-                            
-                                // Update the transaction status to 4 (accepted)
-                                $updateTransactionQuery = "UPDATE Transactions SET StatusID = 4 WHERE TransactionID = ?";
-                                $updateTransactionStmt = mysqli_prepare($conn, $updateTransactionQuery);
-                                mysqli_stmt_bind_param($updateTransactionStmt, "i", $transactionID);
-                                mysqli_stmt_execute($updateTransactionStmt);
-                            
-                                // Update the schedule status to 2 (booked)
-                                $updateScheduleQuery = "UPDATE availability_schedule AS s
-                                                        JOIN availability_time AS t ON s.scheduleid = t.scheduleid
-                                                        JOIN Transactions AS tr ON tr.Time_ID = t.time_id
-                                                        SET s.schedule_status_id = 2
-                                                        WHERE tr.TransactionID = ?";
-                                $updateScheduleStmt = mysqli_prepare($conn, $updateScheduleQuery);
-                                mysqli_stmt_bind_param($updateScheduleStmt, "i", $transactionID);
-                                mysqli_stmt_execute($updateScheduleStmt);
-                            
-                                // Commit the transaction if both updates succeed
-                                if (mysqli_stmt_affected_rows($updateTransactionStmt) > 0 && mysqli_stmt_affected_rows($updateScheduleStmt) > 0) {
-                                    mysqli_commit($conn);
-                                    // Add JavaScript alert and redirect
-                                    echo '<script>';
-                                    echo 'alert("Accepted successfully");';
-                                    echo 'window.location.href = "phdashboard.php";';
-                                    echo '</script>';
-                                } else {
-                                    mysqli_rollback($conn);
-                                    echo "Error: Unable to update transaction and schedule statuses.";
-                                }
-                            
-                                // Close the prepared statements
-                                mysqli_stmt_close($updateTransactionStmt);
-                                mysqli_stmt_close($updateScheduleStmt);
-                            }
-                            
-                            
-                            // // Refresh the page after processing the form
-                            // header("Location: " . $_SERVER['PHP_SELF']);
-                            // exit();
-                        }
-                        ?>
-                    </td>
-                </tr>
-                <?php
-            }
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+   
+    </div>
+    <div class="container">
+        <!-- Your PHP loop to generate cards here -->
+        <?php
+        while ($row = mysqli_fetch_assoc($result)) {
             ?>
-        </table>
+            <div class="card">
+                <div class="card-header"><?php echo $row['TransactionID']; ?></div>
+                <div class="card-content">
+                    <span><strong>Customer:</strong> <?php echo $row['Name']; ?></span>
+                    <span><strong>Reservation Date:</strong> <?php echo $row['ReservationDate']; ?></span>
+                    <span><strong>Time:</strong> <?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></span>
+                    <span><strong>Transaction Date:</strong> <?php echo $row['TransactionDate']; ?></span>
+                    <span><strong>Place:</strong> <?php echo $row['PlaceName']; ?></span>
+                    <span><strong>Package Name:</strong> <?php echo $row['PackageName']; ?></span>
+                    <span><strong>Price:</strong> <?php echo $row['Price']; ?></span>
+                    <span><strong>Status:</strong> <?php echo $row['StatusName']; ?></span>
+                </div>
+                <div class="card-actions">
+                    <button class="action-btn confirm-btn">Confirm</button>
+                    <button class="action-btn decline-btn">Decline</button>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+</body>
+</html>
 
-        <!-- Add your additional HTML content here -->
-
-        <!-- Add your JavaScript scripts here -->
-
-    </body>
-    </html>
     <?php
 } else {
     // Handle query error
