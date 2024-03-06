@@ -100,7 +100,7 @@ include("../include/config.php"); // Include your database connection
         </ul>
     </nav>
     <!-- Main content of the page -->
-<div class="overlay"></div>
+
 </body>
 </html>
 
@@ -177,29 +177,33 @@ include("../include/config.php"); // Include your database connection
         }
 
         .sub-navbar {
-        background-color: #4F709C;
-        color: #fff;
-        padding: 10px;
-        position: fixed;
-        top: 0;
-        left: -200px; /* Initially hidden off-screen to the left */
-        height: 100vh;
-        width: 150px;
-        overflow-x: hidden;
-        transition: left 0.3s;
+    background-color: #4F709C;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: -200px; /* Initially hidden off-screen to the left */
+    height: 100vh;
+    width: 150px;
+    overflow-x: hidden;
+    transition: left 0.3s;
+}
 
-    }
+/* Show the sub-navbar when hovering over the left side of the content */
+body:hover .sub-navbar,
+.content:hover .sub-navbar {
+    left: 0;
+}
 
-    /* Show the sub-navbar when hovering over the left side of the screen */
-    body:hover .sub-navbar,
-    body:hover .content {
-        left: 0;
-    }
+.content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
 
-    .sub-navbar ul {
-        list-style-type: none;
-        padding: 0;
-    }
 
     .sub-navbar ul li {
         margin: 25px 0;
