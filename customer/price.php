@@ -197,6 +197,7 @@ body {
             flex-wrap: wrap;
             justify-content: space-between; 
             margin: 0 -20px;
+            align-items: left;
         }
 
         .center-button {

@@ -131,14 +131,15 @@ mysqli_close($conn);
 }
 
 
-    .search-container {
+.search-container {
+    margin-top: 30px;
     position: absolute;
     top: 0;
-    right: 0;
-    margin: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 999; /* Ensure it overlays other elements */
-    margin-right: 570px; 
 }
+
 
 
     .search-container form {
@@ -245,6 +246,7 @@ mysqli_close($conn);
 
     .modal p {
         margin-bottom: 20px;
+        font-size: 1.5rem;
     }
 
     .close {
