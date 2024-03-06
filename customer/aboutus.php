@@ -22,7 +22,7 @@
     <header class="navbar">
     <div class="logo">
         <!-- Logo (upper left corner) -->
-        <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
+        <a href="/photodb/customer/customerdashboard.php"><img src="../uploads/C.png" alt="Logo"></a>
     </div>
 
     <div class="profile">
@@ -153,6 +153,9 @@ body {
         padding: 0;
     }
 
+    h2 {
+        margin-top: 20px;
+    }
     /* Add your custom styles for the header and navigation bars */
     .navbar {
         /* Styles for the main navigation bar */
