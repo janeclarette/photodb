@@ -133,7 +133,7 @@ include("../include/config.php");
             <p>Explore our featured events.</p>
            
         </section>
-
+        <?php include("../include/footer.php"); ?>
 </body>
 </html>
 
