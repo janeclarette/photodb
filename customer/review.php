@@ -77,3 +77,5 @@
             width: 100%; /* Make the button full width */
         }
     </style>
+
+<?php include("../include/footer.php"); ?>

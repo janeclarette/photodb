@@ -270,3 +270,4 @@ body {
             border-color: #2E4A6E;
         }
 </style>
+<?php include("../include/footer.php"); ?>

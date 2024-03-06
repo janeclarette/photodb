@@ -173,3 +173,4 @@ include("../customer/header.php");
             margin-bottom: 10px;
         }
 </style>
+<?php include("../include/footer.php"); ?>
