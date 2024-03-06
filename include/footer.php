@@ -88,7 +88,7 @@
     .footer-center h3,
     .footer-right h3 {
         font-size: 1.5rem;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .footer-links {
@@ -154,6 +154,11 @@
         margin-bottom: 5px;
     }
 
+    .footer-left {
+        margin-right: 100px;
+        margin-left: 70px;
+    }
+
     .footer-bottom {
         background-color: #4F709C;
         padding: 20px;
@@ -181,4 +186,40 @@
     .footer-bottom .footer-links li {
         margin: 0 10px;
     }
+    .footer-center {
+    flex: 2; /* Set the flex value to 2 for the "Service" section */
+    margin: 1px;
+}
+
+.footer-center h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-family: 'satisfy';
+}
+
+.footer-center .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, auto); /* Display links in two columns */
+    gap: 10px; /* Add some gap between the links */
+}
+
+.footer-center .footer-links li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.footer-center .footer-links a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 5px 10px;
+    background-color: #213555;
+    border-radius: 5px;
+    width: auto;
+}
+
+.footer-center .footer-links a:hover {
+    background-color: #4F709C;
+}
+
 </style>
