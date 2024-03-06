@@ -1,7 +1,6 @@
 <?php
 // Include necessary files and establish a database connection
-include("../include/config.php");
-//E0F4FF // Include your database connection
+include("../include/config.php"); // Include your database connection
 ?>
     <title>Admin Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,11 +11,14 @@ include("../include/config.php");
     <body>
     <!-- Main header with navigation bar -->
     <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="profile">
+ <!-- Main header with navigation bar -->
+<header class="navbar">
+    <div class="logo">
+        <!-- Logo (upper left corner) -->
+        <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
+    </div>
+
+    <div class="profile">
         <div class="sign-in">
         <!-- Dropdown for Sign In -->
         <div class="dropdown">
@@ -26,6 +28,7 @@ include("../include/config.php");
             </div>
         </div>
     </div>
+    
     <div class="message">
         <!-- Logout link -->
         <a href="/photodb/admin/message.php"><i class="fa-regular fa-message"></i></a>
@@ -40,31 +43,31 @@ include("../include/config.php");
 
     </header>
 
+    </header>
+    <!-- Secondary navigation bar -->
     <nav class="sub-navbar">
         <ul>
-
-            <li><a href="/photodb/admin/admindashboard.php">Home</a></li>
-            <li><a href="/photodb/admin/sales.php">Satistics</a></li>
-            <li><a href="/photodb/admin/transaction.php">Monitoring</a></li>
-            <li><a href="/photodb/admin/reviews.php"> Reviews</a></li>
-            <li><a href="/photodb/admin/photographers.php"> Photographers</a></li>
-            <li><a href="/photodb/admin/customers.php"> Customers</a></li>
+            <!-- Navigation links -->
+            <li><a href="/photodb/admin/admindashboard.php">Home</a></li>       
+            <li><a href="/photodb/admin/sales.php">Statistic</a></li>
+            <li><a href="/photodb/admin/reviews.php">Reviews</a></li>
+            <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
+            <li><a href="/photodb/admin/customers.php">Customers</a></li>
         </ul>
     </nav>
+    <!-- Main content of the page -->
+<div class="overlay"></div>
+</body>
+</html>
 
 
 
-
-
-
-
-
-
-
-
-    
   <!-- Add your CSS stylesheets here -->
   <style>
+
+body {
+        background-color: #E0F4FF;
+    }
         /* Resetting default margin and padding */
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
@@ -72,65 +75,80 @@ include("../include/config.php");
         }
 
         /* Add your custom styles for the header and navigation bars */
-        .navbar {
-            /* Styles for the main navigation bar */
-            background-color: #213555;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+       
 
         .navbar .logo img {
             margin-left: 40px;
+            margin-top: 20px;
             height: 80px; /* Adjust as needed */
             width: auto; /* Ensures the image scales with height */
         }
 
-        .navbar .search input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
-        }
-
-        .navbar .search button {
-            padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
 
         .navbar .profile a {
             color: #fff;
             text-decoration: none;
+            
+        }
+        .navbar .profile .user-info {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .navbar .profile .user-info img {
+            width: 30px; /* Adjust image size as needed */
+            height: 30px; /* Adjust image size as needed */
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .navbar .profile .user-info .username {
+            color: #fff;
+            font-size: 14px;
         }
 
         .sub-navbar {
-            /* Styles for the secondary navigation bar */
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
+        background-color: rgba(75, 192, 192, 20);
+        color: #fff;
+        padding: 10px;
+        position: fixed;
+        top: 0;
+        left: -200px; /* Initially hidden off-screen to the left */
+        height: 100vh;
+        width: 150px;
+        overflow-x: hidden;
+        transition: left 0.3s;
+    }
 
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
+    /* Show the sub-navbar when hovering over the left side of the screen */
+    body:hover .sub-navbar,
+body:hover .content {
+    left: 0;
+}
 
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
+    .sub-navbar ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
+    .sub-navbar ul li {
+        margin: 5px 0;
+    }
+
+    .sub-navbar ul li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        transition: background-color 0.3s;
+    }
+
+    .sub-navbar ul li a:hover {
+        background-color: #32475C;
+    }
+
+
           /* Dropdown menu */
         .dropdown-content {
             display: none;
@@ -157,21 +175,26 @@ include("../include/config.php");
             padding: 20px;
         }
         .profile {
-            display: flex;
-            align-items: center;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align items to the right */
+    margin-right: 40px; /* Add margin for spacing */
+}
 
-        .sign-in,
-        .logout{
-            margin-right: 30px; /* Adjust the margin between the items */
-        }
+.sign-in,
+.message,
+.logout {
+   
+    margin-left: 10px; /* Adjust spacing between items */
+}
 
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; /* Adjust the padding for better spacing */
-        }
+.sign-in .dropdown,
+.logout a {
+    padding: 15px; /* Adjust padding for better spacing */
+}
 
-        .message{
-            margin-right: 20px; /* Adjust the margin between the items */
-        }
-        </style>
+
+  
+       
+</style>
+    

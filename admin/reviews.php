@@ -40,10 +40,14 @@ if ($result) {
     ?>
 
     <body>
+    <section class="background">
+    <h4> Rating Summary</h4>
+        </section>
     <div class="container">
         <!-- Rating summary -->
+        
         <div class="rating-summary">
-            <h2>Rating Summary</h2>
+        
             <p>Overall Rating: <?php echo $overallRating; ?></p>
             <!-- Bar chart for ratings distribution -->
             <div class="ratings-chart">
@@ -162,31 +166,47 @@ if ($result) {
 
 
         <style>
-                body {
-        background-color: #E0F4FF;
+                
+h4 {
+            
+            text-align: center;
+            font-size: 5rem;
+            color: #333;
+            font-family: 'Satisfy';}
+
+            body {
+        background-image: url('../uploads/cover.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        height: 100vh;
     }
-        .container {
-            width: 1000px;
-            margin: 20px auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
 
+    .rating-summary {
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, .5);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    color: black;
+        border-radius: 8px;
+        margin: 20px auto;
+        width: 80%; /* Adjust width as needed */
+        max-width: 600px; /* Adjust max-width as needed */
+        position: absolute;
+        top: 50%;
+        left: 50%;
 
-        .rating-summary {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            width: 1000px;
-           
-        }
+        transform: translate(-50%, -50%);
+        z-index: 1; /* Ensure rating summary is on top of background */
+    }
 
-        .rating-summary h2 {
-            font-family: 'Satisfy';
-            margin-top: 0;
-        }
+    .rating-summary h4 {
+        text-align: center;
+        font-size: 4rem;
+        color: black;
+        font-family: 'Satisfy';
+        margin-top: 0;
+    }
 
         .rating-summary p {
             margin: 5px 0;
@@ -226,20 +246,26 @@ if ($result) {
         }
 
 
-        .container {
-                max-width: 100%;
-                margin: 20px auto;
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
+        
 
             .photographer-review {
+                width: 80%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, .5);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    width: 30%;
+    transform: translate(-50%, -50%);
                 display: flex;
-                margin-bottom: 20px;
-                padding-bottom: 20px;
-                border-bottom: 1px solid #ccc;
+        flex-wrap: wrap;
+        justify-content: center;
+        animation: fadeInUp 1s ease-out; /* Add fade-in animation */
             }
 
             .photographer-image {

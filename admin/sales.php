@@ -82,23 +82,42 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Report 2024</title>
+    <section class="background">
+    <h4> Sales Report 2024</h4>
+        </section>
     <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f0f0; /* Set a background color */
+        background-image: url('../uploads/cover.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        height: 100vh;
+    }
+h4 {
+            text-align: center;
+            font-size: 5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-family: 'Satisfy';
         }
 
-        .container {
-            width: 80%;
-            margin: auto;
-            background-color: white; /* Set a background color */
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.container {
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, .5);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container horizontally and vertically */
+    
+}
+
 
         #chartControls {
             margin-bottom: 20px;
@@ -174,8 +193,8 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
                 datasets: [{
                     label: 'Total Transactions',
                     data: monthlyData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                    borderColor: 'rgba(75, 192, 192, 10)',
                     borderWidth: 1
                 }]
             },
