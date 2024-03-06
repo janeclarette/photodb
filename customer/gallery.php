@@ -36,8 +36,11 @@ if (!$result) {
     exit();
 }
 ?>
+<section class="background">
 <div class="gallery-title">
     <h2>Photo Gallery</h2>
+</section>
+
 </div>
 <div class="search-container">
     <form action="" method="GET">
@@ -98,17 +101,28 @@ mysqli_close($conn);
     }
 
 
+    .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center top; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            z-index: -1; /* Push the background behind other content */
+        }
 
     .gallery-title {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 40px;
-    background-color: #E0F4FF;
     height: 250px;
 }
 
 .gallery-title > h2 {
+    margin-top: 70px;
     font-size: 7rem;
     color: #333;
     font-family: 'Satisfy';
@@ -123,7 +137,7 @@ mysqli_close($conn);
     right: 0;
     margin: 20px; /* Adjust as needed */
     z-index: 999; /* Ensure it overlays other elements */
-    margin-right: 700px; 
+    margin-right: 570px; 
 }
 
 
@@ -131,7 +145,7 @@ mysqli_close($conn);
         display: inline-block;
         padding: 10px;
         border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
     }
 
     .search-container input[type="text"] {
@@ -156,7 +170,7 @@ mysqli_close($conn);
     }
 
     .container {
-    margin-top: 50px; 
+    margin-top: 250px; 
     max-width: 80%;
     padding: 40px;
     display: flex;
