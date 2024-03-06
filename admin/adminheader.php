@@ -50,8 +50,8 @@ include("../include/config.php"); // Include your database connection
         <ul>
             <!-- Navigation links -->
             <li><a href="/photodb/admin/admindashboard.php">Home</a></li>       
-            <li><a href="/photodb/admin/sales.php">Statistics</a></li>
-            <li><a href="/photodb/admin/transaction.php">Transactions</a></li>
+            <li><a href="/photodb/admin/sales.php">Statistic</a></li>
+            <li><a href="/photodb/admin/transaction.php">Monitoring</a></li>
             <li><a href="/photodb/admin/reviews.php">Reviews</a></li>
             <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
             <li><a href="/photodb/admin/customers.php">Customers</a></li>

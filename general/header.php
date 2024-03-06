@@ -96,7 +96,7 @@ include("../include/config.php"); // Include your database connection
             <li><a href="/photodb/general/gallery.php">Photo Gallery</a></li>
             <li><a href="/photodb/general/price.php">Packages</a></li>
             <li><a href="/photodb/general/appointment.php">Appointments</a></li>
-            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/general/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->

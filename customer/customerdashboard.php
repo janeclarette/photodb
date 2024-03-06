@@ -92,7 +92,7 @@ include("../include/config.php");
             <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
             <li><a href="/photodb/customer/price.php">Packages</a></li>
             <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
-            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/customer/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
