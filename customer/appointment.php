@@ -145,6 +145,25 @@ if ($result) {
     background-color: #cccccc; /* Disabled button color */
     cursor: not-allowed;
 }
+.confirm-btn, .decline-btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    background-color: #4F709C;
+}
+
+.confirm-btn:disabled, .decline-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.confirm-btn:hover, .decline-btn:hover {
+    opacity: 0.8;
+}
+
         </style>
     </head>
     <body>
@@ -200,21 +219,22 @@ if ($result) {
                 </td>
                 <td>
                     <!-- Add your other actions or buttons here -->
-                    <?php if ($row['StatusID'] == 6): ?>
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                            <input type="hidden" name="TransactionID"
-                                value="<?php echo $row['TransactionID']; ?>">
-                            <button type="submit" name="confirm" class="confirm-btn"
-                                <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
-                                Confirm
-                            </button>
-                            <button type="submit" name="decline" class="decline-btn"
-                                <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
-                                Decline
-                            </button>
-                            <input type="hidden" name="formSubmitted" value="1">
-                        </form>
-                    <?php endif; ?>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+        
+        <!-- Confirm button -->
+        <button type="submit" name="confirm" class="confirm-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
+            Confirm
+        </button>
+        
+        <!-- Decline button -->
+        <button type="submit" name="decline" class="decline-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
+            Decline
+        </button>
+        
+        <!-- Hidden input for form submission -->
+        <input type="hidden" name="formSubmitted" value="1">
+    </form>
                 </td>
                 <td>
                     <?php
