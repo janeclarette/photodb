@@ -1,3 +1,8 @@
+<?php
+// Include necessary files and establish a database connection
+include("../include/config.php"); // Include your database connection
+?>
+
 <footer class="footer">
     <div class="footer-content">
         <div class="footer-left"> 
@@ -9,23 +14,23 @@
         <div class="footer-center">
             <h3>Service</h3>
             <ul class="footer-links">
-                <li><a href="#">Commercial</a></li>
-                <li><a href="#">Landscape</a></li>
-                <li><a href="#">Event</a></li>
-                <li><a href="#">Newborn</a></li>
-                <li><a href="#">Family</a></li>
-                <li><a href="#">Portrait</a></li>
-                <li><a href="#">Fashion</a></li>
-                <li><a href="#">Sports</a></li>
-                <li><a href="#">Food</a></li>
-                <li><a href="#">Wedding</a></li>
+                <li><a href="/photodb/customer/commercial.php">Commercial</a></li>
+                <li><a href="/photodb/customer/landscape.php">Landscape</a></li>
+                <li><a href="/photodb/customer/event.php">Event</a></li>
+                <li><a href="/photodb/customer/newborn.php">Newborn</a></li>
+                <li><a href="/photodb/customer/family.php">Family</a></li>
+                <li><a href="/photodb/customer/portrait.php">Portrait</a></li>
+                <li><a href="/photodb/customer/fashion.php">Fashion</a></li>
+                <li><a href="/photodb/customer/sports.php">Sports</a></li>
+                <li><a href="/photodb/customer/food.php">Food</a></li>
+                <li><a href="/photodb/customer/wedding.php">Wedding</a></li>
             </ul>
         </div>
         <div class="footer-center">
             <h3>Contact</h3>
             <ul class="footer-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Reviews</a></li>
+                <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>
+                <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
                 <li><a href="#">About us</a></li>
             </ul>
         </div>
@@ -36,23 +41,23 @@
                 <button type="submit">Subscribe</button>
             </form>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="facebook.com"><i class="fab fa-whatsapp"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
             <div class="contact-info">
-                <p>Mobile: +917892474250</p>
-                <p>Email: santhosh@crosscultureconnects.com</p>
+                <p>Mobile: +9458374043</p>
+                <p>Email: admin@cheeseclickphotography.com</p>
             </div>
         </div>
     </div>
     <div class="footer-bottom">
         <div class="logo">
-        <a href="#"><img src="../uploads/C.png" alt="Logo" alt="CrossCulture Connects"></a>
+        <a href="/photodb/customer/customerdashboard.php"><img src="../uploads/C.png" alt="Logo" alt="CrossCulture Connects"></a>
         </div>
-        <p>&copy; 2023 crosscultureconnects.com</p>
+        <p>&copy; 2024 CheeseClickPhotography.com</p>
         <ul class="footer-links">
             <li><a href="#">Terms &amp; Conditions</a></li>
             <li><a href="#">Privacy Policy</a></li>
