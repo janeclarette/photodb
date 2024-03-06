@@ -137,6 +137,7 @@ body {
         }
 
         .sub-navbar {
+            text-align: center;
         background-color: rgba(75, 192, 192, 20);
         color: #fff;
         padding: 10px;

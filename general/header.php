@@ -120,8 +120,7 @@ body {
 
         /* Add your custom styles for the header and navigation bars */
         .navbar {
-            /* Styles for the main navigation bar */
-            background-color: #213555;
+
             color: #fff;
             padding: 10px;
             display: flex;
@@ -176,6 +175,7 @@ body {
         }
 
         .sub-navbar {
+            text-align: center;
         background-color: #4F709C;
         color: #fff;
         padding: 10px;
@@ -183,7 +183,7 @@ body {
         top: 0;
         left: -200px; /* Initially hidden off-screen to the left */
         height: 100vh;
-        width: 150px;
+        width: 200px;
         overflow-x: hidden;
         transition: left 0.3s;
     }

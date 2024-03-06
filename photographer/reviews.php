@@ -18,7 +18,7 @@ include("../photographer/header.php");
             $photographerID = isset($_SESSION['PhotographerID']) ? $_SESSION['PhotographerID'] : null;
             if ($photographerID) {
                 // Prepare the SQL statement
-                $query = "SELECT * FROM review WHERE PhotographerID = ?";
+                $query = "SELECT r.*, c.Name AS CustomerName, c.Email FROM review r LEFT JOIN customers c ON r.CustomerID = c.CustomerID WHERE PhotographerID = ?";
                 $stmt = mysqli_prepare($conn, $query);
 
                 // Bind the parameter
@@ -33,20 +33,22 @@ include("../photographer/header.php");
                 // Check if reviews are found
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        $customerID = $row['CustomerID'];
-                        $rate = $row['Rate'];
+                        $customerName = $row['DisplayCustomerName'] ? $row['CustomerName'] : 'Anonymous Customer';
+                        $rating = $row['Rate'];
                         $comment = $row['Comment'];
 
-                        // Fetch customer name
-                        $customerQuery = "SELECT name FROM customers WHERE CustomerID = ?";
-                        $stmt2 = mysqli_prepare($conn, $customerQuery);
-                        mysqli_stmt_bind_param($stmt2, "i", $customerID);
-                        mysqli_stmt_execute($stmt2);
-                        $customerResult = mysqli_stmt_get_result($stmt2);
-                        $customerName = ($row2 = mysqli_fetch_assoc($customerResult)) ? $row2['name'] : 'Anonymous Customer';
+                        // Convert rating to star icons
+                        $stars = '';
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $rating) {
+                                $stars .= '<i class="fas fa-star"></i>';
+                            } else {
+                                $stars .= '<i class="far fa-star"></i>';
+                            }
+                        }
 
                         // Display review
-                        echo "<li><strong>{$customerName}</strong> - Rating: {$rate}</p><p>{$comment}</p></li>";
+                        echo "<li><strong>{$customerName}</strong> - Rating: {$stars}</p><p>{$comment}</p></li>";
                     }
                 } else {
                     echo "<p>No reviews found.</p>";
@@ -59,8 +61,13 @@ include("../photographer/header.php");
     </div>
 </body>
 
-    <style>
 
+    <style>
+    body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+                margin: 0;
+                padding: 0;
+                font-family: 'serif';
+            }
 
         .container {
             max-width: 800px;
@@ -101,3 +108,5 @@ include("../photographer/header.php");
             margin: 5px 0 0;
         }
     </style>
+    
+<?php include("../include/footer.php"); ?>

@@ -202,6 +202,7 @@ include("../include/config.php"); // Include your database connection
         }
 
     .sub-navbar {
+        text-align: center;
     background-color: #4F709C;
     color: #fff;
     padding: 10px;
@@ -209,7 +210,7 @@ include("../include/config.php"); // Include your database connection
     top: 0;
     left: -300; /* Initially hidden off-screen to the left */
     height: 100vh;
-    width: 150px;
+    width: 200px;
     overflow-x: hidden;
     transition: left 0.3s;
 }

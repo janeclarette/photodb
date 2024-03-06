@@ -102,6 +102,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <style>
+        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+                margin: 0;
+                padding: 0;
+                font-family: 'serif';
+            }
 
     body {
         background-color: #E0F4FF;

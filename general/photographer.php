@@ -12,7 +12,7 @@ include("../general/header.php");  // Include your database connection
    
     <section class="services">
     <section class="background">
-        <h2>Our Photographers</h2>
+        <h4>Our Photographers</h4>
         <p>Meet our talented photographers.</p>
         <div class="photographer-container">
             <?php
@@ -88,7 +88,7 @@ include("../general/header.php");  // Include your database connection
             z-index: -1; /* Push the background behind other content */
         }
         h4 {
-            margin-top: 120px;
+            margin-top: 100px;
             text-align: center;
             font-size: 7rem;
             color: #333;

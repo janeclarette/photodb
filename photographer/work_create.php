@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h3>Album Title: <?= $album['Album']; ?></h3>
                 <p>Service Type: <?= $serviceType['TypeName']; ?></p>
                 <p>Description: <?= $album['Description']; ?></p>
-                <button class="view-more-btn"><a href="update_portfolio.php?workID=<?php echo $album['WorkID']; ?>">View More</a></button>
+                <button class="view-more-btn"><a href="update_portfolio.php?workID=<?php echo $album['WorkID']; ?>"> Update Album</a></button>
             </div>
         <?php endforeach; ?>
     </div>
@@ -170,6 +170,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
      <style>
+        h2{
+            text-align: center;
+            font-size: 4rem;
+            font-family: 'Satisfy';
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
 
     .slideshow-container {
         position: relative;
@@ -250,6 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         cursor: pointer;
         font-size: 1rem;
         transition: background-color 0.3s ease;
+
     }
 
     .view-more-btn:hover {
@@ -271,14 +280,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
         }
 
-        h2 {
-            text-align: center;
-            color: #213555; 
-            font-size: 3rem;
-            margin-bottom: 30px;
-            margin-top: 30px;
-            font-family: "Satisfy";
-        }
         h3 {
             margin-top: 30px;
             text-align: center;

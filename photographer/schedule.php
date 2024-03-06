@@ -1,86 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <title>Your Photographer Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
-    <style>
     
-
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 40px 10px;
-            background-color: #f7f7f7;
-        }
-
-        #availability-calendar-container {
-            position: relative;
-        }
-
-        #popupOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
-
-        #popupContainer {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1001;
-            border-radius: 8px;
-        }
-
-        #cancelButton {
-            background-color: #d9534f;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-right: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        #cancelButton:hover {
-            background-color: #c9302c;
-        }
-
-        #submitTime {
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        #submitTime:hover {
-            background-color: #45a049;
-        }
-        .background {
-                background-image: url('../uploads/cover.jpg');  
-    background-size: cover;
-    background-position: center bottom;
-    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
-        }
-    </style>
-</head>
-
 <body>
     <section class="background">
     <?php
@@ -236,3 +155,91 @@
 </body>
 
 </html>
+
+    
+    
+    
+    <style>
+    
+
+    body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+                margin: 0;
+                padding: 0;
+                font-family: 'serif';
+            }
+        #availability-calendar-container {
+            margin-top: 50px;
+            position: relative;
+            max-width: 80%;
+            margin-left: 180px;
+        }
+
+        #popupOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        #popupContainer {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            border-radius: 8px;
+        }
+
+        #cancelButton {
+            background-color: #d9534f;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        #cancelButton:hover {
+            background-color: #c9302c;
+        }
+
+        #submitTime {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        #submitTime:hover {
+            background-color: #45a049;
+        }
+        .background {
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
+    </style>
+</head>
+
+
+
+    <title>Your Photographer Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
+    
