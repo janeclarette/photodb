@@ -32,8 +32,7 @@
                 <div class="dropdown">
                     <button class="dropbtn"><i class="fa-regular fa-user"></i></button>
                     <div class="dropdown-content">
-                        <a href="/photodb/admin/login.php"> Login as Photographer</a>
-                        <a href="/photodb/admin/login.php"> Login as Customer</a>
+                        <a href="/photodb/admin/login.php"> Login </a>
                         <a href="/photodb/photographer/phregister.php"> Register as Photographer</a>
                         <a href="/photodb/customer/customerregister.php"> Register as Customer</a>
                     </div>

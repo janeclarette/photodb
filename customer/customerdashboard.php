@@ -38,7 +38,7 @@ include("../include/config.php");
                         <img src="<?php echo $customerInfo['img_customer']; ?>" alt="Profile Image">
                     </a>
                 <?php endif; ?>
-                <span class="username"><?php echo $customerInfo['Name']; ?></span>
+                <span class="username">Welcome, <?php echo $customerInfo['Name']; ?></span>
             </div>
         <?php } ?>
     <?php endif; ?>
@@ -210,6 +210,7 @@ include("../include/config.php");
         }
 
         .sub-navbar ul {
+        margin-top: 30px;
         list-style-type: none;
         display: flex;
         justify-content: center; /* Center the items horizontally */
@@ -244,7 +245,7 @@ include("../include/config.php");
             display: none;
             position: absolute;
             background-color: #9BABB8;
-            min-width: 160px;
+            min-width: 300px;
             z-index: 1=;
         }
 
