@@ -158,6 +158,9 @@
         margin-right: 100px;
         margin-left: 70px;
     }
+    .footer-left h3 {
+        font-family: 'satisfy';
+    }
 
     .footer-bottom {
         background-color: #4F709C;
