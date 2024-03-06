@@ -84,10 +84,56 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
     <title>Sales Report 2024</title>
     <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0; /* Set a background color */
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: white; /* Set a background color */
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #chartControls {
+            margin-bottom: 20px;
+        }
+
+        #salesChart {
+            margin-bottom: 20px;
+        }
+
+        #chartInfo {
+            display: none;
+        }
+        #downloadPdfBtn {
+    background-color: #213555; /* Light blue color */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#downloadPdfBtn:hover {
+    background-color: slategray; /* Slightly darker shade on hover */
+}
+    </style>
 </head>
 <body>
-    <div style="width: 80%; margin: auto;">
-        <div style="margin-top: 10px;">
+    <div class="container">
+        <div id="chartControls">
             <label for="dataType">Select Data Type:</label>
             <select id="dataType" onchange="updateChart()">
                 <option value="totalTransactions">Total Transactions</option>
@@ -96,80 +142,91 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
                 <option value="overallSales">Photographer Revenue</option>
             </select>
         </div>
+
         <canvas id="salesChart"></canvas>
-        <div id="chartInfo" style="display: none;">
+
+        <div id="chartInfo">
             <h2 id="chartLabel"></h2>
             <p id="chartValue"></p>
+        </div>
+
+        <div id="downloadPdfBtnContainer">
+            <!-- Add the PDF download button -->
+            <form action="download_pdf.php" method="post">
+                <button type="submit" name="downloadPDF" id="downloadPdfBtn">
+                    Download PDF
+                </button>
+            </form>
         </div>
     </div>
 
     <script>
-    var monthlyData = <?php echo $monthlyDataJSON; ?>;
-    var monthlySalesData = <?php echo $monthlySalesJSON; ?>;
-    var monthlyNetSalesData = <?php echo $monthlyNetSalesJSON; ?>;
-    var monthlyOverallSalesData = <?php echo $monthlyOverallSalesJSON; ?>;
+        var monthlyData = <?php echo $monthlyDataJSON; ?>;
+        var monthlySalesData = <?php echo $monthlySalesJSON; ?>;
+        var monthlyNetSalesData = <?php echo $monthlyNetSalesJSON; ?>;
+        var monthlyOverallSalesData = <?php echo $monthlyOverallSalesJSON; ?>;
 
-    var ctx = document.getElementById('salesChart').getContext('2d');
-    var salesChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            datasets: [{
-                label: 'Total Transactions',
-                data: monthlyData,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Total Transactions',
+                    data: monthlyData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
+        });
+
+        function updateChart() {
+            var dataType = document.getElementById('dataType').value;
+            var chartLabelElement = document.getElementById('chartLabel');
+            var chartValueElement = document.getElementById('chartValue');
+            var chartInfoElement = document.getElementById('chartInfo');
+
+            if (dataType === 'totalTransactions') {
+                salesChart.data.datasets[0].label = 'Total Transactions';
+                salesChart.data.datasets[0].data = monthlyData;
+                chartLabelElement.innerHTML = 'Total Transactions';
+
+                var totalTransactions = monthlyData.reduce((a, b) => a + b, 0);
+                chartValueElement.innerHTML = 'Total Transactions: ' + totalTransactions;
+            } else if (dataType === 'monthlySales') {
+                salesChart.data.datasets[0].label = 'Total Sales';
+                salesChart.data.datasets[0].data = monthlySalesData;
+                chartLabelElement.innerHTML = 'Sales';
+
+                var totalSales = parseFloat(monthlySalesData.reduce((a, b) => a + b, 0)).toFixed(2);
+                chartValueElement.innerHTML = 'Total Sales: ₱' + totalSales;
+            } else if (dataType === 'netSales') {
+                salesChart.data.datasets[0].label = 'Admin Profit';
+                salesChart.data.datasets[0].data = monthlyNetSalesData;
+                chartLabelElement.innerHTML = 'Admin Profit';
+
+                var totalNetSales = parseFloat(monthlyNetSalesData.reduce((a, b) => a + b, 0)).toFixed(2);
+                chartValueElement.innerHTML = 'Profit: ₱' + totalNetSales;
+            } else if (dataType === 'overallSales') {
+                salesChart.data.datasets[0].label = 'Photographer Revenue';
+                salesChart.data.datasets[0].data = monthlyOverallSalesData;
+                chartLabelElement.innerHTML = 'Photographer Revenue';
+
+                var totalOverallSales = parseFloat(monthlyOverallSalesData.reduce((a, b) => a + b, 0)).toFixed(2);
+                chartValueElement.innerHTML = 'Revenue: ₱' + totalOverallSales;
+            }
+
+            salesChart.update();
+            chartInfoElement.style.display = 'block';
         }
-    });
-
-    function updateChart() {
-        var dataType = document.getElementById('dataType').value;
-        var chartLabelElement = document.getElementById('chartLabel');
-        var chartValueElement = document.getElementById('chartValue');
-        var chartInfoElement = document.getElementById('chartInfo');
-
-        if (dataType === 'totalTransactions') {
-            salesChart.data.datasets[0].label = 'Total Transactions';
-            salesChart.data.datasets[0].data = monthlyData;
-            chartLabelElement.innerHTML = 'Total Transactions';
-
-            var totalTransactions = monthlyData.reduce((a, b) => a + b, 0);
-            chartValueElement.innerHTML = 'Total Transactions: ' + totalTransactions;
-        } else if (dataType === 'monthlySales') {
-            salesChart.data.datasets[0].label = 'Total Sales';
-            salesChart.data.datasets[0].data = monthlySalesData;
-            chartLabelElement.innerHTML = 'Sales';
-
-            var totalSales = parseFloat(monthlySalesData.reduce((a, b) => a + b, 0)).toFixed(2);
-            chartValueElement.innerHTML = 'Total Sales: ₱' + totalSales;
-        } else if (dataType === 'netSales') {
-            salesChart.data.datasets[0].label = 'Admin Profit';
-            salesChart.data.datasets[0].data = monthlyNetSalesData;
-            chartLabelElement.innerHTML = 'Admin Profit';
-
-            var totalNetSales = parseFloat(monthlyNetSalesData.reduce((a, b) => a + b, 0)).toFixed(2);
-            chartValueElement.innerHTML = 'Profit: ₱' + totalNetSales;
-        } else if (dataType === 'overallSales') {
-            salesChart.data.datasets[0].label = 'Photographer Revenue';
-            salesChart.data.datasets[0].data = monthlyOverallSalesData;
-            chartLabelElement.innerHTML = 'Photographer Revenue';
-
-            var totalOverallSales = parseFloat(monthlyOverallSalesData.reduce((a, b) => a + b, 0)).toFixed(2);
-            chartValueElement.innerHTML = 'Revenue: ₱' + totalOverallSales;
-        }
-
-        salesChart.update();
-        chartInfoElement.style.display = 'block';
-    }
     </script>
 </body>
 </html>
