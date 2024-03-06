@@ -1,76 +1,22 @@
-<?php
-// Include necessary files and establish a database connection
-include("../include/config.php"); // Include your database connection
-
-
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photographer Page</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <body>
-    <!-- Main header with navigation bar -->
-    <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-    <!-- Profile (upper right corner) -->
-    <div class="sign-in">
-    <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
-    </div>
-    <div class="message">
-        <!-- Logout link -->
-        <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
-    </div>
-    <div class="logout">
-        <!-- Logout link -->
-        <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
-    </div>
-
-</div>
-
-    
-    </div>
-
-    </header>
-    <!-- Secondary navigation bar -->
-    <nav class="sub-navbar">
-        <ul>
-            <!-- Navigation links -->
-            <li><a href="phdashboard.php">Home</a></li>
-            <li><a href="work_create.php">Portfolio</a></li>
-            <li><a href="schedule.php">Schedule</a></li>
-            <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="package.php">Package</a></li>
-            <li><a href="place.php">Place</a></li>
-            <li><a href="reviews.php">Reviews</a></li>
-        </ul>
-    </nav>
-    
-  <!-- Add your CSS stylesheets here -->
-  <style>
-    
-    body {
-        background-color: #E0F4FF;
-    }
-        /* Resetting default margin and padding */
+    <style>
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
             margin: 0;
             padding: 0;
         }
 
-        /* Add your custom styles for the header and navigation bars */
+        body {
+        
+            overflow-x: hidden;
+        }
+
         .navbar {
-            /* Styles for the main navigation bar */
             background-color: #213555;
             color: #fff;
             padding: 10px;
@@ -81,8 +27,8 @@ include("../include/config.php"); // Include your database connection
 
         .navbar .logo img {
             margin-left: 40px;
-            height: 80px; /* Adjust as needed */
-            width: auto; /* Ensures the image scales with height */
+            height: 80px;
+            width: auto;
         }
 
         .navbar .search input[type="text"] {
@@ -108,7 +54,6 @@ include("../include/config.php"); // Include your database connection
         }
 
         .sub-navbar {
-            /* Styles for the secondary navigation bar */
             background-color: #4F709C;
             color: #fff;
             padding: 10px;
@@ -128,47 +73,120 @@ include("../include/config.php"); // Include your database connection
             color: #fff;
             text-decoration: none;
         }
-          /* Dropdown menu */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #9BABB8;
-            min-width: 160px;
-            z-index: 1=;
-        }
 
-        .dropdown-content a {
-            color: #fff;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        /* Container for sections */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            display: flex;
+            justify-content: space-between;
         }
+
         .profile {
             display: flex;
             align-items: center;
         }
 
         .sign-in,
-        .logout{
-            margin-right: 40px; /* Adjust the margin between the items */
+        .logout,
+        .message {
+            margin-right: 20px;
         }
 
-        .sign-in .dropdown,
-        .logout a {
-            padding: 25px; /* Adjust the padding for better spacing */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #4F709C;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .message{
-            margin-right: 10px; /* Adjust the margin between the items */
+        .sidebar a {
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            transition: 0.3s;
         }
-        </style>
+
+        .sidebar a:hover {
+            color: #E0F4FF;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            font-size: 30px;
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="Search">
+            <button type="submit">Search</button>
+        </div>
+        <div class="profile">
+            <div class="sign-in">
+                <a href="phprofile.php?photographerID=?"><i class="fa-regular fa-user"></i></a>
+            </div>
+            <div class="message">
+                <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
+            </div>
+            <div class="logout">
+                <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="sidebar" id="mySidebar">
+        <a href="phdashboard.php">Home</a>
+        <a href="work_create.php">Portfolio</a>
+        <a href="schedule.php">Schedule</a>
+        <a href="gallery.php">Gallery</a>
+        <a href="package.php">Package</a>
+        <a href="place.php">Place</a>
+        <a href="reviews.php">Reviews</a>
+        <a href="phprofile.php?photographerID=?">Profile</a>
+        <a href="/photodb/photographer/message.php">Messages</a>
+        <a href="/photodb/general/view.php">Logout</a>
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
+    </div>
+
+    <div class="container">
+        <!-- Your existing content -->
+    </div>
+
+    <script>
+        const sidebarTriggerWidth = 50;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("mySidebar");
+            const sidebarWidth = sidebar.offsetWidth;
+
+            if (event.clientX <= sidebarTriggerWidth && sidebar.style.width !== "250px") {
+                sidebar.style.width = "250px";
+            } else if (event.clientX > sidebarWidth) {
+                sidebar.style.width = "0";
+            }
+        }
+
+        document.addEventListener("mousemove", toggleSidebar);
+    </script>
+
+</body>
+</html>

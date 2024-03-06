@@ -9,7 +9,9 @@ include("../general/header.php");  // Include your database connection
     
 
     
+   
     <section class="services">
+    <section class="background">
         <h2>Our Photographers</h2>
         <p>Meet our talented photographers.</p>
         <div class="photographer-container">
@@ -74,12 +76,33 @@ include("../general/header.php");  // Include your database connection
         /* Resetting default margin and padding */
       
 
+        .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center top; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1; /* Push the background behind other content */
+        }
+        h4 {
+            margin-top: 120px;
+            text-align: center;
+            font-size: 7rem;
+            color: #333;
+            font-family: 'Satisfy';
+        }
 
         .photographer-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         animation: fadeInUp 1s ease-out; /* Add fade-in animation */
+        margin-top: 250px;
+        
+        
     }
 
     .photographer {
@@ -87,10 +110,11 @@ include("../general/header.php");  // Include your database connection
     padding: 20px;
     margin: 20px;
     text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0.1, 0.1);
     transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Include transition for background-color */
-    background-color: #FEFBF6;
+    background-color: rgba(0, 0, 0, 0.2);
 }
+
 
 .photographer:hover {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -139,13 +163,14 @@ include("../general/header.php");  // Include your database connection
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        
     }
 
     .album-card {
         width: 200px; /* Adjust the width of each album */
         margin: 20px; /* Adjust the spacing between albums */
         text-align: center;
-        background-color: #FEFBF6; /* Adjust background color as needed */
+        background-color: rgba(0, 0, 0, 0.2);
         padding: 10px;
         border-radius: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -155,18 +180,13 @@ include("../general/header.php");  // Include your database connection
     .album-card:hover {
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
-    h2 {
-            text-align: center;
-            font-size: 4rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
+
          p {
             text-align: center;
             font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
+            font-family:  serif;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
     </style>
 

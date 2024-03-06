@@ -20,6 +20,8 @@ $query = "SELECT p.Name AS PhotographerName,
 
 $result = mysqli_query($conn, $query);
 
+
+
 // Check for query execution success
 if ($result) {
     ?>
@@ -35,6 +37,12 @@ if ($result) {
         </style>
     </head>
     <body>
+
+    
+    <section class="background">
+        <h2>Reviews<h2>
+</section>
+
     <div class="container">
     <?php
     // Loop through each review
@@ -99,31 +107,67 @@ if ($result) {
 
 
 
-        <style>
+<style>
+
+body {
+    background: linear-gradient(to bottom, #CEE6F3 ,#4F709C); /* Dark blue to light blue gradient */
+    background-size: cover; /* Cover the entire background without distortion */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+}
+
+        .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center bottom; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1; /* Push the background behind other content */
+        }
+
+        h2 {
+            margin-top: 160px;
+            text-align: center;
+            font-size: 6rem;
+            color: #fff;
+            font-family: 'Satisfy';
+        }
+        h5 {
+            font-size: 2rem;
+            color: #333;
+            font-family: 'Satisfy';
+        }
+        
 
         .container {
             max-width: 1000px;
-            margin: 20px auto;
+            margin-top: 400px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
 
         .photographer-review {
-            width: 45%;
-            margin-bottom: 20px;
+            width: 30%; /* Set width to 30% for three columns */
             padding-bottom: 20px;
-            border-bottom: 1px solid #ccc;
-            background-color: #fff;
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex; /* Added */
-            justify-content: center; /* Added */
-            align-items: center; /* Added */
-            flex-direction: column; /* Added */
-            text-align: center; /* Added */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
+        .photographer-review:hover {
+    transform: scale(1.1); /* Scale up the element by 10% on hover */
+    transition: transform 0.3s ease; /* Smooth transition over 0.3 seconds */
+}
         .photographer-review:last-child {
             margin-bottom: 0;
             padding-bottom: 0;
@@ -131,7 +175,7 @@ if ($result) {
         }
 
         .photographer-image {
-            width: 40%;
+            width: 50%;
             margin-right: 5%;
             padding: 20px;
         }
@@ -139,12 +183,12 @@ if ($result) {
         .photographer-image img {
             width: 100%;
             border-radius: 50%;
-            display: block; /* Added */
-            margin: 0 auto; /* Added */
+            display: block;
+            margin: 0 auto;
         }
 
         .review-details {
-            width: 100%; /* Changed from 55% to 100% */
+            width: 100%;
             padding: 20px;
         }
 
@@ -156,14 +200,20 @@ if ($result) {
 
         .rating {
             margin-bottom: 10px;
-            color: #ffac00; /* Star color */
+            color: #ffac00;
         }
 
         .comments p {
             margin: 0;
+            font-style: italic;
         }
 
-        .fas.fa-star {
-            color: #ffac00; /* Filled star color */
+        p {
+            margin-bottom: 20px;
         }
+        .fas.fa-star {
+            color: #ffac00;
+            margin-bottom: 20px;
+        }
+
     </style>

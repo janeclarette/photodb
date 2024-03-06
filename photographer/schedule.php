@@ -8,6 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
     <style>
+    
+
         body {
             font-family: 'Arial', sans-serif;
             margin: 40px 10px;
@@ -70,10 +72,17 @@
         #submitTime:hover {
             background-color: #45a049;
         }
+        .background {
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
     </style>
 </head>
 
 <body>
+    <section class="background">
     <?php
     session_start();
     include("../include/config.php"); // Include your database connection
@@ -100,7 +109,6 @@
         ORDER BY av.date_id";
 
     $resultFetchAddedDates = mysqli_query($conn, $sqlFetchAddedDates);
-
     if ($resultFetchAddedDates) {
         while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
             $avail_date = $row['avail_date'];
