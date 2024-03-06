@@ -2,7 +2,7 @@
 session_start(); // Start the session
 // Include necessary files and establish a database connection
 include("../include/config.php");
-include("../customer/header.php");  // Include your database connection
+include("../general/header.php");  // Include your database connection
 ?>
 
     <!-- Main content of the page -->
@@ -10,11 +10,8 @@ include("../customer/header.php");  // Include your database connection
 
     
     <section class="services">
-    <section class="background">
-        <h4> Photographers</h4>
-
+        <h2>Our Photographers</h2>
         <p>Meet our talented photographers.</p>
-        </section>
         <div class="photographer-container">
             <?php
             // Fetch photographers from the database
@@ -36,10 +33,7 @@ include("../customer/header.php");  // Include your database connection
                 echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
                 echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
                 echo '</form>';
-                echo '<form action="bookp.php" method="GET" style="display: inline;">';
-                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Book Photographer</button>';
-                echo '</form>';
+           
                 echo '</div>';
             }
             ?>
@@ -80,33 +74,12 @@ include("../customer/header.php");  // Include your database connection
         /* Resetting default margin and padding */
       
 
-        .background {
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center top; /* Lower the background image */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            z-index: -1; /* Push the background behind other content */
-        }
-        h4 {
-            margin-top: 120px;
-            text-align: center;
-            font-size: 7rem;
-            color: #333;
-            font-family: 'Satisfy';
-        }
 
         .photographer-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         animation: fadeInUp 1s ease-out; /* Add fade-in animation */
-        margin-top: 250px;
-        
-        
     }
 
     .photographer {
@@ -114,11 +87,10 @@ include("../customer/header.php");  // Include your database connection
     padding: 20px;
     margin: 20px;
     text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0.1, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Include transition for background-color */
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #FEFBF6;
 }
-
 
 .photographer:hover {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -167,14 +139,13 @@ include("../customer/header.php");  // Include your database connection
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        
     }
 
     .album-card {
         width: 200px; /* Adjust the width of each album */
         margin: 20px; /* Adjust the spacing between albums */
         text-align: center;
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: #FEFBF6; /* Adjust background color as needed */
         padding: 10px;
         border-radius: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -184,13 +155,18 @@ include("../customer/header.php");  // Include your database connection
     .album-card:hover {
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
-
+    h2 {
+            text-align: center;
+            font-size: 4rem;
+            font-family: 'Satisfy';
+            color: #333;
+        }
          p {
             text-align: center;
             font-size: 1.5rem;
-            font-family:  serif;
+            font-family: 'Cinzel', serif;
             color: #333;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
     </style>
 

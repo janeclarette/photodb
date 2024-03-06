@@ -1,25 +1,28 @@
 <?php
 // Include necessary files and establish a database connection
-session_start ();
-include("../include/config.php"); 
-
+include("../include/config.php"); // Include your database connection
 ?>
-
-
-    <title>Customer Page</title>
+    <title>General Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <body>
-
-    <section class="background">
+    <!-- Main header with navigation bar -->
     <header class="navbar">
+ <!-- Main header with navigation bar -->
+<header class="navbar">
     <div class="logo">
         <!-- Logo (upper left corner) -->
-        <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
+        <a href="/photodb/general/view.php"><img src="../uploads/C.png" alt="Logo"></a>
     </div>
+
+
+
+
+</header>
+
 
     <div class="profile">
     <!-- Profile (upper right corner) -->
@@ -53,6 +56,7 @@ include("../include/config.php");
         <!-- Logout link -->
         <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
     </div>
+    <!-- Toggle button for sidebar -->
 
 </div>
 
@@ -64,8 +68,8 @@ include("../include/config.php");
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
-            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
-            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
+            <li><a href="/photodb/general/view.php">Home</a></li>       
+            <li><a href="/photodb/general/photographer.php">Photographers</a></li>
 
 
             <li class="dropdown">
@@ -88,62 +92,24 @@ include("../include/config.php");
         ?>
             </div>
             </li>
-            <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
-            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Pricing</a></li>
-            <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
+            <li><a href="/photodb/general/phreviews.php">Reviews</a></li>
+            <li><a href="/photodb/general/gallery.php">Photo Gallery</a></li>
+            <li><a href="/photodb/general/price.php">Packages</a></li>
+            <li><a href="/photodb/general/appointment.php">Appointments</a></li>
             <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
-
-</body>
-</html>
-    <!-- Main content of the page -->
-    
-        <!-- Welcome section -->
-        <section class="welcome">
-            <h2>Welcome to CheeseClick</h2>
-        </section>
-        </section>        
-
-        <!-- Services section -->
-        <section class="services">
-            <h2>Our Services</h2>
-            <p>Check out our range of services to meet your needs.</p>
-            <div class="service-container">
-        <div class="service">
-            <img src="../uploads/wed.jpg" alt="Service 1">
-            <h3>Wedding Photography</h3>
-        </div>
-        <div class="service">
-            <img src="../uploads/spo.jpg" alt="Service 2">
-            <h3>Sports Photography</h3>
-        </div>
-        <div class="service">
-            <img src="../uploads/new.jpg" alt="Service 3">
-            <h3> Newborn Photography</h3>
-        </div>
-        
-        </section>
-
-        <!-- Featured events section -->
-        <section class="featured-events">
-            <h2>Featured Events</h2>
-            <p>Explore our featured events.</p>
-           
-        </section>
-        <?php include("../include/footer.php"); ?>
+<div class="overlay"></div>
 </body>
 </html>
 
 
 
- 
   <!-- Add your CSS stylesheets here -->
   <style>
 
-    body {
+body {
         background-color: #E0F4FF;
     }
         /* Resetting default margin and padding */
@@ -155,7 +121,7 @@ include("../include/config.php");
         /* Add your custom styles for the header and navigation bars */
         .navbar {
             /* Styles for the main navigation bar */
-
+            background-color: #213555;
             color: #fff;
             padding: 10px;
             display: flex;
@@ -209,43 +175,53 @@ include("../include/config.php");
             font-size: 14px;
         }
 
-        .sub-navbar ul {
-        margin-top: 30px;
+        .sub-navbar {
+        background-color: #4F709C;
+        color: #fff;
+        padding: 10px;
+        position: fixed;
+        top: 0;
+        left: -200px; /* Initially hidden off-screen to the left */
+        height: 100vh;
+        width: 150px;
+        overflow-x: hidden;
+        transition: left 0.3s;
+    }
+
+    /* Show the sub-navbar when hovering over the left side of the screen */
+    body:hover .sub-navbar,
+body:hover .content {
+    left: 0;
+}
+
+    .sub-navbar ul {
         list-style-type: none;
-        display: flex;
-        justify-content: center; /* Center the items horizontally */
-        }
+        padding: 0;
+    }
 
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none; /* Remove underline */
-            font-size: 1.5rem;
-            margin-right: 10px;
-        }
-        .sub-navbar ul li {
-            margin: 0 5px; /* Add margin to create spacing between items */
-            opacity: 0; /* Initially hide the items */
-            transform: translateX(-50%); /* Start off-screen to the left */
-            animation: revealFromCenter 2.5s ease forwards; /* Apply animation */
-        }
+    .sub-navbar ul li {
+        margin: 5px 0;
+    }
 
-        @keyframes revealFromCenter {
-            from {
-                opacity: 0;
-                transform: translateX(-50%); /* Start off-screen to the left */
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0); /* Move to original position */
-            }
-        }
+    .sub-navbar ul li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        transition: background-color 0.3s;
+    }
+
+    .sub-navbar ul li a:hover {
+        background-color: #32475C;
+    }
+
 
           /* Dropdown menu */
         .dropdown-content {
             display: none;
             position: absolute;
             background-color: #9BABB8;
-            min-width: 300px;
+            min-width: 160px;
             z-index: 1=;
         }
 
@@ -284,18 +260,14 @@ include("../include/config.php");
             margin-right: 10px; /* Adjust the margin between the items */
         }
 
-
-        .background {
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center bottom; /* Lower the background image */
-        }
-
         /* Welcome section */
         .welcome {
             padding: 40px;
             margin-bottom: 20px;
             text-align: center;
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center bottom; /* Lower the background image */
             height: 500px; /* Adjust the height as needed */
             display: flex;
             align-items: center;
@@ -377,4 +349,5 @@ include("../include/config.php");
             font-family: 'Cinzel', serif;
             color: #333;
         }
-    </style>
+</style>
+    

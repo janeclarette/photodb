@@ -54,7 +54,7 @@ include("../include/config.php"); // Include your database connection
     </div>
     <div class="logout">
         <!-- Logout link -->
-        <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
+        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
     </div>
     <!-- Toggle button for sidebar -->
 
@@ -111,6 +111,7 @@ include("../include/config.php"); // Include your database connection
 
     body {
         background-color: #E0F4FF;
+        
     }
         /* Resetting default margin and padding */
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
@@ -121,7 +122,7 @@ include("../include/config.php"); // Include your database connection
         /* Add your custom styles for the header and navigation bars */
         .navbar {
             /* Styles for the main navigation bar */
-            background-color: #213555;
+
             color: #fff;
             padding: 10px;
             display: flex;
@@ -186,13 +187,14 @@ include("../include/config.php"); // Include your database connection
         width: 150px;
         overflow-x: hidden;
         transition: left 0.3s;
+
     }
 
     /* Show the sub-navbar when hovering over the left side of the screen */
     body:hover .sub-navbar,
-body:hover .content {
-    left: 0;
-}
+    body:hover .content {
+        left: 0;
+    }
 
     .sub-navbar ul {
         list-style-type: none;
@@ -200,7 +202,8 @@ body:hover .content {
     }
 
     .sub-navbar ul li {
-        margin: 5px 0;
+        margin: 25px 0;
+        margin-bottom: 30px;
     }
 
     .sub-navbar ul li a {
@@ -265,9 +268,7 @@ body:hover .content {
             padding: 40px;
             margin-bottom: 20px;
             text-align: center;
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center bottom; /* Lower the background image */
+/* Lower the background image */
             height: 500px; /* Adjust the height as needed */
             display: flex;
             align-items: center;
@@ -303,14 +304,14 @@ body:hover .content {
         .services h6 {
             text-align: center;
             font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
+            font-family:  serif;
             color: #333;
             margin: 20px;
         }
         .services p {
             text-align: center;
             font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
+            font-family:  serif;
             color: #333;
         }
         .service-container {

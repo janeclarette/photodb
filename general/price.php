@@ -2,13 +2,7 @@
 session_start();
 $loggedInCustomerID = isset($_SESSION['CustomerID']) ? $_SESSION['CustomerID'] : null;
 include("../include/config.php");
-include("../customer/header.php");
-
-
-
-
-
-
+include("../general/header.php");
 
 function getPackageInclusions($packageID) {
     global $conn;
@@ -37,12 +31,9 @@ $packagesResult = $conn->query($packagesSql);
 
 
 
-
-
         <section class="services">
-<section class="background">
-            <h4>Price and Packages</h4>
-        </section>
+            <h2>Available Packages</h2>
+
             <div class="container">
 
                     <label for="service-type" >Select Service Type:</label>
@@ -63,31 +54,52 @@ $packagesResult = $conn->query($packagesSql);
          
 
                     <br><br>
-                <h5>Secure your moments, schedule your experience</h5> <br>
+                <p>Secure your moments, schedule your experience</p>
                 <div class="service-container">
-                    <?php
-                    while ($packageRow = $packagesResult->fetch_assoc()) {
-                        $packageID = $packageRow['PackageID'];
-                        $packageName = $packageRow['PackageName'];
-                        $photographerID = isset($packageRow['photographerID']) ? $packageRow['photographerID'] : null;
-                        $photographerName = $packageRow['photographer_name'];
-                        $packagePrice = $packageRow['Price'];
-                        $serviceTypeName = $packageRow['service_type_name'];
-                    
-                        echo '<div class="package-container" id="package-' . $packageID . '" data-service-type="' . $serviceTypeName . '">';
-                        echo '<h3>' . $packageName . '</h3>';
-                        echo '<p>Photographer: ' . $photographerName . '</p>';
-                        echo '<p>Price: ₱' . $packagePrice . '</p>';
-                        echo '<p>Service Type: ' . $serviceTypeName . '</p>';
-                        echo '<p>Inclusions: ' . getPackageInclusions($packageID) . '</p>';
-                        echo '<div class="center-button">';
-                        echo '<a href="display_booking_info.php?customerID=' . $loggedInCustomerID . '&packageID=' . $packageID . '&photographerID=' . $photographerID . '"><button>Book an Appointment</button></a>';
+                <?php
+while ($packageRow = $packagesResult->fetch_assoc()) {
+    $packageID = $packageRow['PackageID'];
+    $packageName = $packageRow['PackageName'];
+    $photographerID = isset($packageRow['photographerID']) ? $packageRow['photographerID'] : null;
+    $photographerName = $packageRow['photographer_name'];
+    $packagePrice = $packageRow['Price'];
+    $serviceTypeName = $packageRow['service_type_name'];
 
+    echo '<div class="package-container" id="package-' . $packageID . '" data-service-type="' . $serviceTypeName . '">';
+    echo '<h3>' . $packageName . '</h3>';
+    echo '<p>Photographer: ' . $photographerName . '</p>';
+    echo '<p>Price: ₱' . $packagePrice . '</p>';
+    echo '<p>Service Type: ' . $serviceTypeName . '</p>';
+    echo '<p>Inclusions: ' . getPackageInclusions($packageID) . '</p>';
+    echo '<div class="center-button">';
+    
+    // Check if the user is logged in before allowing booking
+    if (!isset($_SESSION['CustomerID'])) {
+        echo '<button onclick="showLoginAlert()">Book an Appointment</button>';
+    } else {
+        // Use the bookAppointment function for logged-in users
+        echo '<button onclick="bookAppointment(' . $packageID . ', ' . $photographerID . ')">Book an Appointment</button>';
+    }
 
-                        echo '</div>';
-                        echo '</div>';
-                    }
-                    ?>
+    echo '</div>';
+    echo '</div>';
+}
+?>
+
+<script>
+    function showLoginAlert() {
+        alert("Please login first!");
+        window.location.href = "../admin/login.php";
+    }
+
+    function bookAppointment(packageID, photographerID) {
+        <?php
+        // If the user is logged in, proceed with booking logic
+        echo 'window.location.href = "display_booking_info.php?customerID=' . $loggedInCustomerID . '&packageID=" + packageID + "&photographerID=" + photographerID;';
+        ?>
+    }
+</script>
+
                 </div>
             </div>
         </section>
@@ -119,76 +131,33 @@ $packagesResult = $conn->query($packagesSql);
 
 <style>
 body {
-    background: linear-gradient(to bottom, #CEE6F3 ,#4F709C); /* Dark blue to light blue gradient */
-    background-size: cover; /* Cover the entire background without distortion */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the background from repeating */
-}
-    label {
-        font-size: 1.5rem; 
-        font-family: 'serif';
+        background-color: #E0F4FF;
     }
-
-    select {
-    font-size: 1.5rem; /* Change the font size as needed */
-    font-family: 'serif';
-    }
-
-        h4 {
-            margin-top: 160px;
-            font-size: 6rem;
-            color: #fff;
-            font-family: 'Satisfy';
-        }
-        h5 {
-            font-size: 2rem;
-            color: #333;
-            font-family: 'Satisfy';
-        }
-        
-        p {
-            margin-top: 10px;
-            font-size: 2.5rem;
-            color: #fff;
-            
-
-        }
+      
 
 
-        .background {
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center bottom; /* Lower the background image */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            z-index: -1; /* Push the background behind other content */
-        }
-
-        .container {
-            margin-top: 290px;
-        }
         .package-container {
-
-
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
             padding: 20px;
-
+            margin: 20px;
             text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: calc(33.33% - 40px); 
-
+            box-sizing: border-box;
+            display: inline-block;
         }
 
         .package-container h3 {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: #333;
             margin-bottom: 10px;
         }
 
         .package-container p {
-            font-size: 1.3rem;
-            color: #333;
+            font-size: 1.2rem;
+            color: #555;
             margin-bottom: 8px;
         }
 

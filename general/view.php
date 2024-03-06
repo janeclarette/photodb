@@ -1,6 +1,9 @@
-<?php include("../include/config.php"); ?><!DOCTYPE html>
+<?php include("../include/config.php");
+?>
 
 
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,6 +18,7 @@
 </head>
 <body>
     <!-- Main header with navigation bar -->
+    <section class="background">
     <header class="navbar">
         <div class="logo">
             <!-- Logo (upper left corner) -->
@@ -40,7 +44,7 @@
             </div>
             <div class="logout">
                 <!-- Logout link -->
-                <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
+                <a href="/photodb/admin/login.php"><i class="fas fa-sign-in-alt"></i></a>
             </div>
         </div>
     </header>
@@ -48,8 +52,8 @@
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
-            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
-            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
+            <li><a href="/photodb/general/view.php">Home</a></li>       
+            <li><a href="/photodb/general/photographer.php">Photographers</a></li>
 
 
             <li class="dropdown">
@@ -67,57 +71,68 @@
                 $typeName
             )));
 
-            echo "<a href='$typeParam.php'>$typeName</a>";
+            echo "<a href='../general/$typeParam.php'>$typeName</a>";
         }
         ?>
             </div>
             </li>
-            <li><a href="/photodb/customer/review.php">Reviews</a></li>
-            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Pricing</a></li>
+            <li><a href="/photodb/general/phreviews.php">Reviews</a></li>
+            <li><a href="/photodb/general/gallery.php">Photo Gallery</a></li>
+            <li><a href="/photodb/general/price.php">Packages</a></li>
+            <li><a href="/photodb/general/appointment.php">Appointments</a></li>
             <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
-            <li><a href="/photodb/admin/contactus.php">Contact Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
-    <div class="container">
+
+</body>
+</html>
+    <!-- Main content of the page -->
+    
         <!-- Welcome section -->
         <section class="welcome">
             <h2>Welcome to CheeseClick</h2>
         </section>
+        </section>        
+
         <!-- Services section -->
         <section class="services">
             <h2>Our Services</h2>
             <p>Check out our range of services to meet your needs.</p>
             <div class="service-container">
-                <div class="service">
-                    <img src="../uploads/wed.jpg" alt="Service 1">
-                    <h3>Wedding Photography</h3>
-                    <h6>Description of Service 1</h6>
-                </div>
-                <div class="service">
-                    <img src="service_icons/service2.png" alt="Service 2">
-                    <h3>Service 2</h3>
-                    <p>Description of Service 2</p>
-                </div>
-                <div class="service">
-                    <img src="service_icons/service3.png" alt="Service 3">
-                    <h3>Service 3</h3>
-                    <p>Description of Service 3</p>
-                </div>
-            </div>
+        <div class="service">
+            <img src="../uploads/wed.jpg" alt="Service 1">
+            <h3>Wedding Photography</h3>
+        </div>
+        <div class="service">
+            <img src="../uploads/spo.jpg" alt="Service 2">
+            <h3>Sports Photography</h3>
+        </div>
+        <div class="service">
+            <img src="../uploads/new.jpg" alt="Service 3">
+            <h3> Newborn Photography</h3>
+        </div>
+        
         </section>
+
         <!-- Featured events section -->
         <section class="featured-events">
             <h2>Featured Events</h2>
             <p>Explore our featured events.</p>
+           
         </section>
-    </div>
+        <?php include("../include/footer.php"); ?>
 </body>
 </html>
 
 
+
+
 <style>
+
+body {
+    background-color: #E0F4FF;
+}
     /* Resetting default margin and padding */
     body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
         margin: 0;
@@ -127,7 +142,7 @@
     /* Add your custom styles for the header and navigation bars */
     .navbar {
         /* Styles for the main navigation bar */
-        background-color: #213555;
+
         color: #fff;
         padding: 10px;
         display: flex;
@@ -161,37 +176,64 @@
     .navbar .profile a {
         color: #fff;
         text-decoration: none;
+        margin-right: 5px;
+    }
+    .navbar .profile .user-info {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
     }
 
-    .sub-navbar {
-        /* Styles for the secondary navigation bar */
-        background-color: #4F709C;
+    .navbar .profile .user-info img {
+        width: 30px; /* Adjust image size as needed */
+        height: 30px; /* Adjust image size as needed */
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .navbar .profile .user-info .username {
         color: #fff;
-        padding: 10px;
+        font-size: 14px;
     }
 
     .sub-navbar ul {
-        list-style-type: none;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .sub-navbar ul li {
-        margin-right: 10px;
+    margin-top: 30px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center; /* Center the items horizontally */
     }
 
     .sub-navbar ul li a {
         color: #fff;
-        text-decoration: none;
+        text-decoration: none; /* Remove underline */
+        font-size: 1.5rem;
+        margin-right: 10px;
     }
-    
-    /* Dropdown menu */
+    .sub-navbar ul li {
+        margin: 0 5px; /* Add margin to create spacing between items */
+        opacity: 0; /* Initially hide the items */
+        transform: translateX(-50%); /* Start off-screen to the left */
+        animation: revealFromCenter 2.5s ease forwards; /* Apply animation */
+    }
+
+    @keyframes revealFromCenter {
+        from {
+            opacity: 0;
+            transform: translateX(-50%); /* Start off-screen to the left */
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0); /* Move to original position */
+        }
+    }
+
+      /* Dropdown menu */
     .dropdown-content {
         display: none;
         position: absolute;
         background-color: #9BABB8;
-        min-width: 160px;
-        z-index: 1;
+        min-width: 300px;
+        z-index: 1=;
     }
 
     .dropdown-content a {
@@ -204,14 +246,12 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
-
     /* Container for sections */
     .container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 20px;
     }
-
     .profile {
         display: flex;
         align-items: center;
@@ -227,17 +267,23 @@
         padding: 25px; /* Adjust the padding for better spacing */
     }
 
+    .message{
+        margin-right: 10px; /* Adjust the margin between the items */
+    }
 
-    /* Welcome section */
-    .welcome {
-        background-color: #f0f0f0;
-        padding: 40px;
-        margin-bottom: 20px;
-        text-align: center;
+
+    .background {
         background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
         background-size: cover;
         background-position: center bottom; /* Lower the background image */
-        height: 400px; /* Adjust the height as needed */
+    }
+
+    /* Welcome section */
+    .welcome {
+        padding: 40px;
+        margin-bottom: 20px;
+        text-align: center;
+        height: 500px; /* Adjust the height as needed */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -247,12 +293,11 @@
         text-align: center;
         font-size: 6rem;
         font-family: 'Satisfy';
-        color: #FEFBF6;
+        color: #fff;
     }
 
     /* Services section */
     .services {
-        background-color: #F5EFE7;
         padding: 50px;
         margin-bottom: 20px;
         text-align: center;
@@ -264,14 +309,12 @@
         font-family: 'Satisfy';
         color: #333;
     }
-    
     .services h3 {
         text-align: center;
         font-size: 2rem;
         font-family: 'Satisfy';
         color: #333;
     }
-
     .services h6 {
         text-align: center;
         font-size: 1.5rem;
@@ -279,14 +322,12 @@
         color: #333;
         margin: 20px;
     }
-
     .services p {
         text-align: center;
         font-size: 1.5rem;
         font-family: 'Cinzel', serif;
         color: #333;
     }
-
     .service-container {
         display: flex;
         flex-wrap: wrap;
@@ -307,19 +348,16 @@
 
     /* Featured events section */
     .featured-events {
-        background-color: #F5EFE7;
         padding: 50px;
         margin-bottom: 20px;
         text-align: center;
     }
-
     .featured-events h2 {
         text-align: center;
         font-size: 3rem;
         font-family: 'Satisfy';
         color: #333;
     }
-
     .featured-events p {
         text-align: center;
         font-size: 1.5rem;
