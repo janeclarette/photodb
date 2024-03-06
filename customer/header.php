@@ -37,7 +37,7 @@ include("../include/config.php"); // Include your database connection
                         <img src="<?php echo $customerInfo['img_customer']; ?>" alt="Profile Image">
                     </a>
                 <?php endif; ?>
-                <span class="username"><?php echo $customerInfo['Name']; ?></span>
+                <span class="username">Welcome, <?php echo $customerInfo['Name']; ?></span>
             </div>
         <?php } ?>
     <?php endif; ?>

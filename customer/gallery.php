@@ -3,10 +3,6 @@ session_start();
 include("../include/config.php");
 include("../customer/header.php");
 
-if (!isset($_SESSION['PhotographerID'])) {
-    header("Location: /photodb/photographer/login.php");
-    exit();
-}
 
 $query = "SELECT Photos, PhotographerID FROM works";
 $result = mysqli_query($conn, $query);
