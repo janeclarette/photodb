@@ -94,7 +94,7 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
         background-attachment: fixed;
         height: 100vh;
     }
-h4 {
+    h4 {
             text-align: center;
             font-size: 5rem;
             color: #333;
@@ -115,7 +115,8 @@ h4 {
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center the container horizontally and vertically */
-    
+    margin-top: 200px;
+    margin-bottom: 15px;
 }
 
 

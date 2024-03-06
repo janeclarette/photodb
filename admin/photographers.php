@@ -45,27 +45,31 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
         var photographerBookings = <?php echo json_encode($photographerBookings); ?>;
 
         // Create a bar chart using Chart.js
-        var ctx = document.getElementById('photographerChart').getContext('2d');
-        var photographerChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: photographerIDs,
-                datasets: [{
-                    label: 'Bookings',
-                    data: photographerBookings,
-                    backgroundColor: '#9BABB8',
-                    borderColor: '#2D4356',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+// Create a bar chart using Chart.js
+var ctx = document.getElementById('photographerChart').getContext('2d');
+var photographerChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: photographerIDs,
+        datasets: [{
+            label: 'Bookings',
+            data: photographerBookings,
+            backgroundColor: '#9BABB8',
+            borderColor: '#2D4356',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
             }
-        });
+        },
+        // Adjust bar thickness here
+        barThickness: 40 // Adjust the value as needed
+    }
+});
+
     </script>
 
     <?php
@@ -143,7 +147,7 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
     .description {
         
             padding: 20px;
-            max-width: 400px;
+            max-width: 300px;
             background-color: rgba(75, 192, 192, 15);
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -163,7 +167,7 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
         }
         
     h2 {
-        margin-top: 70px;
+        margin-top: 40px;
         margin-bottom: 50px;
         text-align: center;
         color: #333;
@@ -193,7 +197,7 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
     text-align: center; /* Center the content horizontally */
     margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
     max-width: 300px; /* Set a maximum width if needed */
-    height: 370px; /* Set the height as needed */
+    height: 400px; /* Set the height as needed */
     
 }
 
