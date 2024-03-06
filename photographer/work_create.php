@@ -341,3 +341,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        
        
         </style>
+         <?php include("../include/footer.php"); ?>

@@ -46,42 +46,99 @@ if ($result) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
         <!-- Add your CSS stylesheets here -->
         <style>
-            /* Resetting default margin and padding */
-            body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-                margin: 0;
-                padding: 0;
-            }
+     /* CSS styles */
+        /* Add your CSS stylesheets here */
+        body {
+            background-image: url('../uploads/cover.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+        }
+        .background {
+            margin-top: auto 0;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+            font-size: 6rem;
+            font-family: 'Satisfy';
+        }
+        table {
+            width: 90%; /* Set the width of the table */
+            max-width: 1200px; /* Set a maximum width for the table */
+            margin: 20px auto; /* Center the table horizontally */
+            backdrop-filter: blur(40px); 
+            font-weight: bold;
+        }
 
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-}
+        th {
+            background-color: rgba(75, 192, 192, 10);
+            color: #333;
+            font-weight: bold;
+        }
 
-table th,
-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
+        tr:hover {
+            background-color: #fffff0;
+        }
 
-/* Header row */
-table th {
-    background-color: #213555;
-    color: #fff;
-}
+        /* Button styles */
+        .payment-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(75, 192, 192, 20);
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        }
 
-/* Alternate row colors */
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+        .payment-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
 
-/* Hover effect on rows */
-table tr:hover {
-    background-color: #ddd;
-}
+        .confirm-btn, .decline-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+        }
 
+        .confirm-btn {
+            background-color: #4CAF50;
+        }
+
+        .decline-btn {
+            background-color: #f44336;
+        }
+
+        .confirm-btn:hover, .decline-btn:hover {
+            opacity: 0.8;
+        }
+
+        .review-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            background-color: #4F709C;
+            color: white;
+            font-size: 14px;
+        }
+
+        .review-btn:hover {
+            opacity: 0.8;
+        }
+
+        
 /* Button styles */
 table button {
     padding: 8px 12px;
@@ -100,7 +157,8 @@ table button:disabled {
 
 /* Adjust button margin */
 table button + button {
-    margin-left: 5px;
+    margin-left: 0px;
+ 
 }
         </style>
 
@@ -190,6 +248,7 @@ table button + button {
                             // exit();
                         }
                         ?>
+                        
                     </td>
                 </tr>
                 <?php
@@ -221,4 +280,5 @@ function getCustomerName($conn, $customerID) {
 
     return "N/A"; // Return a default value if customer name is not found
 }
+
 ?>

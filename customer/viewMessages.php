@@ -1,10 +1,9 @@
 <?php
 // Include the database connection
 include("../include/config.php");
-
 // Start the session
 session_start();
-
+include("../customer/header.php");
 // Check if the user is logged in
 if (isset($_SESSION['CustomerID'])) {
     // Get the logged-in user's ID from the session
@@ -42,12 +41,37 @@ if (isset($_SESSION['CustomerID'])) {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <title>View Messages</title>
                         <style>
+                            /* Include your styles here */
                             body {
-                                font-family: Arial, sans-serif;
-                                margin: 0;
-                                padding: 20px;
+                                background-image: url(\'../uploads/b.jpg\');
+                                font-family: \'Poppins\', sans-serif;
                                 background-color: #f7f7f7;
+                                margin: 0;
+                                padding: 0;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                height: 100vh;
+                                animation: fadeIn 0.5s ease-in-out;
+                                justify-content: center; /* Center content vertically */
                             }
+
+                            header {
+                                background-color: #213555;
+                                color: #fff;
+                                padding: 15px;
+                                text-align: center;
+                                width: 100%;
+                                position: fixed;
+                                top: 0;
+                                z-index: 1000;
+                            }
+
+                            header h1 {
+                                margin: 0;
+                                font-size: 24px;
+                            }
+
                             .chat-container {
                                 max-width: 600px;
                                 margin: 20px auto;
@@ -55,44 +79,49 @@ if (isset($_SESSION['CustomerID'])) {
                                 border-radius: 10px;
                                 overflow: hidden;
                             }
+
                             .chat-messages {
                                 max-height: 400px;
                                 overflow-y: auto;
                                 padding: 10px;
                             }
+
                             .message {
                                 margin-bottom: 10px;
                             }
+
                             .message img {
                                 max-width: 100%;
                                 height: auto;
                                 border-radius: 5px;
                             }
+
+                            /* Continue with the rest of your styles */
                         </style>
                     </head>
                     <body>
-                        <div class="chat-container">
-                            <div class="chat-messages">';
+                    <div class="chat-container">
+                        <div class="chat-messages">';
 
-            // Fetch data and display messages
-            while ($row = mysqli_fetch_assoc($result)) {
-                $messageBody = htmlspecialchars($row['Body']);
-                $senderName = htmlspecialchars($row['SenderName']);
-                $imgMessage = isset($row['img_message']) ? '<img src="../uploads/' . $row['img_message'] . '" alt="Image">' : '';
+        // Fetch data and display messages
+        while ($row = mysqli_fetch_assoc($result)) {
+            $messageBody = htmlspecialchars($row['Body']);
+            $senderName = htmlspecialchars($row['SenderName']);
+            $imgMessage = isset($row['img_message']) ? '<img src="../uploads/' . $row['img_message'] . '" alt="Image">' : '';
 
-                echo '<div class="message">
-                        <strong>' . $senderName . ':</strong>
-                        <p>' . $messageBody . '</p>
-                        ' . $imgMessage . '
-                    </div>';
-            }
+            echo '<div class="message">
+                    <strong>' . $senderName . ':</strong>
+                    <p>' . $messageBody . '</p>
+                    ' . $imgMessage . '
+                </div>';
+        }
 
-            // Close the result set and the statement
-            mysqli_free_result($result);
-            mysqli_stmt_close($stmt);
+        // Close the result set and the statement
+        mysqli_free_result($result);
+        mysqli_stmt_close($stmt);
 
-            // Display the closing HTML tags
-            echo '      </div>
+        // Display the closing HTML tags
+        echo '      </div>
                         </div>
                     </body>
                 </html>';
@@ -109,7 +138,7 @@ if (isset($_SESSION['CustomerID'])) {
     mysqli_close($conn);
 } else {
     // Redirect or handle the case where the user is not logged in
-    header("Location: login.php");
+    // echo '<script>window.location.href = "../admin/login.php";</script>';
     exit();
 }
 ?>

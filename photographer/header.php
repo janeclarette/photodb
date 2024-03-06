@@ -73,7 +73,7 @@ include("../include/config.php"); // Include your database connection
             <li> <a href="work_create.php">Portfolio</a></li>
             <li><a href="schedule.php">Schedule</a></li>
             <li><a href="gallery.php">Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Packages</a></li>
+            <!-- <li><a href="/photodb/customer/price.php">Packages</a></li> -->
             <li><a href="../photographer/package.php">Package</a></li>
             <li><a href="place.php">Place</a></li>
             <li><a href="reviews.php">Reviews</a></li>

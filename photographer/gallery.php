@@ -19,8 +19,7 @@ if (!$result) {
 }
 ?>
 
-
-
+<h1> <center>PHOTOGRAPHER'S ALBUM</center></h1>
 
 <div class="container">
     <?php
@@ -84,3 +83,4 @@ mysqli_close($conn);
             display: block;
         }
 </style>
+<?php include("../include/footer.php"); ?>
