@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>General Page</title>
+    <title>About Us</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
@@ -20,40 +20,56 @@
     <!-- Main header with navigation bar -->
     <section class="background">
     <header class="navbar">
-        <div class="logo">
-            <!-- Logo (upper left corner) -->
-            <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
-        </div>
-        <div class="search">
-            <!-- Search (center) -->
-            <input type="text" placeholder="Search">
-            <button type="submit">Search</button>
-        </div>
-        <div class="profile">
-            <!-- Profile (upper right corner) -->
-            <div class="sign-in">
-                <!-- Dropdown for Sign In -->
-                <div class="dropdown">
-                    <button class="dropbtn"><i class="fa-regular fa-user"></i></button>
-                    <div class="dropdown-content">
-                        <a href="/photodb/admin/login.php"> Login </a>
-                        <a href="/photodb/photographer/phregister.php"> Register as Photographer</a>
-                        <a href="/photodb/customer/customerregister.php"> Register as Customer</a>
-                    </div>
-                </div>
+    <div class="logo">
+        <!-- Logo (upper left corner) -->
+        <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
+    </div>
+
+    <div class="profile">
+    <!-- Profile (upper right corner) -->
+    <?php if (isset($_SESSION['CustomerID'])): ?>
+        <?php
+        $customerId = $_SESSION['CustomerID'];
+        $sql = "SELECT * FROM customers WHERE CustomerID = '$customerId'";
+        $result = mysqli_query($conn, $sql);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $customerInfo = mysqli_fetch_assoc($result);
+            ?>
+            <div class="user-info">
+                <?php if (!empty($customerInfo['img_customer'])): ?>
+                    <!-- Link the image to the profile.php page -->
+                    <a href="/photodb/customer/profile.php">
+                        <img src="<?php echo $customerInfo['img_customer']; ?>" alt="Profile Image">
+                    </a>
+                <?php endif; ?>
+                <span class="username">Welcome, <?php echo $customerInfo['Name']; ?></span>
             </div>
-            <div class="logout">
-                <!-- Logout link -->
-                <a href="/photodb/admin/login.php"><i class="fas fa-sign-in-alt"></i></a>
-            </div>
-        </div>
+        <?php } ?>
+    <?php endif; ?>
+
+
+
+    <div class="message">
+        <!-- Logout link -->
+        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
+    </div>
+    <div class="logout">
+        <!-- Logout link -->
+        <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>
+    </div>
+
+</div>
+
+    
+    </div>
+
     </header>
     <!-- Secondary navigation bar -->
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
-            <li><a href="/photodb/general/view.php">Home</a></li>       
-            <li><a href="/photodb/general/photographer.php">Photographers</a></li>
+            <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>       
+            <li><a href="/photodb/customer/photographer.php">Photographers</a></li>
 
 
             <li class="dropdown">
@@ -71,16 +87,16 @@
                 $typeName
             )));
 
-            echo "<a href='../general/$typeParam.php'>$typeName</a>";
+            echo "<a href='$typeParam.php'>$typeName</a>";
         }
         ?>
             </div>
             </li>
-            <li><a href="/photodb/general/phreviews.php">Reviews</a></li>
-            <li><a href="/photodb/general/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/general/price.php">Packages</a></li>
-            <li><a href="/photodb/general/appointment.php">Appointments</a></li>
-            <li><a href="/photodb/general/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
+            <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
+            <li><a href="/photodb/customer/price.php">Pricing</a></li>
+            <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
+            <li><a href="/photodb/customer/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
@@ -97,30 +113,23 @@
 
         <!-- Services section -->
         <section class="services">
-            <h2>Our Services</h2>
-            <p>Check out our range of services to meet your needs.</p>
-            <div class="service-container">
-        <div class="service">
-            <img src="../uploads/wed.jpg" alt="Service 1">
-            <h3>Wedding Photography</h3>
-        </div>
-        <div class="service">
-            <img src="../uploads/spo.jpg" alt="Service 2">
-            <h3>Sports Photography</h3>
-        </div>
-        <div class="service">
-            <img src="../uploads/new.jpg" alt="Service 3">
-            <h3> Newborn Photography</h3>
-        </div>
-        
-        </section>
+        <div class="container">
+    <!-- About Us section -->
+    <div class="about-us-container">
+        <h2>About Us</h2>
+        <p>Welcome to CheeseClick, your premier destination for professional photography services! At CheeseClick, we believe in capturing moments that last a lifetime. Our team of experienced photographers is dedicated to providing you with stunning visual memories that you'll cherish forever.</p>
+        <br><h2>Our Mission</h2>
+        <p>At CheeseClick, our mission is simple: to provide you with top-quality photography services that exceed your expectations. Whether it's your wedding day, a special event, or a professional photoshoot, we're here to capture the essence of the moment with creativity and professionalism.
+</p>
+<br><h2>Our Services</h2>
+        <p> At CheeseClick, we capture memories that last a lifetime. We offer a wide range of professional photography services to meet your individual needs, from capturing the perfect wedding day to showcasing your culinary creations with food photography. We specialize in various genres, including portraits, family portraits, newborn photography, event coverage, commercial photography, sports photography, and breathtaking landscape photography. Let our experienced photographers translate your vision into stunning visuals, ensuring you have cherished memories to look back on for years to come.
+</p>
+    </div>
+</div>
+</section>  
 
         <!-- Featured events section -->
-        <section class="featured-events">
-            <h2>Featured Events</h2>
-            <p>Explore our featured events.</p>
-           
-        </section>
+       
         <?php include("../include/footer.php"); ?>
 </body>
 </html>
@@ -131,7 +140,12 @@
 <style>
 
 body {
-    background-color: #E0F4FF;
+   
+
+        background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+        background-size: cover;
+        background-position: center bottom; /* Lower the background image */
+    
 }
     /* Resetting default margin and padding */
     body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
@@ -272,18 +286,12 @@ body {
     }
 
 
-    .background {
-        background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-        background-size: cover;
-        background-position: center bottom; /* Lower the background image */
-    }
+    
 
     /* Welcome section */
     .welcome {
         padding: 40px;
-        margin-bottom: 20px;
         text-align: center;
-        height: 500px; /* Adjust the height as needed */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -293,7 +301,7 @@ body {
         text-align: center;
         font-size: 6rem;
         font-family: 'Satisfy';
-        color: #fff;
+        color: #333;
     }
 
     /* Services section */
@@ -364,4 +372,35 @@ body {
         font-family: 'Cinzel', serif;
         color: #333;
     }
+    .container {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.about-us-container {
+    background-color: transparent; /* Sky blue color with transparency */
+    border: 2px solid rgba(255,255,255, .5);
+    backdrop-filter: blur(30px);
+    padding: 30px 40px;
+    color:#fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15); /* Add shadow effect */
+}
+
+.about-us-container h2 {
+    text-align: center;
+    font-size: 3rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: none;
+    font-family: 'Satisfy';
+    
+}
+
+.about-us-container p {
+    font-size: 1.5rem;
+    color: #fffff0;
+    line-height: 1.6;
+    font-family: 'Arial', sans-serif;}
 </style>
