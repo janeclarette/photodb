@@ -2,7 +2,7 @@
 
 include("../include/config.php");
 session_start();
-$senderID = $_SESSION['CustomerID'];
+$senderID = $_SESSION['AdminID'];
 echo '<input type="hidden" name="senderID" value="' . $senderID . '">';
 ?>
 
@@ -207,7 +207,7 @@ echo '<input type="hidden" name="senderID" value="' . $senderID . '">';
                 <br>
                 <div>
                     <input type="submit" value="Send Message">
-                    <input type="button" value="Return" onclick="window.location.href='../customer/customerdashboard.php';" class="return-button">
+                    <input type="button" value="Return" onclick="window.location.href='../admin/admindashboard.php';" class="return-button">
                     <!-- <button class="return-button" onclick="goBack()">Return</button> -->
                 </div>
             </form>
@@ -260,7 +260,7 @@ echo '<input type="hidden" name="senderID" value="' . $senderID . '">';
         }
 
         function displayMessages(receiverID, receiverType, messagesContainer) {
-            const senderID = <?php echo json_encode($_SESSION['CustomerID']); ?>;
+            const senderID = <?php echo json_encode($_SESSION['AdminID']); ?>;
             fetch(`fetchMessages.php?senderID=${senderID}&receiverID=${receiverID}&receiverType=${receiverType}`)
                 .then(response => response.json())
                 .then(messages => {

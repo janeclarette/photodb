@@ -36,6 +36,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="logout">
                 <!-- Logout link -->
                 <a href="/photodb/admin/login.php"><i class="fas fa-sign-in-alt"></i></a>

@@ -9,7 +9,7 @@ session_start();
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the sender ID from the session
-    $senderID = $_SESSION['CustomerID']; // Adjust the session variable name if needed
+    $senderID = $_SESSION['AdminID']; // Adjust the session variable name if needed
 
     // Get other form data
     $receiverType = $_POST['receiverType'];

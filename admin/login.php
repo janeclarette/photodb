@@ -13,6 +13,8 @@ if (isset($_POST['submit'])) {
 
     if (mysqli_num_rows($result) == 1) {
         // Admin found, set session and redirect
+        $admindata = mysqli_fetch_assoc($result);
+        $_SESSION['AdminID'] = $admindata['AdminID'];
         $_SESSION['username'] = $username;
         $_SESSION['role'] = 'admin';
         header("Location: ../admin/admindashboard.php");

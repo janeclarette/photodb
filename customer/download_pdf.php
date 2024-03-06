@@ -69,12 +69,12 @@ $pdfContent = "
             margin-bottom: 20px;
         }
         .logo {
-            text-align: center;
-            margin-bottom: 20px;
+            position: fixed; top: 12%; left: 36%; width: 100%; height: 100%; opacity: 0.5; z-index: -1;'/>
         }
         .logo img {
-            max-width: 120px;
+            max-width: 220px;
         }
+        
         .receipt-details {
             margin-bottom: 20px;
             border-bottom: 1px dashed #213555;
@@ -92,6 +92,10 @@ $pdfContent = "
             font-size: 16px; /* Adjusted font size for the footer */
             color: #555; /* Slightly darker color for the footer */
         }
+        p span.value {
+            display: inline-block;
+            min-width: 380px;
+        }
     </style>
     <div class='receipt-container'>
         <div class='logo'>
@@ -99,15 +103,15 @@ $pdfContent = "
         </div>
         <div class='header'>Receipt</div>
         <div class='receipt-details'>
-            <p>Transaction ID: {$row['TransactionID']}</p>
-            <p>Photographer: {$row['Name']}</p>
-            <p>Reservation Date: {$row['ReservationDate']}</p>
-            <p>Time: {$row['start_time']} - {$row['end_time']}</p>
-            <p>Place: {$row['PlaceName']}</p>
-            <p>Package: {$row['PackageName']}</p>
-            <p>Price: {$row['Price']}</p>
-            <p>Transaction Status: {$row['StatusName']}</p>
-            <p>Transaction Date: {$row['TransactionDate']}</p>
+            <p><span class='value'>Transaction ID:</span> {$row['TransactionID']}</p>
+            <p><span class='value'>Photographer:</span> {$row['Name']}</p>
+            <p><span class='value'>Reservation Date:</span> {$row['ReservationDate']}</p>
+            <p><span class='value'>Time:</span> {$row['start_time']} - {$row['end_time']}</p>
+            <p><span class='value'>Place:</span> {$row['PlaceName']}</p>
+            <p><span class='value'>Package:</span> {$row['PackageName']}</p>
+            <p><span class='value'>Price:</span> {$row['Price']}</p>
+            <p><span class='value'>Transaction Status:</span> {$row['StatusName']}</p>
+            <p><span class='value'>Transaction Date:</span> {$row['TransactionDate']}</p>
         </div>
         <div class='footer'>Thank you for choosing our service!</div>
     </div>

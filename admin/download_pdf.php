@@ -87,10 +87,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
     ob_start();
 
     $html = ob_get_clean();
-
+    $logoPath = '../uploads/C.png';
+    $logoData = file_get_contents($logoPath);
+    $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
     // Add the sums and monthly data to the HTML content
     $html .= "<style>";
-    $html .= "body { font-family: 'Roboto', sans-serif; background-color: transparent; }"; // Set background-color to transparent
+    $html .= "body { font-family: 'Roboto', sans-serif; background-color: transparent;  background-image: url('../uploads/C.png');  /* Set the path to your cover image */}"; // Set background-color to transparent
     $html .= "h1 { text-align: center; font-family: 'Lobster', cursive; color: #333; }";
     $html .= "h2 { font-family: 'Lobster', cursive; color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }";
     $html .= "p { margin-bottom: 8px; }";
@@ -98,18 +100,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
     $html .= ".total-section { margin-bottom: 20px; }";
     $html .= ".monthly-section { margin-bottom: 30px; }";
     $html .= ".header-section { text-align: center; position: relative; }";
-    $html .= ".background-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.2; }";
+    // $html .= ".background-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.2; }";
     $html .= ".logo { max-width: 100px; position: relative; z-index: 1; }";
     $html .= ".value { display: inline-block; min-width: 800px; }"; // Added CSS class for values
     $html .= "hr { border: 0; border-top: 1px solid #ccc; margin-top: 15px; }";
     $html .= "</style>";
 
     $html .= "<h1>CheeseClick Analytics Report</h1>";
-
+    $html .= "<img src='$logoBase64' style='position: fixed; top: 18%; left: 17%; width: 60%; height: 60%; opacity: 0.2; z-index: -1;'/>";
+    // $html .= "<img src='$logoBase64' style='position: fixed; top: 0; left: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
+    // $html .= "<img src='$logoBase64' style='position: fixed; top: 0; right: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
+    // $html .= "<img src='$logoBase64' style='position: fixed; top: 45%; left: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
+    // $html .= "<img src='$logoBase64' style='position: fixed; top: 45%;right: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
     // Background Image
-    $logoPath = '../uploads/C.png';
-    $logoData = file_get_contents($logoPath);
-    $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+    // $logoPath = '../uploads/C.png';
+    // $logoData = file_get_contents($logoPath);
+    // $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
     
     $html .= "<div class='header-section'>";
     $html .= "<div class='background-image' style='background-image: url($logoBase64);'></div>";

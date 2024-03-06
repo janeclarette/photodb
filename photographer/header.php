@@ -50,7 +50,7 @@ include("../include/config.php"); // Include your database connection
 
     <div class="message">
         <!-- Logout link -->
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
+        <a href="/photodb/photographer/message.php"><i class="fa-regular fa-message"></i></a>
     </div>
     <div class="logout">
         <!-- Logout link -->

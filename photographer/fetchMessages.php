@@ -6,9 +6,9 @@ include("../include/config.php");
 session_start();
 
 // Check if the user is logged in
-if (isset($_SESSION['CustomerID']) && isset($_GET['receiverID']) && isset($_GET['receiverType'])) {
+if (isset($_SESSION['PhotographerID']) && isset($_GET['receiverID']) && isset($_GET['receiverType'])) {
     // Get the logged-in user's ID from the session
-    $loggedInUserID = $_SESSION['CustomerID'];
+    $loggedInUserID = $_SESSION['PhotographerID'];
     // Get the receiver ID and type from the URL parameters
     $receiverID = $_GET['receiverID'];
     $receiverType = $_GET['receiverType'];
