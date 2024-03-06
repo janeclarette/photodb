@@ -35,7 +35,7 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
 <body>
     <div class='cover-section'><h2>Photographers</h2></div>
 
-    <canvas id="photographerChart" style="background-color: white; width: 100px; margin-left: 40px; margin-top: 40px;"></canvas>
+    <canvas id="photographerChart" style="background-color: rgba(255, 255, 255, 0.5); width: 80%; margin-left: 50px; margin-top: 40px;"></canvas>
 
 
 
@@ -134,30 +134,30 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
 
 <style>
     body {
-        background-image: url('../uploads/b.jpg');
+        background-image: url('../uploads/cover.jpg');
         background-size: cover;
         background-attachment: fixed;
         height: 100vh;
     }
 
     .description {
-            margin-top: 20px;
-            margin-left: 100px;
+        
             padding: 20px;
             max-width: 400px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
+            background-color: rgba(75, 192, 192, 15);
+            border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 75px auto 0;
         }
 
         .description h3 {
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: #333;
             margin-bottom: 10px;
         }
 
         .description p {
-            font-size: 1rem;
+            font-size: 1.5rem;
             color: #555;
             margin-bottom: 5px;
         }
@@ -166,7 +166,7 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
         margin-top: 70px;
         margin-bottom: 50px;
         text-align: center;
-        color: #fff;
+        color: #333;
         font-weight: bold;
         font-size: 6rem;
         font-family: 'Satisfy';
@@ -176,23 +176,27 @@ while ($booking = mysqli_fetch_assoc($bookings_result)) {
         margin-top: 20px;
         height: 100px;
         display: flex;
+        color: #333;
         align-items: center;
         justify-content: center;
         text-align: center;
     }
 
     .book-card {
-        background-color: #E0F4FF;
-        text-align: center; /* Center the book grid */
-        margin-left: 50px;
-        margin-right: 50px;
-        margin-top: 50px;
-        margin-bottom: 50px;
-        padding: 50px;
-        border-radius: 20px;
-        display: inline-block;
-        height: 370px;
-    }
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255,255,255, .5);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    text-align: center; /* Center the content horizontally */
+    margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
+    max-width: 300px; /* Set a maximum width if needed */
+    height: 370px; /* Set the height as needed */
+    
+}
+
 
     .photographer-image {
         width: 200px;
