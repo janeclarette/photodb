@@ -3,11 +3,6 @@ session_start();
 include("../include/config.php");
 include("../customer/header.php");
 
-if (!isset($_SESSION['PhotographerID'])) {
-    header("Location: /photodb/photographer/login.php");
-    exit();
-}
-
 $query = "SELECT Photos, PhotographerID FROM works";
 $result = mysqli_query($conn, $query);
 
@@ -27,14 +22,12 @@ if (!empty($search)) {
     OR w.Album LIKE '%$search%'
     OR w.Description LIKE '%$search%'
     OR s.TypeName LIKE '%$search%'";
-
 } else {
     $query = "SELECT w.Photos, p.Name AS PhotographerName, w.Album, w.Description, s.TypeName, w.ServiceTypeID
     FROM works w
     JOIN photographers p ON w.PhotographerID = p.PhotographerID
     JOIN servicetypes s ON w.ServiceTypeID = s.ServiceTypeID";
 }
-
 
 $result = mysqli_query($conn, $query);
 
@@ -43,7 +36,9 @@ if (!$result) {
     exit();
 }
 ?>
-
+<div class="gallery-title">
+    <h2>Photo Gallery</h2>
+</div>
 <div class="search-container">
     <form action="" method="GET">
         <input type="text" name="search" placeholder="Search...">
@@ -65,27 +60,31 @@ if (!$result) {
                 $photographerName = isset($photographerInfo['Name']) ? $photographerInfo['Name'] : '';
             }
             echo '<div class="image-container">';
-            echo '<img src="' . trim($photoURL) . '" alt="Photograph" onclick="openModal(\'' . $photographerName . '\', \'' . $row['Album'] . '\', \'' . $row['Description'] . '\', \'' . $row['TypeName'] . '\', \'' . trim($photoURL) . '\')">'; 
+            echo '<img src="' . trim($photoURL) . '" alt="Photograph" onclick="openModal(\'' . $photographerName . '\', \'' . $row['Album'] . '\', \'' . $row['Description'] . '\', \'' . $row['TypeName'] . '\', \'' . trim($photoURL) . '\')">';
             echo '</div>';
         }
     }
     ?>
 </div>
 
-
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <p id="modalPhotographerName" style="margin-bottom: 10px;"></p>
-        <p id="modalAlbumTitle"></p>
-        <p id="modalDescription"></p>
-        <p id="modalTypeName"></p>
-        <div class="download-container">
-            <a id="downloadBtn" href="#" download>Download</a>
+        <div class="modal-text">
+            <p id="modalPhotographerName"></p>
+            <p id="modalAlbumTitle"></p>
+            <p id="modalDescription"></p>
+            <p id="modalTypeName"></p>
+            <div class="download-container">
+                <a id="downloadBtn" href="#" download>Download</a>
+            </div>
         </div>
-        <img id="modalImage" src="" alt="Photograph">
+        <div class="modal-image">
+            <img id="modalImage" src="" alt="Photograph">
+        </div>
     </div>
 </div>
+
 
 <?php
 mysqli_close($conn);
@@ -93,103 +92,105 @@ mysqli_close($conn);
 
 <style>
     body {
-        background-color: #E0F4FF;
+        background-color: #fff;
+        font-family: 'serif';
+        color: #fff;
     }
+
+
+
+    .gallery-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    background-color: #E0F4FF;
+    height: 250px;
+}
+
+.gallery-title > h2 {
+    font-size: 7rem;
+    color: #333;
+    font-family: 'Satisfy';
+
+
+}
+
 
     .search-container {
-    text-align: center;
-    display: flex 1;
-    
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px; /* Adjust as needed */
+    z-index: 999; /* Ensure it overlays other elements */
+    margin-right: 700px; 
 }
 
-.search-container form {
-    display: inline-block;
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.search-container input[type="text"] {
-    padding: 5px;
-    margin-right: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
+    .search-container form {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-.search-container button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-left: 5px;
-}
+    .search-container input[type="text"] {
+        padding: 10px;
+            border: none;
+            border-radius: 10px;
+            margin-right: 10px;
+            width: 300px;
+    }
 
-.search-container button:hover {
-    background-color: #0056b3;
-}
+    .search-container button {
+        padding: 5px 10px;
+            background-color: #4F709C;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+    }
+
+    .search-container button:hover {
+        background-color: #0056b3;
+    }
 
     .container {
-        max-width: 80%;
-        margin-top: 100px;
-        padding: 40px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        border-radius: 20px;
-    }
+    margin-top: 50px; 
+    max-width: 80%;
+    padding: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-radius: 20px;
+}
 
-    .image-container {
-        margin-bottom: 20px;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-        width: 300px;
-        height: 200px; /* Set a fixed height for all images */
-        flex: 0 0 calc(24.23% - 20px);
-        box-sizing: border-box;
-    }
+.image-container {
+    margin-bottom: 100px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    width: 400px; /* Change this to adjust the width */
+    height: 550px; /* Change this to adjust the height */
+    flex: 0 0 calc(49.23% - 20px); /* Adjust the width of each container */
+    box-sizing: border-box;
+}
 
-    .image-container:hover {
-        transform: scale(1.05);
-    }
+.image-container:hover {
+    transform: scale(1.05);
+}
 
-    .image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Maintain aspect ratio and cover the entire container */
-        display: block;
-    }
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-    .image-container p {
-        margin: 0;
-        padding: 10px;
-        background-color: #f8f8f8;
-        text-align: center;
-    }
 
-    h2 {
-            text-align: center;
-            font-size: 4rem;
-            font-family: 'Satisfy';
-            color: #333;
-        }
-        p {
-            text-align: center;
-            font-size: 1.5rem;
-            font-family: 'Cinzel', serif;
-            color: #333;
-            margin-bottom: 10px;
-            color: white;
-        }   
-
-    /* Modal */
     .modal {
         display: none;
+        text-align: center;
         position: fixed;
         z-index: 1;
         padding-top: 100px;
@@ -198,16 +199,38 @@ mysqli_close($conn);
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.9);
+        background-color: rgba(0, 0, 0, 0.9);
+        margin-bottom: 30px;
     }
 
     .modal-content {
-        margin: auto;
-        display: block;
-        width: 80%;
-        max-width: 700px;
-        max-height: 80%;
+    margin: auto;
+    display: flex;
+    width: 80%;
+    max-width: 1000px;
+    max-height: 80%;
+}
+
+.modal-text {
+    flex: 1;
+    padding: 20px;
+    margin-top: 200px;
+}
+
+.modal-image {
+    flex: 1;
+    padding: 50px;
+}
+
+.modal-content img {
+    max-width: 500px;
+    max-height: 600px;
+    object-fit: contain;
+}
+
+
+    .modal p {
+        margin-bottom: 20px;
     }
 
     .close {
@@ -224,14 +247,12 @@ mysqli_close($conn);
         cursor: pointer;
     }
 
-    .modal-content img {
-        width: 100%;
-        height: auto;
-    }
+
 
     .download-container {
         text-align: center;
-        margin-top: 10px;
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
 
     .download-container a {
@@ -245,6 +266,7 @@ mysqli_close($conn);
     .download-container a:hover {
         background-color: #0056b3;
     }
+    
 </style>
 
 <script>
@@ -262,12 +284,12 @@ mysqli_close($conn);
         modalPhotographerName.innerHTML = "Photographer: " + photographerName;
         modalAlbumTitle.innerHTML = "Album: " + albumTitle;
         modalDescription.innerHTML = "Description: " + description;
-        modalTypeName.innerHTML = "Service Type Name: " + TypeName;
+        modalTypeName.innerHTML = "Service Type: " + TypeName;
         downloadBtn.href = photoURL;
     }
 
     var closeBtn = document.getElementsByClassName("close")[0];
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function () {
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
     }

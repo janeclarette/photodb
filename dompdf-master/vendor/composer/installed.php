@@ -3,7 +3,7 @@
         'name' => 'dompdf/dompdf',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'e0865b3f03e35afa65d6e27c1edcc5834028c1ed',
+        'reference' => 'ed6c4b8ac0c7f67c7a4ab47ee494f3355d915747',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -34,7 +34,7 @@
         'dompdf/dompdf' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'e0865b3f03e35afa65d6e27c1edcc5834028c1ed',
+            'reference' => 'ed6c4b8ac0c7f67c7a4ab47ee494f3355d915747',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

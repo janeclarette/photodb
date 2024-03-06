@@ -11,15 +11,19 @@ include("../include/config.php"); // Include your database connection
     <body>
     <!-- Main header with navigation bar -->
     <header class="navbar">
+ <!-- Main header with navigation bar -->
+<header class="navbar">
     <div class="logo">
         <!-- Logo (upper left corner) -->
-        <a href="#"><img src="../uploads/C.png" alt="Logo"></a>
+        <a href="/photodb/customer/customerdashboard.php"><img src="../uploads/C.png" alt="Logo"></a>
     </div>
-    <div class="search">
-        <!-- Search (center) -->
-        <input type="text" placeholder="Search">
-        <button type="submit">Search</button>
-    </div>
+
+
+
+
+</header>
+
+
     <div class="profile">
     <!-- Profile (upper right corner) -->
     <?php if (isset($_SESSION['CustomerID'])): ?>
@@ -37,7 +41,7 @@ include("../include/config.php"); // Include your database connection
                         <img src="<?php echo $customerInfo['img_customer']; ?>" alt="Profile Image">
                     </a>
                 <?php endif; ?>
-                <span class="username"><?php echo $customerInfo['Name']; ?></span>
+                <span class="username">Welcome, <?php echo $customerInfo['Name']; ?></span>
             </div>
         <?php } ?>
     <?php endif; ?>
@@ -52,6 +56,7 @@ include("../include/config.php"); // Include your database connection
         <!-- Logout link -->
         <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
     </div>
+    <!-- Toggle button for sidebar -->
 
 </div>
 
@@ -89,13 +94,13 @@ include("../include/config.php"); // Include your database connection
             </li>
             <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
             <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
-            <li><a href="/photodb/customer/price.php">Pricing</a></li>
-            <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
+            <li><a href="/photodb/customer/price.php">Packages</a></li>
+            <li><a href="/photodb/customer/appointment.php">Appointments</a></li>
             <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
-
+<div class="overlay"></div>
 </body>
 </html>
 
@@ -171,26 +176,46 @@ include("../include/config.php"); // Include your database connection
         }
 
         .sub-navbar {
-            /* Styles for the secondary navigation bar */
-            background-color: #4F709C;
-            color: #fff;
-            padding: 10px;
-        }
+        background-color: #4F709C;
+        color: #fff;
+        padding: 10px;
+        position: fixed;
+        top: 0;
+        left: -200px; /* Initially hidden off-screen to the left */
+        height: 100vh;
+        width: 150px;
+        overflow-x: hidden;
+        transition: left 0.3s;
+    }
 
-        .sub-navbar ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: space-around;
-        }
+    /* Show the sub-navbar when hovering over the left side of the screen */
+    body:hover .sub-navbar,
+body:hover .content {
+    left: 0;
+}
 
-        .sub-navbar ul li {
-            margin-right: 10px;
-        }
+    .sub-navbar ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
-        .sub-navbar ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
+    .sub-navbar ul li {
+        margin: 5px 0;
+    }
+
+    .sub-navbar ul li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        transition: background-color 0.3s;
+    }
+
+    .sub-navbar ul li a:hover {
+        background-color: #32475C;
+    }
+
+
           /* Dropdown menu */
         .dropdown-content {
             display: none;
@@ -325,3 +350,5 @@ include("../include/config.php"); // Include your database connection
             color: #333;
         }
     </style>
+
+    
