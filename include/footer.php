@@ -1,27 +1,37 @@
+<?php
+// Include necessary files and establish a database connection
+include("../include/config.php"); // Include your database connection
+?>
+
 <footer class="footer">
     <div class="footer-content">
-        <div class="footer-left">
-            <h3>Programs</h3>
-            <ul class="footer-links">
-                <li>Corporate</li>
-                <li>One to One</li>
-                <li>Consulting</li>
+        <div class="footer-left"> 
+            <h3>About Us</h3>
+            <ul class="footer-links"> 
+                <li>CheeseClick is a platform that connects photographers with clients seeking visual content. Our user-friendly interface and dedicated administrators facilitate seamless collaborations between creative professionals and businesses.</li> 
             </ul>
         </div>
         <div class="footer-center">
             <h3>Service</h3>
             <ul class="footer-links">
-                <li>Training</li>
-                <li>Coaching</li>
-                <li>Consulting</li>
+                <li><a href="/photodb/customer/commercial.php">Commercial</a></li>
+                <li><a href="/photodb/customer/landscape.php">Landscape</a></li>
+                <li><a href="/photodb/customer/event.php">Event</a></li>
+                <li><a href="/photodb/customer/newborn.php">Newborn</a></li>
+                <li><a href="/photodb/customer/family.php">Family</a></li>
+                <li><a href="/photodb/customer/portrait.php">Portrait</a></li>
+                <li><a href="/photodb/customer/fashion.php">Fashion</a></li>
+                <li><a href="/photodb/customer/sports.php">Sports</a></li>
+                <li><a href="/photodb/customer/food.php">Food</a></li>
+                <li><a href="/photodb/customer/wedding.php">Wedding</a></li>
             </ul>
         </div>
         <div class="footer-center">
             <h3>Contact</h3>
             <ul class="footer-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>
+                <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
+                <li><a href="#">About us</a></li>
             </ul>
         </div>
         <div class="footer-right">
@@ -31,28 +41,28 @@
                 <button type="submit">Subscribe</button>
             </form>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="facebook.com"><i class="fab fa-whatsapp"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
             <div class="contact-info">
-                <p>Mobile: +917892474250</p>
-                <p>Email: santhosh@crosscultureconnects.com</p>
+                <p>Mobile: +9458374043</p>
+                <p>Email: admin@cheeseclickphotography.com</p>
             </div>
         </div>
     </div>
     <div class="footer-bottom">
         <div class="logo">
-        <a href="#"><img src="../uploads/C.png" alt="Logo" alt="CrossCulture Connects"></a>
+        <a href="/photodb/customer/customerdashboard.php"><img src="../uploads/C.png" alt="Logo" alt="CrossCulture Connects"></a>
         </div>
-        <p>&copy; 2023 crosscultureconnects.com</p>
+        <p>&copy; 2024 CheeseClickPhotography.com</p>
         <ul class="footer-links">
-            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Terms &amp; Conditions</a></li>
             <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Cancellation & Refund Policy</a></li>
-            <li><a href="#">Shipping & Delivery Policy</a></li>
+            <li><a href="#">Cancellation &amp; Refund Policy</a></li>
+            <li><a href="#">Shipping &amp; Delivery Policy</a></li>
         </ul>
     </div>
 </footer>
@@ -83,24 +93,33 @@
     .footer-center h3,
     .footer-right h3 {
         font-size: 1.5rem;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .footer-links {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        text-align: justify;
+        flex-wrap: wrap;
+        justify-content: center; /* Center the items */
     }
 
     .footer-links li {
         list-style: none;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 
-    .footer-links li a {
-        color: #fff;
+    .footer-links a {
         text-decoration: none;
+        color: #fff;
         font-size: 1rem;
+        padding: 5px 10px;
+        background-color: #213555;
+        border-radius: 5px;
+        margin-right: 10px; /* Add margin between the links */
+    }
+
+    .footer-links a:hover {
+        background-color: #4F709C;
     }
 
     .footer-right form {
@@ -140,6 +159,14 @@
         margin-bottom: 5px;
     }
 
+    .footer-left {
+        margin-right: 100px;
+        margin-left: 70px;
+    }
+    .footer-left h3 {
+        font-family: 'satisfy';
+    }
+
     .footer-bottom {
         background-color: #4F709C;
         padding: 20px;
@@ -167,4 +194,40 @@
     .footer-bottom .footer-links li {
         margin: 0 10px;
     }
+    .footer-center {
+    flex: 2; /* Set the flex value to 2 for the "Service" section */
+    margin: 1px;
+}
+
+.footer-center h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-family: 'satisfy';
+}
+
+.footer-center .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, auto); /* Display links in two columns */
+    gap: 10px; /* Add some gap between the links */
+}
+
+.footer-center .footer-links li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.footer-center .footer-links a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 5px 10px;
+    background-color: #213555;
+    border-radius: 5px;
+    width: auto;
+}
+
+.footer-center .footer-links a:hover {
+    background-color: #4F709C;
+}
+
 </style>

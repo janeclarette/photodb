@@ -38,53 +38,83 @@ if ($result) {
         <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-        <!-- Add your CSS stylesheets here -->
         <style>
-            /* Table styles */
-            table {
+            .background {
+                background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+                background-size: cover;
+                background-position: center bottom; /* Lower the background image */
+                position: absolute;
+                top: 0;
+                left: 0;
                 width: 100%;
-                border-collapse: collapse;
+                height: 60%;
+                z-index: -1; /* Push the background behind other content */
+            }
+
+            h4 {
+                margin-top: 160px;
+                text-align: center;
+                font-size: 6rem;
+                color: #fff;
+                font-family: 'Satisfy';
+            }
+
+            .cards-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 350px;
+            }
+
+            .card {
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                width: 650px;
+                margin-bottom: 20px;
+            }
+
+            .card-content-divider {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+            .card-header {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .card-content {
+                margin-bottom: 10px;
+            }
+
+            .card-content span {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .card-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+            }
+
+            .action-btn {
                 margin-top: 20px;
-            }
-
-            th, td {
-                padding: 12px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-
-            th {
-                background-color: #4F709C;
-                color: white;
-            }
-
-            tr:hover {
-                background-color: #f2f2f2;
-            }
-
-            /* Button styles */
-            .payment-btn {
                 padding: 8px 16px;
-                border: none;
                 border-radius: 4px;
                 background-color: #4F709C;
-                color: white;
+                color: #ffffff;
                 font-size: 14px;
                 cursor: pointer;
-            }
-
-            .payment-btn:disabled {
-                background-color: #cccccc;
-                cursor: not-allowed;
-            }
-
-            .confirm-btn, .decline-btn {
-                padding: 6px 12px;
-                border-radius: 4px;
                 border: none;
-                cursor: pointer;
-                color: white;
-                font-size: 14px;
+            }
+
+            .cancel-btn {
+                background-color: #f44336;
             }
 
             .confirm-btn {
@@ -95,213 +125,107 @@ if ($result) {
                 background-color: #f44336;
             }
 
-            .confirm-btn:hover, .decline-btn:hover {
-                opacity: 0.8;
-            }
-
             .review-btn {
-                padding: 6px 12px;
-                border-radius: 4px;
-                border: none;
-                cursor: pointer;
                 background-color: #4F709C;
-                color: white;
-                font-size: 14px;
-            }
-
-            .review-btn:hover {
-                opacity: 0.8;
             }
 
             .download-pdf-btn {
-                padding: 6px 12px;
-                border-radius: 4px;
-                border: none;
-                cursor: pointer;
                 background-color: #4F709C;
-                color: white;
-                font-size: 14px;
             }
 
-            .download-pdf-btn:disabled {
+            .action-btn:disabled {
                 background-color: #cccccc;
                 cursor: not-allowed;
             }
-            .cancel-btn {
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    font-size: 14px;
-    background-color: #f44336; /* Button color */
-}
 
-.cancel-btn:hover {
-    opacity: 0.8;
-}
+            .action-btn:not(:last-child) {
+                margin-right: 10px;
+            }
 
-.cancel-btn:disabled {
-    background-color: #cccccc; /* Disabled button color */
-    cursor: not-allowed;
-}
-.confirm-btn, .decline-btn {
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    font-size: 14px;
-    background-color: #4F709C;
-}
-
-.confirm-btn:disabled, .decline-btn:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-.confirm-btn:hover, .decline-btn:hover {
-    opacity: 0.8;
-}
-
+            .action-btn:hover {
+                opacity: 0.8;
+            }
         </style>
     </head>
     <body>
-    <table border="1">
-        <tr>
-            <th>Transaction ID</th>
-            <!-- Add more headers as needed -->
-            <th>Photographer</th>
-            <th>Reservation Date</th>
-            <th>Time</th>
-            <th>Transaction Date</th>
-            <th>Place</th>
-            <th>Package Name</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Payment Action</th>
-            <th>Service Action</th>
-            <th>Review</th>
-            <th>Receipt</th> <!-- New column for Receipt -->
-        </tr>
-
-        <?php
+    <section class="background">
+        <h4>Appointments</h4>
+    </section>
+    <div class="cards-container">
+    <?php
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
-            <tr>
-                <td><?php echo $row['TransactionID']; ?></td>
-                <td><?php echo $row['Name']; ?></td>
-                <td><?php echo $row['ReservationDate']; ?></td>
-                <td><?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></td>
-                <td><?php echo $row['TransactionDate']; ?></td>
-                <td><?php echo $row['PlaceName']; ?></td>
-                <td><?php echo $row['PackageName']; ?></td>
-                <td><?php echo $row['Price']; ?></td>
-                <td><?php echo $row['StatusName']; ?></td>
-                <td>
-                    <!-- Add your actions or buttons here -->
+            <div class="card">
+                <div class="card-header"><?php echo $row['TransactionID']; ?></div>
+                <div class="card-content">
+                    <span><strong>Photographer:</strong> <?php echo $row['Name']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Reservation Date:</strong> <?php echo $row['ReservationDate']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Time:</strong> <?php echo $row['start_time'] . ' - ' . $row['end_time']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Transaction Date:</strong> <?php echo $row['TransactionDate']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Place:</strong> <?php echo $row['PlaceName']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Package Name:</strong> <?php echo $row['PackageName']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Price:</strong> <?php echo $row['Price']; ?></span>
+                    <div class="card-content-divider"></div>
+                    <span><strong>Status:</strong> <?php echo $row['StatusName']; ?></span>
+                    <div class="card-content-divider"></div>
+                </div>
+                <div class="card-actions">
                     <form action="payment.php" method="post">
-        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
-        <!-- Other form fields and buttons go here -->
-        <button type="submit" name="payment" class="payment-btn"
-            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
-            Payment
-        </button>
-    </form>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="cancelForm<?php echo $row['TransactionID']; ?>">
-        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
-        <!-- Other form fields and buttons go here -->
-        <button type="submit" name="cancel" class="cancel-btn" onclick="return confirm('Are you sure you want to cancel this transaction?');"
-            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
-            Cancel
-        </button>
-    </form>
-                </td>
-                <td>
-                    <!-- Add your other actions or buttons here -->
+                        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+                        <button type="submit" name="payment" class="action-btn" <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+                            Payment
+                        </button>
+                    </form>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
-        
-        <!-- Confirm button -->
-        <button type="submit" name="confirm" class="confirm-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
-            Confirm
-        </button>
-        
-        <!-- Decline button -->
-        <button type="submit" name="decline" class="decline-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
-            Decline
-        </button>
-        
-        <!-- Hidden input for form submission -->
-        <input type="hidden" name="formSubmitted" value="1">
-    </form>
-                </td>
-                <td>
+                        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+                        <button type="submit" name="cancel" class="action-btn cancel-btn" onclick="return confirm('Are you sure you want to cancel this transaction?');"
+                            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+                            Cancel
+                        </button>
+                        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+                        <button type="submit" name="confirm" class="action-btn confirm-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
+                            Confirm
+                        </button>
+                        <button type="submit" name="decline" class="action-btn decline-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
+                            Decline
+                        </button>
+                    </form>
                     <?php
-                    // Check if the transaction has been reviewed
                     $reviewQuery = "SELECT * FROM review WHERE TransactionID = {$row['TransactionID']}";
                     $reviewResult = mysqli_query($conn, $reviewQuery);
                     if (mysqli_num_rows($reviewResult) > 0) {
-                        // Transaction has been reviewed
                         echo "Reviewed";
                     } else {
-                        // Transaction has not been reviewed
                         ?>
                         <form action="review.php" method="post">
-                            <input type="hidden" name="PhotographerID"
-                                value="<?php echo $row['PhotographerID']; ?>">
-                            <input type="hidden" name="TransactionID"
-                                value="<?php echo $row['TransactionID']; ?>">
-                            <button type="submit" name="review" class="review-btn">
+                            <input type="hidden" name="PhotographerID" value="<?php echo $row['PhotographerID']; ?>">
+                            <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+                            <button type="submit" name="review" class="action-btn review-btn">
                                 Review
                             </button>
                         </form>
                         <?php
                     }
                     ?>
-                </td>
-                <td>
-                    <!-- Add the Receipt column content -->
-                    <form action="download_pdf.php" method="post" id="downloadPdfForm<?php echo $row['TransactionID']; ?>">
+                    <form action="download_pdf.php" method="post">
                         <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
-                        <button type="submit" name="downloadPDF" class="download-pdf-btn"
-                            <?php echo in_array($row['StatusID'], [2, 3, 6]) ? '' : 'disabled'; ?>>
+                        <button type="submit" name="downloadPDF" class="action-btn download-pdf-btn" <?php echo in_array($row['StatusID'], [2, 3, 6]) ? '' : 'disabled'; ?>>
                             Download PDF
                         </button>
                     </form>
-                </td>
-            </tr>
+                </div>
+            </div>
             <?php
         }
         ?>
-
-    </table>
-    <?php
-    // Handling form submission
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel'])) {
-        $transactionID = $_POST['TransactionID'];
-    
-        // Update the transaction status to 5 (cancel)
-        $updateTransactionQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
-        $updateTransactionResult = mysqli_query($conn, $updateTransactionQuery);
-    
-        // Update the schedule status back to 1 (available)
-        $updateScheduleQuery = "UPDATE availability_schedule AS s
-                                JOIN availability_time AS t ON s.scheduleid = t.scheduleid
-                                JOIN Transactions AS tr ON tr.Time_ID = t.time_id
-                                SET s.schedule_status_id = 1
-                                WHERE tr.TransactionID = $transactionID";
-        $updateScheduleResult = mysqli_query($conn, $updateScheduleQuery);
-    
-        if ($updateTransactionResult && $updateScheduleResult) {
-            echo '<script>alert("Cancel Successfully!");</script>';
-            // Refresh the page
-            echo '<script> window.location.href = "appointment.php"; </script>';
-        } else {
-            echo '<script>alert("Error canceling the transaction.");</script>';
-        }
-    }
-    ?>    </body>
+    </div>
+    </body>
     </html>
     <?php
 } else {
@@ -309,11 +233,31 @@ if ($result) {
     echo "Error: " . mysqli_error($conn);
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel'])) {
+    $transactionID = $_POST['TransactionID'];
+
+    $updateTransactionQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
+    $updateTransactionResult = mysqli_query($conn, $updateTransactionQuery);
+
+    $updateScheduleQuery = "UPDATE availability_schedule AS s
+                            JOIN availability_time AS t ON s.scheduleid = t.scheduleid
+                            JOIN Transactions AS tr ON tr.Time_ID = t.time_id
+                            SET s.schedule_status_id = 1
+                            WHERE tr.TransactionID = $transactionID";
+    $updateScheduleResult = mysqli_query($conn, $updateScheduleQuery);
+
+    if ($updateTransactionResult && $updateScheduleResult) {
+        echo '<script>alert("Cancel Successfully!");</script>';
+        echo '<script> window.location.href = "appointment.php"; </script>';
+    } else {
+        echo '<script>alert("Error canceling the transaction.");</script>';
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
     $transactionID = $_POST['TransactionID'];
 
     if (isset($_POST['confirm'])) {
-        // Update the status to confirmed (statusID = 2)
         $updateQuery = "UPDATE Transactions SET StatusID = 2 WHERE TransactionID = $transactionID";
         $updateResult = mysqli_query($conn, $updateQuery);
 
@@ -326,7 +270,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
     }
 
     if (isset($_POST['decline'])) {
-        // Update the status to declined (statusID = 3)
         $updateQuery = "UPDATE Transactions SET StatusID = 3 WHERE TransactionID = $transactionID";
         $updateResult = mysqli_query($conn, $updateQuery);
 
@@ -339,3 +282,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
     }
 }
 ?>
+ <?php include("../include/footer.php"); ?>

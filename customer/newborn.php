@@ -41,7 +41,7 @@ include("../customer/header.php");
 
         echo '</div>';
     } else {
-        echo '<p>No works found for the specified service type and typename.</p>';
+        echo '<p>No works found for the specified service category.</p>';
     }
     ?>
 
@@ -163,7 +163,8 @@ include("../customer/header.php");
             text-align: center;
             font-size: 1.5rem;
             font-family:  serif;
-            color: #333;
+            color: #000000;
             margin-bottom: 10px;
         }
 </style>
+<?php include("../include/footer.php"); ?>

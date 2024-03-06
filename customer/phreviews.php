@@ -158,7 +158,7 @@ body {
             align-items: center;
             flex-direction: column;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .photographer-review:hover {
@@ -214,3 +214,4 @@ body {
         }
 
     </style>
+     <?php include("../include/footer.php"); ?>

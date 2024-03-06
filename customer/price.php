@@ -197,6 +197,7 @@ body {
             flex-wrap: wrap;
             justify-content: space-between; 
             margin: 0 -20px;
+            align-items: left;
         }
 
         .center-button {
@@ -269,3 +270,4 @@ body {
             border-color: #2E4A6E;
         }
 </style>
+<?php include("../include/footer.php"); ?>
