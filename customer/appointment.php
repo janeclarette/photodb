@@ -127,6 +127,24 @@ if ($result) {
                 background-color: #cccccc;
                 cursor: not-allowed;
             }
+            .cancel-btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    background-color: #f44336; /* Button color */
+}
+
+.cancel-btn:hover {
+    opacity: 0.8;
+}
+
+.cancel-btn:disabled {
+    background-color: #cccccc; /* Disabled button color */
+    cursor: not-allowed;
+}
         </style>
     </head>
     <body>
@@ -164,13 +182,21 @@ if ($result) {
                 <td>
                     <!-- Add your actions or buttons here -->
                     <form action="payment.php" method="post">
-                        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
-                        <!-- Other form fields and buttons go here -->
-                        <button type="submit" name="payment" class="payment-btn"
-                            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
-                            Payment
-                        </button>
-                    </form>
+        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+        <!-- Other form fields and buttons go here -->
+        <button type="submit" name="payment" class="payment-btn"
+            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+            Payment
+        </button>
+    </form>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="cancelForm<?php echo $row['TransactionID']; ?>">
+        <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
+        <!-- Other form fields and buttons go here -->
+        <button type="submit" name="cancel" class="cancel-btn" onclick="return confirm('Are you sure you want to cancel this transaction?');"
+            <?php echo $row['StatusID'] == 4 ? '' : 'disabled'; ?>>
+            Cancel
+        </button>
+    </form>
                 </td>
                 <td>
                     <!-- Add your other actions or buttons here -->
@@ -230,9 +256,32 @@ if ($result) {
         ?>
 
     </table>
-
-    <!-- Add any other HTML content or closing tags as needed -->
-    </body>
+    <?php
+    // Handling form submission
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel'])) {
+        $transactionID = $_POST['TransactionID'];
+    
+        // Update the transaction status to 5 (cancel)
+        $updateTransactionQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
+        $updateTransactionResult = mysqli_query($conn, $updateTransactionQuery);
+    
+        // Update the schedule status back to 1 (available)
+        $updateScheduleQuery = "UPDATE availability_schedule AS s
+                                JOIN availability_time AS t ON s.scheduleid = t.scheduleid
+                                JOIN Transactions AS tr ON tr.Time_ID = t.time_id
+                                SET s.schedule_status_id = 1
+                                WHERE tr.TransactionID = $transactionID";
+        $updateScheduleResult = mysqli_query($conn, $updateScheduleQuery);
+    
+        if ($updateTransactionResult && $updateScheduleResult) {
+            echo '<script>alert("Cancel Successfully!");</script>';
+            // Refresh the page
+            echo '<script> window.location.href = "appointment.php"; </script>';
+        } else {
+            echo '<script>alert("Error canceling the transaction.");</script>';
+        }
+    }
+    ?>    </body>
     </html>
     <?php
 } else {
