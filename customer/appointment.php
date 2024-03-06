@@ -7,7 +7,7 @@ include("../customer/header.php");
 // Check if customerID is set in the session
 if (!isset($_SESSION['CustomerID'])) {
     // Redirect to login page or handle the case when the customer is not logged in
-    header("Location: ../customer/login.php");
+    echo '<script>window.location.href = "../admin/login.php";</script>';
     exit();
 }
 
