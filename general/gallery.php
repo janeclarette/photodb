@@ -1,7 +1,15 @@
 <?php
 session_start();
 include("../include/config.php");
-include("../customer/header.php");
+if (!isset($_SESSION['CustomerID'])) {
+    // Display JavaScript alert before redirection
+    echo '<script>alert("Please login first!");</script>'; 
+    // Redirect to login page or handle the case when the customer is not logged in
+    echo '<script>window.location.href = "../admin/login.php";</script>';
+    exit();
+}
+
+
 
 $query = "SELECT Photos, PhotographerID FROM works";
 $result = mysqli_query($conn, $query);

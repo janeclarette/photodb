@@ -45,7 +45,7 @@
     </div>
     <div class="footer-bottom">
         <div class="logo">
-            <a href="#"><img src="logo.png" alt="CrossCulture Connects"></a>
+        <a href="#"><img src="../uploads/C.png" alt="Logo" alt="CrossCulture Connects"></a>
         </div>
         <p>&copy; 2023 crosscultureconnects.com</p>
         <ul class="footer-links">
