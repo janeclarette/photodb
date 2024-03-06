@@ -41,7 +41,7 @@ include("../customer/header.php");
 
         echo '</div>';
     } else {
-        echo '<p>No works found for the specified service type.</p>';
+        echo '<p>No works found for the specified service category.</p>';
     }
     ?>
 
@@ -171,4 +171,3 @@ include("../customer/header.php");
             margin-bottom: 10px;
         }
     </style>
- <?php include("../include/footer.php"); ?>

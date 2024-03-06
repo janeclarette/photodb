@@ -97,7 +97,7 @@ if (!$customers_result) {
 
 <style>
     body {
-        background-image: url('../uploads/b.jpg');
+        background-image: url('../uploads/cover.jpg');
         background-size: cover;
         background-attachment: fixed;
         height: 100vh;
@@ -106,7 +106,7 @@ if (!$customers_result) {
     h2 {
         margin-top: 20px;
         text-align: center;
-        color: #fff;
+        color: #333;
         font-weight: bold;
         font-size: 6rem;
         font-family: 'Satisfy';
@@ -122,16 +122,19 @@ if (!$customers_result) {
     }
 
     .book-card {
-        background-color: #E0F4FF;
-        text-align: center; /* Center the book grid */
-        margin-left: 50px;
-        margin-right: 50px;
-        margin-top: 50px;
-        padding: 50px;
-        border-radius: 20px;
-        display: inline-block;
-        height: 370px;
-    }
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255,255,255, .5);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    text-align: center; /* Center the content horizontally */
+    margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
+    max-width: 300px; /* Set a maximum width if needed */
+    height: 370px; /* Set the height as needed */
+    
+}
 
     .customer-image {
         width: 200px;
