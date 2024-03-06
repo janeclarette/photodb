@@ -167,4 +167,5 @@ include("../customer/header.php");
             color: #000000;
             margin-bottom: 10px;
         }
-</style>
+</style>\
+<?php include("../include/footer.php"); ?>

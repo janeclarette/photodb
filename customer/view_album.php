@@ -193,3 +193,5 @@ if (isset($_GET['photographer_id'])) {
 
 $conn->close();
 ?>
+
+<?php include("../include/footer.php"); ?>

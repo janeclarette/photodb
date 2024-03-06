@@ -193,3 +193,4 @@ include("../customer/header.php");  // Include your database connection
         }
     </style>
 
+<?php include("../include/footer.php"); ?>

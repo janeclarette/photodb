@@ -214,3 +214,4 @@ body {
         }
 
     </style>
+     <?php include("../include/footer.php"); ?>

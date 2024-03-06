@@ -72,7 +72,8 @@ if ($result) {
                 border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 padding: 20px;
-                width: 700px;
+                width: 650px;
+                margin-bottom: 20px;
             }
 
             .card-content-divider {
@@ -281,3 +282,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
     }
 }
 ?>
+ <?php include("../include/footer.php"); ?>
