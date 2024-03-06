@@ -1,27 +1,32 @@
 <footer class="footer">
     <div class="footer-content">
-        <div class="footer-left">
-            <h3>Programs</h3>
-            <ul class="footer-links">
-                <li>Corporate</li>
-                <li>One to One</li>
-                <li>Consulting</li>
+        <div class="footer-left"> 
+            <h3>About Us</h3>
+            <ul class="footer-links"> 
+                <li>CheeseClick is a platform that connects photographers with clients seeking visual content. Our user-friendly interface and dedicated administrators facilitate seamless collaborations between creative professionals and businesses.</li> 
             </ul>
         </div>
         <div class="footer-center">
             <h3>Service</h3>
             <ul class="footer-links">
-                <li>Training</li>
-                <li>Coaching</li>
-                <li>Consulting</li>
+                <li><a href="#">Commercial</a></li>
+                <li><a href="#">Landscape</a></li>
+                <li><a href="#">Event</a></li>
+                <li><a href="#">Newborn</a></li>
+                <li><a href="#">Family</a></li>
+                <li><a href="#">Portrait</a></li>
+                <li><a href="#">Fashion</a></li>
+                <li><a href="#">Sports</a></li>
+                <li><a href="#">Food</a></li>
+                <li><a href="#">Wedding</a></li>
             </ul>
         </div>
         <div class="footer-center">
             <h3>Contact</h3>
             <ul class="footer-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">About us</a></li>
             </ul>
         </div>
         <div class="footer-right">
@@ -49,10 +54,10 @@
         </div>
         <p>&copy; 2023 crosscultureconnects.com</p>
         <ul class="footer-links">
-            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Terms &amp; Conditions</a></li>
             <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Cancellation & Refund Policy</a></li>
-            <li><a href="#">Shipping & Delivery Policy</a></li>
+            <li><a href="#">Cancellation &amp; Refund Policy</a></li>
+            <li><a href="#">Shipping &amp; Delivery Policy</a></li>
         </ul>
     </div>
 </footer>
@@ -88,19 +93,28 @@
 
     .footer-links {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        text-align: justify;
+        flex-wrap: wrap;
+        justify-content: center; /* Center the items */
     }
 
     .footer-links li {
         list-style: none;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 
-    .footer-links li a {
-        color: #fff;
+    .footer-links a {
         text-decoration: none;
+        color: #fff;
         font-size: 1rem;
+        padding: 5px 10px;
+        background-color: #213555;
+        border-radius: 5px;
+        margin-right: 10px; /* Add margin between the links */
+    }
+
+    .footer-links a:hover {
+        background-color: #4F709C;
     }
 
     .footer-right form {
