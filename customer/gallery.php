@@ -109,7 +109,7 @@ mysqli_close($conn);
             top: 0;
             left: 0;
             width: 100%;
-            height: 55%;
+            height: 50%;
             z-index: -1; /* Push the background behind other content */
         }
 
@@ -229,7 +229,7 @@ mysqli_close($conn);
 .modal-text {
     flex: 1;
     padding: 20px;
-    margin-top: 200px;
+    margin-top: 50px;
 }
 
 .modal-image {
@@ -238,8 +238,8 @@ mysqli_close($conn);
 }
 
 .modal-content img {
-    max-width: 400px;
-    max-height: 500px;
+    max-width: 500px;
+    max-height: 600px;
     object-fit: contain;
     margin-bottom: 300px;
 }

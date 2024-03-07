@@ -4,31 +4,27 @@ session_start(); // Start the session
 include("../include/config.php");
 include("../customer/header.php");  // Include your database connection
 ?>
-<div class="search-container">
-    <form action="" method="GET">
-        <input type="text" name="search" placeholder="Search..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-        <button type="submit">Search</button>
-    </form>
-</div>
-<!-- Main content of the page -->
 
-<section class="services">
+    <!-- Main content of the page -->
+    
+    <h4> Photographers</h4>
+
+<p>Meet our talented photographers.</p>
+    
+    <section class="services">
     <section class="background">
-        <h4> Photographers</h4>
 
-        <p>Meet our talented photographers.</p>
-    </section>
-    <div class="photographer-container">
-        <?php
-        // Fetch photographers from the database based on search query
-        $search = isset($_GET['search']) ? $_GET['search'] : '';
-        $photographersSql = "SELECT * FROM Photographers WHERE Name LIKE '%$search%'";
-        $photographersResult = $conn->query($photographersSql);
+        </section>
+        <div class="photographer-container">
+            <?php
+            // Fetch photographers from the database
+            $photographersSql = "SELECT * FROM Photographers";
+            $photographersResult = $conn->query($photographersSql);
 
-        // Check for SQL query execution error
-        if (!$photographersResult) {
-            die("Error in SQL query: " . $conn->error);
-        }
+            // Check for SQL query execution error
+            if (!$photographersResult) {
+                die("Error in SQL query: " . $conn->error);
+            }
 
             while ($photographer = $photographersResult->fetch_assoc()) {
                 echo '<div class="photographer">';
@@ -38,11 +34,7 @@ include("../customer/header.php");  // Include your database connection
                 echo '<p>Email: ' . $photographer['Email'] . '</p>';
                 echo '<form action="view_album.php" method="GET" style="display: inline;">';
                 echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
-                echo '</form>';
-                echo '<form action="bookp.php" method="GET" style="display: inline;">';
-                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Book Photographer</button>';
+                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; ">View Albums</button>';
                 echo '</form>';
                 echo '</div>';
             }
@@ -69,19 +61,20 @@ include("../customer/header.php");  // Include your database connection
     });
 </script>
 
-<!-- Other HTML code ... -->
+    <!-- Other HTML code ... -->
 </body>
 </html>
 
-<!-- Add your CSS stylesheets here -->
-<style>
+
+
+  <!-- Add your CSS stylesheets here -->
+  <style>
     body {
         background-color: #E0F4FF;
-
+        
     }
-
-    /* Resetting default margin and padding */
-
+        /* Resetting default margin and padding */
+      
 
         .background {
             background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
@@ -103,116 +96,76 @@ include("../customer/header.php");  // Include your database connection
             margin-bottom: 10px;
         }
 
-    .photographer-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        animation: fadeInUp 1s ease-out; /* Add fade-in animation */
-        margin-top: 250px;
-        height: 400px;
-        
-        
-    }
-
-    .search-container {
-    margin-top: 30px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1; /* Ensure it overlays other elements */
+        .photographer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Change to space-around to evenly distribute items */
+    animation: fadeInUp 1s ease-out; /* Add fade-in animation */
+    margin-top: 100px; /* Adjust margin-top as needed */
+    margin-bottom: 100px;
 }
 
+.photographer {
+    width: 250px; /* Set a fixed width for each photographer card */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Include transition for background-color */
+    background-color: rgba(0, 0, 0, 0.2);
+}
 
+.photographer img {
+    width: 150px;
+    height: 150px; /* Set a fixed height to maintain aspect ratio */
+    margin: 10px;
+    border-radius: 50%; /* Make the image circular */
+}
 
-    .search-container form {
-        display: inline-block;
-        padding: 10px;
-        border-radius: 5px;
+.photographer h3 {
+    font-size: 1.5rem;
+    font-family: 'Satisfy';
+    color: #333;
+}
 
+.photographer p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.photographer button {
+    background-color: #4F709C;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.photographer:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #DCF2F1; /* Adjust background color on hover */
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-
-    .search-container input[type="text"] {
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            margin-right: 10px;
-            width: 300px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-
-    .search-container button {
-        padding: 5px 10px;
-            background-color: #4F709C;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-    }
-
-    .search-container button:hover {
-        background-color: #0056b3;
-    }
-
-    .photographer {
-        border-radius: 10px;
-        padding: 20px;
-        margin: 20px;
-        text-align: center;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0.1, 0.1);
-        transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Include transition for background-color */
-        background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    .photographer:hover {
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-        background-color: #DCF2F1; /* Adjust background color on hover */
-    }
-
-    .photographer img {
-        width: 150px;
-        height: auto;
-        margin: 10px;
-        border-radius: 100px; /* Make the image circular */
-    }
-
-    .photographer h3 {
-        font-size: 1.5rem;
-        font-family: 'Satisfy';
-        color: #333;
-    }
-
-    .photographer p {
-        font-size: 1rem;
-        color: #333;
-    }
-
-    .view-profile {
-        padding: 10px;
-        background-color: #FEFBF6;
-        color: #FEFBF6;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    /* Animation keyframes */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+}
 
     .albums-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-
+        
     }
 
     .album-card {
@@ -230,13 +183,13 @@ include("../customer/header.php");  // Include your database connection
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
 
-    p {
-        text-align: center;
-        font-size: 1.5rem;
-        font-family: serif;
-        color: #333;
-        margin-bottom: 15px;
-    }
-</style>
+         p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family:  serif;
+            color: #333;
+            margin-bottom: 15px;
+        }
+    </style>
 
 <?php include("../include/footer.php"); ?>
