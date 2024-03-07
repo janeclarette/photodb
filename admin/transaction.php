@@ -32,7 +32,7 @@ include("../include/config.php");
         }
         table {
             width: 90%; /* Set the width of the table */
-            max-width: 1200px; /* Set a maximum width for the table */
+            max-width: 1500px; /* Set a maximum width for the table */
             margin: 20px auto; /* Center the table horizontally */
             backdrop-filter: blur(40px); 
             font-weight: bold;
@@ -104,6 +104,13 @@ include("../include/config.php");
 
         .review-btn:hover {
             opacity: 0.8;
+        }
+        h4 {
+            text-align: center;
+            font-size: 5rem;
+            color: #333;
+            margin-bottom: 70px;
+            font-family: 'Satisfy';
         }
     </style>
 </head>

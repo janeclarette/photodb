@@ -103,7 +103,6 @@ body {
             display: flex;
             justify-content: space-between;
             align-items: center;
-
         }
 
         .navbar .logo img {

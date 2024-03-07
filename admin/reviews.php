@@ -187,7 +187,7 @@ body {
     }
 
     .rating-summary {
-        margin-top: 250px;
+        margin-top: 255px;
     background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
     border: 2px solid rgba(255,255,255, .5);
     backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
@@ -260,7 +260,7 @@ body {
 }
 
 .photographer-review {
-    width: calc(40% ); /* Adjust width to fit three columns with some spacing */
+    width: calc(35% ); /* Adjust width to fit three columns with some spacing */
     margin-bottom: 20px; /* Adjust as needed */
     background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
     border: 2px solid rgba(255, 255, 255, 0.5);
