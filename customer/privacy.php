@@ -109,22 +109,28 @@
         </section>
         </section>        
 
-        <!-- Services section -->
         <section class="services">
-        <div class="container">
-    <!-- About Us section -->
-    <div class="about-us-container">
-        <h2>About Us</h2>
-        <p>Welcome to CheeseClick, your premier destination for professional photography services! At CheeseClick, we believe in capturing moments that last a lifetime. Our team of experienced photographers is dedicated to providing you with stunning visual memories that you'll cherish forever.</p>
-        <br><h2>Our Mission</h2>
-        <p>At CheeseClick, our mission is simple: to provide you with top-quality photography services that exceed your expectations. Whether it's your wedding day, a special event, or a professional photoshoot, we're here to capture the essence of the moment with creativity and professionalism.
-</p>
-<br><h2>Our Services</h2>
-        <p> At CheeseClick, we capture memories that last a lifetime. We offer a wide range of professional photography services to meet your individual needs, from capturing the perfect wedding day to showcasing your culinary creations with food photography. We specialize in various genres, including portraits, family portraits, newborn photography, event coverage, commercial photography, sports photography, and breathtaking landscape photography. Let our experienced photographers translate your vision into stunning visuals, ensuring you have cherished memories to look back on for years to come.
-</p>
+    <div class="container">
+        <div class="about-us-container">
+            <h2>Privacy Policy</h2>
+            
+            <h2>Information We Collect</h2>
+            <p>Your privacy is important to us. It is CheeseClick's policy to respect your privacy regarding any information we may collect from you across our website, https://www.cheeseclick.com, and other sites we own and operate.
+             We collect several types of information for various purposes to provide and improve our service to you.</p>
+            
+            <h2>How We Use Your Information</h2>
+            <p>We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.
+            Personal data we collect includes but is not limited to: Name, Email address, Phone number, Address, Payment information.
+            We use the information we collect in various ways, including to provide, operate, and maintain our website; improve, personalize, and expand our website; understand and analyze how you use our website; and develop new products, services, features, and functionality.</p>
+            
+            <h2>Retention of Information</h2>
+            <p>We only retain collected information for as long as necessary to provide you with your requested service and protect it within commercially acceptable means to prevent loss, theft, unauthorized access, disclosure, copying, use, or modification. What data we store, we’ll protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use, or modification.</p><h2>Third-Party Disclosure</h2><p>We don’t share any personally identifying information publicly or with third-parties, except when required to by law. Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies.</p><h2>Refusal of Information</h2><p>You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services. Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us. This policy is effective as of 1 January 2024.</p>
+            
+        </div>
     </div>
-</div>
-</section>  
+</section>
+
+
 
         <!-- Featured events section -->
        

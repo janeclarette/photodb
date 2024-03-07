@@ -31,7 +31,7 @@ include("../include/config.php"); // Include your database connection
             <ul class="footer-links">
                 <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>
                 <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
-                <li><a href="#">About us</a></li>
+                <li><a href="aboutus.php">About us</a></li>
             </ul>
         </div>
         <div class="footer-right">
@@ -59,10 +59,8 @@ include("../include/config.php"); // Include your database connection
         </div>
         <p>&copy; 2024 CheeseClickPhotography.com</p>
         <ul class="footer-links">
-            <li><a href="#">Terms &amp; Conditions</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Cancellation &amp; Refund Policy</a></li>
-            <li><a href="#">Service Delivery Policy</a></li>
+            <li><a href="terms&conditions.php">Terms &amp; Conditions</a></li>
+            <li><a href="privacy.php">Privacy Policy</a></li>
         </ul>
     </div>
 </footer>

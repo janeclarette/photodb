@@ -111,20 +111,21 @@
 
         <!-- Services section -->
         <section class="services">
-        <div class="container">
-    <!-- About Us section -->
-    <div class="about-us-container">
-        <h2>About Us</h2>
-        <p>Welcome to CheeseClick, your premier destination for professional photography services! At CheeseClick, we believe in capturing moments that last a lifetime. Our team of experienced photographers is dedicated to providing you with stunning visual memories that you'll cherish forever.</p>
-        <br><h2>Our Mission</h2>
-        <p>At CheeseClick, our mission is simple: to provide you with top-quality photography services that exceed your expectations. Whether it's your wedding day, a special event, or a professional photoshoot, we're here to capture the essence of the moment with creativity and professionalism.
-</p>
-<br><h2>Our Services</h2>
-        <p> At CheeseClick, we capture memories that last a lifetime. We offer a wide range of professional photography services to meet your individual needs, from capturing the perfect wedding day to showcasing your culinary creations with food photography. We specialize in various genres, including portraits, family portraits, newborn photography, event coverage, commercial photography, sports photography, and breathtaking landscape photography. Let our experienced photographers translate your vision into stunning visuals, ensuring you have cherished memories to look back on for years to come.
-</p>
+    <div class="container">
+        <div class="about-us-container">
+            <h2>Terms & Conditions</h2>
+            <p>These terms and conditions outline the rules and regulations for the use of CheeseClick's Website, located at https://www.cheeseclick.com.</p>
+            <p>By accessing this website, we assume you accept these terms and conditions. Do not continue to use CheeseClick if you do not agree to take all of the terms and conditions stated on this page.</p>
+            <p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company's terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
+            <p>Cookies
+                We employ the use of cookies. By accessing CheeseClick, you agreed to use cookies in agreement with the CheeseClick's Privacy Policy.</p>
+            <p>Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.</p>
+            <p>License
+                Unless otherwise stated, CheeseClick and/or its licensors own the intellectual property rights for all material on CheeseClick. All intellectual property rights are reserved. You may access this from CheeseClick for your own personal use subjected to restrictions set in these terms and conditions.</p>
+            <!-- Add more terms and conditions content here -->
+        </div>
     </div>
-</div>
-</section>  
+</section> 
 
         <!-- Featured events section -->
        
@@ -386,6 +387,7 @@ body {
     color:#fff;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15); /* Add shadow effect */
+    text-align: justify; /* Justify the text */
 }
 
 .about-us-container h2 {
@@ -396,12 +398,13 @@ body {
     margin-bottom: 20px;
     text-transform: none;
     font-family: 'Satisfy';
-    
 }
 
 .about-us-container p {
     font-size: 1.5rem;
     color: #fffff0;
     line-height: 1.6;
-    font-family: 'Arial', sans-serif;}
+    font-family: 'Arial', sans-serif;
+    text-indent: 20px; /* Add indentation */
+}
 </style>
