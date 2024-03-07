@@ -62,7 +62,7 @@ include("../include/config.php"); // Include your database connection
             <li><a href="#">Terms &amp; Conditions</a></li>
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Cancellation &amp; Refund Policy</a></li>
-            <li><a href="#">Shipping &amp; Delivery Policy</a></li>
+            <li><a href="#">Service Delivery Policy</a></li>
         </ul>
     </div>
 </footer>
