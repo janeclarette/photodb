@@ -57,7 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
                     </select>
 
-                    <button type="submit">Create Place</button>
+                    <button type="submit" class="button">Create Place</button>
+
                 </form>
             </div>
         </div>
@@ -108,13 +109,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 font-family: 'serif';
             }
 
-    body {
-        background-color: #E0F4FF;
-    }
+            body {
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
     h2 {
         margin-top: 30px;
         text-align: center;
-        color: #33;
+        color: #333;
         font-weight: bold;
         font-size: 4rem;
         font-family: 'Satisfy';
@@ -137,26 +141,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .container {
-    display: flex;
-    justify-content: space-between;
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 5px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    
         }
 
         .left-column,
-        .right-column {
-            width: 48%; /* Adjust as needed */
-        }
+.right-column {
+    width: 48%; /* Adjust as needed */
+    padding: 20px; /* Add padding for space */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
 
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Add margin to create space between the form and table */
+}
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
         }
 
         th,
@@ -167,17 +181,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         th {
-            background-color: #4F709C;
+            background-color: rgba(75, 192, 192, 20);
             color: #fff;
         }
 
         tbody tr:hover {
-            background-color: #f5f5f5;
+            background-color: #fffff0;
         }
 
         button[type="button"] {
             padding: 8px 16px;
-            background-color: #4F709C;
+            background-color: rgba(75, 192, 192, 20);
             color: #ffffff;
             border-radius: 5px;
             border: none;
@@ -190,8 +204,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         button[type="button"]:hover {
-            background-color: #375d83;
+            background-color: rgba(75, 192, 192, 20);
+            color: #fff;
+        }
+
+        button[type="submit"] {
+            padding: 8px 16px;
+            background-color: rgba(75, 192, 192, 20);
+            color: #ffffff;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-left: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: rgba(75, 192, 192, 20);
+            color: #fff;
         }
         
 </style>
-<?php include("../include/footer.php"); ?>

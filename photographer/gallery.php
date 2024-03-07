@@ -19,7 +19,11 @@ if (!$result) {
 }
 ?>
 
+<<<<<<< Updated upstream
 <h2> Photographer's Album</h2>
+=======
+<h2>Photographer's Album</h2>
+>>>>>>> Stashed changes
 
 <div class="container">
     <?php
@@ -41,6 +45,12 @@ mysqli_close($conn);
 ?>
 
 <style>
+    body {
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
         body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
                 margin: 0;
                 padding: 0;
@@ -90,5 +100,12 @@ mysqli_close($conn);
             height: auto;
             display: block;
         }
+        h2{
+            text-align: center;
+            font-size: 4rem;
+            font-family: 'Satisfy';
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
 </style>
-<?php include("../include/footer.php"); ?>

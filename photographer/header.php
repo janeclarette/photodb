@@ -77,6 +77,7 @@ include("../include/config.php"); // Include your database connection
             <li><a href="../photographer/package.php">Package</a></li>
             <li><a href="place.php">Place</a></li>
             <li><a href="reviews.php">Reviews</a></li>
+            <li><a href="../photographer/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     
@@ -127,7 +128,6 @@ include("../include/config.php"); // Include your database connection
         /* Add your custom styles for the header and navigation bars */
         .navbar {
             /* Styles for the main navigation bar */
-            background-color: #213555;
             color: #fff;
             padding: 10px;
             display: flex;
@@ -182,8 +182,8 @@ include("../include/config.php"); // Include your database connection
         }
 
     .sub-navbar {
-    background-color: #4F709C;
-    color: #fff;
+        background-color: rgba(75, 192, 192, 20);
+        color: #fff;
     padding: 10px;
     position: fixed;
     top: 0;
@@ -356,5 +356,5 @@ include("../include/config.php"); // Include your database connection
             color: #333;
         }
     </style>
-
+ 
     

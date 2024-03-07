@@ -211,6 +211,13 @@ function getPackageInclusions($packageID) {
 
 
 <style>
+    body {
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  
+    font-family: serif;/* Adjust the opacity to make the image less visible */
+        }
         * {
             margin: 0;
             padding: 0;
@@ -218,16 +225,23 @@ function getPackageInclusions($packageID) {
         }
 
         /* Apply font family and styles */
+<<<<<<< Updated upstream
         body {
             font-family: 'serif';
             background-color: #E0F4FF;
         }
+=======
+        
+>>>>>>> Stashed changes
         .container {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             margin-top: 20px;
-
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 5px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 20px 50px;
         }
 
         .column {
@@ -256,15 +270,17 @@ function getPackageInclusions($packageID) {
             display: flex;
             align-items: center;
             margin-bottom: 8px;
+           
         }
 
         input[type="checkbox"] {
             margin-right: 8px;
+        
         }
 
         /* Style for the submit button */
         input[type="submit"] {
-            background-color: #4F709C;
+            background-color: rgba(75, 192, 192, 20);
             color: #fff;
             padding: 12px 20px;
             border: none;
@@ -274,18 +290,19 @@ function getPackageInclusions($packageID) {
         }
 
         input[type="submit"]:hover {
-            background-color: #345981;
+            background-color: rgba(75, 192, 192, .5);
+            color: #333;
         }
 
         .package-container {
-            border: 1px solid #ccc;
+            border: px solid #333;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 10px;
         }
 
         .package-container h3 {
-            color: #4F709C;
+            color: #333;
         }
 
         .package-container p {
@@ -316,7 +333,7 @@ function getPackageInclusions($packageID) {
         }
         .edit-button,
         .delete-button {
-            background-color: #4F709C;
+            background-color: rgba(75, 192, 192, 20);
             color: #fff;
             padding: 8px 16px;
             border: none;
@@ -328,7 +345,8 @@ function getPackageInclusions($packageID) {
 
         .edit-button:hover,
         .delete-button:hover {
-            background-color: #345981;
+            background-color: rgba(75, 192, 192, .5);
+            color: #333;
         }
 
         .button-group {

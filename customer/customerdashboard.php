@@ -69,7 +69,7 @@ include("../include/config.php");
 
 
             <li class="dropdown">
-            <a href="#">Services</a>
+            <a href="services.php">Services</a>
             <div class="dropdown-content">
             <?php
         $serviceTypesSql = "SELECT * FROM servicetypes";
