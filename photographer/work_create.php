@@ -170,6 +170,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
      <style>
+        body {
+            background-image: url('../uploads/cover.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+        }
         h2{
             text-align: center;
             font-size: 4rem;
@@ -202,8 +208,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
+        padding: 40px;
         justify-content: space-evenly;
-        margin-top: 20px;
+        margin-top: 30px;
+
     }
 
    .album-card {
@@ -244,40 +252,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     .album-details p {
-        color: #666;
+        color: #333;
         font-size: 1rem;
         margin-bottom: 15px;
     }
 
     .view-more-btn {
-        padding: 8px 12px;
-        background-color: #4F709C;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-
-    }
+    padding: 8px 12px;
+    background-color: rgba(75, 192, 192, 20); /* Adjusted button background color */
+    color: #fffff0; /* Adjusted button font color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
 
     .view-more-btn:hover {
-        background-color: #213555;
+        background-color: rgba(75, 192, 192, .5);
+            color: #333;
     }
-        body {
-            background-color: #E0F4FF;
-            margin: 0;
-            padding: 0;
-        }
+        
 
         .container {
             max-width: 900px;
             margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 80%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+    color: #333;
         }
 
         h3 {
@@ -321,13 +329,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
             font-size: 1rem;
             text-align: center; 
+            backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+
         }
 
         input[type="submit"] {
             margin-top: 20px;
             padding: 12px 24px;
-            background-color: #4F709C;
-            color: #fff;
+            background-color: rgba(75, 192, 192, 20)   ;         color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -336,9 +345,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         input[type="submit"]:hover {
-            background-color: #213555;
+            background-color: rgba(75, 192, 192, .5);
+            color: #333;
         }
        
        
         </style>
-         <?php include("../include/footer.php"); ?>
+   

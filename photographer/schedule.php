@@ -161,7 +161,16 @@
     
     <style>
     
-
+    #availability-calendar-container {
+    margin-top: 50px;
+    position: relative;
+    max-width: 80%;
+    margin-left: 180px;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255, 255, 255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+}
     body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
                 margin: 0;
                 padding: 0;
@@ -242,4 +251,4 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
-    
+     

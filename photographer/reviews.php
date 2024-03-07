@@ -63,6 +63,12 @@ include("../photographer/header.php");
 
 
     <style>
+        body{
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
     body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
                 margin: 0;
                 padding: 0;
@@ -76,6 +82,10 @@ include("../photographer/header.php");
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
         }
 
         h2 {
@@ -109,4 +119,4 @@ include("../photographer/header.php");
         }
     </style>
     
-<?php include("../include/footer.php"); ?>
+

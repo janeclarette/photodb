@@ -70,9 +70,9 @@ include("../include/config.php"); // Include your database connection
 <style>
     /* Footer styles */
     .footer {
-        background-color: #213555;
+        background-color: rgba(75, 192, 192, 20);
         color: #fff;
-        padding: 40px;
+        padding: 20px;
         text-align: center;
         margin-top: 40px;
     }
@@ -111,16 +111,16 @@ include("../include/config.php"); // Include your database connection
 
     .footer-links a {
         text-decoration: none;
-        color: #fff;
+        color: #333;
         font-size: 1rem;
         padding: 5px 10px;
-        background-color: #213555;
+        background-color: #fff;
         border-radius: 5px;
         margin-right: 10px; /* Add margin between the links */
     }
 
     .footer-links a:hover {
-        background-color: #4F709C;
+        background-color: rgba(75, 192, 192, 20);
     }
 
     .footer-right form {
@@ -138,8 +138,8 @@ include("../include/config.php"); // Include your database connection
 
     .footer-right button[type="submit"] {
         padding: 10px 20px;
-        background-color: #FF6B00;
-        color: #fff;
+        background-color: #fffff0;
+        color: #333;
         border: none;
         border-radius: 0 5px 5px 0;
         cursor: pointer;
@@ -169,8 +169,9 @@ include("../include/config.php"); // Include your database connection
     }
 
     .footer-bottom {
-        background-color: #4F709C;
-        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px);        padding: 20px;
         text-align: center;
         display: flex;
         justify-content: space-between;
@@ -194,6 +195,7 @@ include("../include/config.php"); // Include your database connection
 
     .footer-bottom .footer-links li {
         margin: 0 10px;
+        
     }
     .footer-center {
     flex: 2; /* Set the flex value to 2 for the "Service" section */
@@ -208,7 +210,7 @@ include("../include/config.php"); // Include your database connection
 
 .footer-center .footer-links {
     display: grid;
-    grid-template-columns: repeat(2, auto); /* Display links in two columns */
+    grid-template-columns: repeat(3, auto); /* Display links in two columns */
     gap: 10px; /* Add some gap between the links */
 }
 
@@ -219,16 +221,16 @@ include("../include/config.php"); // Include your database connection
 
 .footer-center .footer-links a {
     text-decoration: none;
-    color: #fff;
-    font-size: 1rem;
-    padding: 5px 10px;
-    background-color: #213555;
-    border-radius: 5px;
+    color: #333;
+    font-size: 13px;
+    padding: 5px 8px;
+    background-color: #fff;
+    border-radius: 3px;
     width: auto;
 }
 
 .footer-center .footer-links a:hover {
-    background-color: #4F709C;
+    background-color: #fffff0;
 }
 
 </style>

@@ -36,6 +36,9 @@ if ($result) {
     <!DOCTYPE html>
     <html lang="en">
     <head>
+    <section class="title">
+            <h2>Dashboard</h2>
+        </section>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Photographer Page</title>
@@ -68,8 +71,13 @@ if ($result) {
         }
         table {
             width: 90%; /* Set the width of the table */
+<<<<<<< Updated upstream
             max-width: 1700px; /* Set a maximum width for the table */
             margin: 20px auto; /* Center the table horizontally */
+=======
+            max-width: 1200px; /* Set a maximum width for the table */
+            margin: 10px auto; /* Center the table horizontally */
+>>>>>>> Stashed changes
             backdrop-filter: blur(40px); 
             font-weight: bold;
             margin-bottom: 20px;
@@ -142,7 +150,21 @@ if ($result) {
         .review-btn:hover {
             opacity: 0.8;
         }
+        .title {
+        padding: 40px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
 
+    .title h2 {
+        text-align: center;
+        font-size: 6rem;
+        font-family: 'Satisfy';
+        color: #333;
+    }
         
 /* Button styles */
 table button {
@@ -266,3 +288,4 @@ function getCustomerName($conn, $customerID) {
 }
 
 ?>
+ 
