@@ -15,12 +15,16 @@ if (!isset($_SESSION['CustomerID'])) {
 $customerID = $_SESSION['CustomerID'];
 
 // Fetch data from the Transactions table based on customerID
-$query = "SELECT t.TransactionID, t.PhotographerID, t.ReservationDate, t.Time_ID, t.PlaceID, t.PackageID, t.StatusID,
-            t.TransactionDate, pt.Name, tm.start_time, tm.end_time, p.PlaceName, pk.PackageName, pk.Price, ts.StatusName
+$query = "SELECT t.TransactionID, t.PhotographerID, t.ReservationDate, t.Time_ID,
+            COALESCE(t.PlaceID, cp.CustomerPlaceID) AS LocationID,
+            t.PackageID, t.StatusID, t.TransactionDate, pt.Name, tm.start_time,
+            tm.end_time, COALESCE(p.PlaceName, cp.PlaceName, 'N/A') AS LocationName,
+            pk.PackageName, pk.Price, ts.StatusName
             FROM Transactions t
             JOIN photographers pt ON t.PhotographerID = pt.PhotographerID
             JOIN time tm ON t.Time_ID = tm.Time_ID
-            JOIN places p ON t.PlaceID = p.PlaceID
+            LEFT JOIN places p ON t.PlaceID = p.PlaceID
+            LEFT JOIN customerplaces cp ON t.CustomerPlaceID = cp.CustomerPlaceID
             JOIN packages pk ON t.PackageID = pk.PackageID
             JOIN transactionstatus ts ON t.StatusID = ts.StatusID
             WHERE t.CustomerID = $customerID";
