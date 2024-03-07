@@ -129,7 +129,7 @@ body {
         }
 
         h2 {
-            margin-top: 160px;
+            margin-top: 100px;
             text-align: center;
             font-size: 6rem;
             color: #fff;
@@ -144,7 +144,7 @@ body {
 
         .container {
             max-width: 1000px;
-            margin-top: 400px;
+            margin-top: 300px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -161,6 +161,7 @@ body {
             align-items: center;
             flex-direction: column;
             text-align: center;
+            height: 470px;
             margin-bottom: 40px;
         }
 

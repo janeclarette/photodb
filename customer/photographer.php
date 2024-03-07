@@ -84,7 +84,7 @@ include("../customer/header.php");  // Include your database connection
             top: 0;
             left: 0;
             width: 100%;
-            height: 60%;
+            height: 65%;
             z-index: -1; /* Push the background behind other content */
         }
         h4 {
@@ -103,7 +103,7 @@ include("../customer/header.php");  // Include your database connection
         animation: fadeInUp 1s ease-out; /* Add fade-in animation */
         margin-top: 250px;
         height: 400px;
-        
+        margin-bottom: 50px;
         
     }
 

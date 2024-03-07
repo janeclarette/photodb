@@ -109,7 +109,7 @@ mysqli_close($conn);
             top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
+            height: 55%;
             z-index: -1; /* Push the background behind other content */
         }
 
@@ -137,7 +137,7 @@ mysqli_close($conn);
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 999; /* Ensure it overlays other elements */
+    z-index: 1; /* Ensure it overlays other elements */
 }
 
 
@@ -150,7 +150,7 @@ mysqli_close($conn);
     }
 
     .search-container input[type="text"] {
-        padding: 10px;
+            padding: 10px;
             border: none;
             border-radius: 10px;
             margin-right: 10px;
@@ -181,7 +181,7 @@ mysqli_close($conn);
 }
 
 .image-container {
-    margin-bottom: 100px;
+    margin-bottom: 200px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
@@ -238,9 +238,10 @@ mysqli_close($conn);
 }
 
 .modal-content img {
-    max-width: 500px;
-    max-height: 600px;
+    max-width: 400px;
+    max-height: 500px;
     object-fit: contain;
+    margin-bottom: 300px;
 }
 
 

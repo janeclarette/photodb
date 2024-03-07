@@ -65,6 +65,7 @@ if ($result) {
                 justify-content: center;
                 gap: 20px;
                 margin-top: 350px;
+                
             }
 
             .card {

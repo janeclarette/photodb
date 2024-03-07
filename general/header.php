@@ -65,6 +65,7 @@ include("../include/config.php"); // Include your database connection
 
     </header>
     <!-- Secondary navigation bar -->
+    <div class="left-side">
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->
@@ -100,6 +101,7 @@ include("../include/config.php"); // Include your database connection
         </ul>
     </nav>
     <!-- Main content of the page -->
+    </div>
 <div class="overlay"></div>
 </body>
 </html>
@@ -108,6 +110,28 @@ include("../include/config.php"); // Include your database connection
 
   <!-- Add your CSS stylesheets here -->
   <style>
+.left-side {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px; /* Set the width of the left side area */
+    height: 100%;/* Background color of the left side area */
+    transition: width 0.3s; /* Add transition for smooth animation */
+}
+
+.left-side:hover .sub-navbar {
+    left: 0; /* Show the sub-navbar when hovering over the left side */
+}
+
+.content {
+    margin-left: 50px; /* Adjust content margin to make space for the left side navigation bar */
+    transition: margin-left 0.3s; /* Add transition for smooth animation */
+}
+
+/* Adjust content margin when the left side navigation bar is expanded */
+.left-side:hover + .content {
+    margin-left: 200px; /* Adjust the width of the left side navigation bar */
+}
 
 body {
         background-color: #E0F4FF;
@@ -175,32 +199,32 @@ body {
         }
 
         .sub-navbar {
-            text-align: center;
-        background-color: #4F709C;
-        color: #fff;
-        padding: 10px;
-        position: fixed;
-        top: 0;
-        left: -200px; /* Initially hidden off-screen to the left */
-        height: 100vh;
-        width: 200px;
-        overflow-x: hidden;
-        transition: left 0.3s;
-    }
-
-    /* Show the sub-navbar when hovering over the left side of the screen */
-    body:hover .sub-navbar,
-body:hover .content {
-    left: 0;
+        text-align: center;
+    background-color: #4F709C;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: -300; /* Initially hidden off-screen to the left */
+    height: 100vh;
+    width: 200px;
+    overflow-x: hidden;
+    transition: left 0.3s;
 }
 
-    .sub-navbar ul {
+/* Show the sub-navbar when hovering over the left side of the content */
+
+.sub-navbar ul {
         list-style-type: none;
         padding: 0;
     }
 
+
+
+
     .sub-navbar ul li {
-        margin: 5px 0;
+        margin: 25px 0;
+        margin-bottom: 30px;
     }
 
     .sub-navbar ul li a {

@@ -133,7 +133,7 @@ if (!$customers_result) {
     margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
     max-width: 300px; /* Set a maximum width if needed */
     height: 450px; /* Set the height as needed */
-    
+    margin-bottom: 100px;
 }
 
     .customer-image {
