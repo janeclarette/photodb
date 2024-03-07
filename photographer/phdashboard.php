@@ -48,6 +48,10 @@ if ($result) {
         <style>
      /* CSS styles */
         /* Add your CSS stylesheets here */
+        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+            margin: 0;
+            padding: 0;
+        }
         body {
             background-image: url('../uploads/cover.jpg');
             background-size: cover;
@@ -64,10 +68,11 @@ if ($result) {
         }
         table {
             width: 90%; /* Set the width of the table */
-            max-width: 1200px; /* Set a maximum width for the table */
+            max-width: 1500px; /* Set a maximum width for the table */
             margin: 20px auto; /* Center the table horizontally */
             backdrop-filter: blur(40px); 
             font-weight: bold;
+            margin-bottom: 20px;
         }
 
         th, td {
