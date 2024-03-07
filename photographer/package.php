@@ -219,7 +219,7 @@ function getPackageInclusions($packageID) {
 
         /* Apply font family and styles */
         body {
-            font-family: serif;
+            font-family: 'serif';
             background-color: #E0F4FF;
         }
         .container {

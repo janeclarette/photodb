@@ -74,6 +74,7 @@ include("../include/config.php"); // Include your database connection
         color: #fff;
         padding: 40px;
         text-align: center;
+        margin-top: 40px;
     }
 
     .footer-content {

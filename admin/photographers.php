@@ -196,10 +196,11 @@ var photographerChart = new Chart(ctx, {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     text-align: center; /* Center the content horizontally */
     margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
-    max-width: 300px; /* Set a maximum width if needed */
-    height: 400px; /* Set the height as needed */
-    
+    max-width: 250px; /* Set a maximum width if needed */
+    height: 450px; /* Set the height as needed */
+
 }
+
 
 
     .photographer-image {

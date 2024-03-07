@@ -98,7 +98,7 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
             text-align: center;
             font-size: 5rem;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 70px;
             font-family: 'Satisfy';
         }
 
@@ -112,11 +112,11 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     position: absolute;
-    top: 65%;
+    top: 85%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center the container horizontally and vertically */
     margin-top: 200px;
-    margin-bottom: 15px;
+    margin-bottom: 200px;
 }
 
 
@@ -144,6 +144,7 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s;
+    margin-left: 500px;
 }
 
 #downloadPdfBtn:hover {

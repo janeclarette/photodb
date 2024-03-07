@@ -48,6 +48,10 @@ if ($result) {
         <style>
      /* CSS styles */
         /* Add your CSS stylesheets here */
+        body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+            margin: 0;
+            padding: 0;
+        }
         body {
             background-image: url('../uploads/cover.jpg');
             background-size: cover;
@@ -64,10 +68,11 @@ if ($result) {
         }
         table {
             width: 90%; /* Set the width of the table */
-            max-width: 1200px; /* Set a maximum width for the table */
+            max-width: 1700px; /* Set a maximum width for the table */
             margin: 20px auto; /* Center the table horizontally */
             backdrop-filter: blur(40px); 
             font-weight: bold;
+            margin-bottom: 20px;
         }
 
         th, td {
@@ -205,50 +210,29 @@ table button + button {
                             $action = isset($_POST['accept']) ? 'accept' : (isset($_POST['decline']) ? 'decline' : '');
                             
                             if ($action === 'accept') {
-                                // Start a transaction
-                                mysqli_begin_transaction($conn);
-                            
-                                // Update the transaction status to 4 (accepted)
-                                $updateTransactionQuery = "UPDATE Transactions SET StatusID = 4 WHERE TransactionID = ?";
-                                $updateTransactionStmt = mysqli_prepare($conn, $updateTransactionQuery);
-                                mysqli_stmt_bind_param($updateTransactionStmt, "i", $transactionID);
-                                mysqli_stmt_execute($updateTransactionStmt);
-                            
-                                // Update the schedule status to 2 (booked)
-                                $updateScheduleQuery = "UPDATE availability_schedule AS s
-                                                        JOIN availability_time AS t ON s.scheduleid = t.scheduleid
-                                                        JOIN Transactions AS tr ON tr.Time_ID = t.time_id
-                                                        SET s.schedule_status_id = 2
-                                                        WHERE tr.TransactionID = ?";
-                                $updateScheduleStmt = mysqli_prepare($conn, $updateScheduleQuery);
-                                mysqli_stmt_bind_param($updateScheduleStmt, "i", $transactionID);
-                                mysqli_stmt_execute($updateScheduleStmt);
-                            
-                                // Commit the transaction if both updates succeed
-                                if (mysqli_stmt_affected_rows($updateTransactionStmt) > 0 && mysqli_stmt_affected_rows($updateScheduleStmt) > 0) {
-                                    mysqli_commit($conn);
-                                    // Add JavaScript alert and redirect
-                                    echo '<script>';
-                                    echo 'alert("Accepted successfully");';
-                                    echo 'window.location.href = "phdashboard.php";';
-                                    echo '</script>';
-                                } else {
-                                    mysqli_rollback($conn);
-                                    echo "Error: Unable to update transaction and schedule statuses.";
-                                }
-                            
-                                // Close the prepared statements
-                                mysqli_stmt_close($updateTransactionStmt);
-                                mysqli_stmt_close($updateScheduleStmt);
+                                // Handle accept action, update the status to 4
+                                $updateQuery = "UPDATE Transactions SET StatusID = 4 WHERE TransactionID = $transactionID";
+                                mysqli_query($conn, $updateQuery);
+                                // Add JavaScript alert and redirect
+                                echo '<script>';
+                                echo 'alert("Accepted successfully");';
+                                echo 'window.location.href = "phdashboard.php";';
+                                echo '</script>';
+                            } elseif ($action === 'decline') {
+                                // Handle decline action, update the status to 5
+                                $updateQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
+                                mysqli_query($conn, $updateQuery);
+                                echo '<script>';
+                                echo 'alert("Declined");';
+                                echo 'window.location.href = "phdashboard.php";';
+                                echo '</script>';
                             }
-                            
                             
                             // // Refresh the page after processing the form
                             // header("Location: " . $_SERVER['PHP_SELF']);
                             // exit();
                         }
                         ?>
-                        
                     </td>
                 </tr>
                 <?php

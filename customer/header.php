@@ -64,7 +64,8 @@ include("../include/config.php"); // Include your database connection
     </div>
 
     </header>
-    <!-- Secondary navigation bar -->    <div class="left-side">
+    <!-- Secondary navigation bar -->    
+    <div class="left-side">
     <nav class="sub-navbar">
         <ul>
             <!-- Navigation links -->

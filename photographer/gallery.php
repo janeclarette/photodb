@@ -19,7 +19,7 @@ if (!$result) {
 }
 ?>
 
-<h1> <center>PHOTOGRAPHER'S ALBUM</center></h1>
+<h2> Photographer's Album</h2>
 
 <div class="container">
     <?php
@@ -49,10 +49,18 @@ mysqli_close($conn);
         body {
             background-color: #E0F4FF;
         }
+        h2 {
+            margin-top: 70px;
+            text-align: center;
+            font-size: 4rem;
+            color: #333;
+            font-family: 'Satisfy';
+            margin-bottom: 10px;
+        }
 
         .container {
             max-width: 80%;
-            margin-top:100px;
+            margin-top:70px;
             padding: 40px;
             display: flex;
             flex-wrap: wrap;

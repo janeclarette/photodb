@@ -87,12 +87,7 @@
         
         </section>
 
-        <!-- Featured events section -->
-        <section class="featured-events">
-            <h2>Featured Events</h2>
-            <p>Explore our featured events.</p>
-           
-        </section>
+
         <?php include("../include/footer.php"); ?>
 </body>
 </html>

@@ -30,25 +30,25 @@ include("../customer/header.php");  // Include your database connection
             die("Error in SQL query: " . $conn->error);
         }
 
-        while ($photographer = $photographersResult->fetch_assoc()) {
-            echo '<div class="photographer">';
-            echo '<img src="../uploads/' . $photographer['img_photographer'] . '" alt="' . $photographer['Name'] . '">';
-            echo '<h3>Name: ' . $photographer['Name'] . '</h3>';
-            echo '<p>Phone: ' . $photographer['Phone_Number'] . '</p>';
-            echo '<p>Email: ' . $photographer['Email'] . '</p>';
-            echo '<form action="view_album.php" method="GET" style="display: inline;">';
-            echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-            echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
-            echo '</form>';
-            echo '<form action="bookp.php" method="GET" style="display: inline;">';
-            echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-            echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Book Photographer</button>';
-            echo '</form>';
-            echo '</div>';
-        }
-        ?>
-    </div>
-</section>
+            while ($photographer = $photographersResult->fetch_assoc()) {
+                echo '<div class="photographer">';
+                echo '<img src="../uploads/' . $photographer['img_photographer'] . '" alt="' . $photographer['Name'] . '">';
+                echo '<h3>Name: ' . $photographer['Name'] . '</h3>';
+                echo '<p>Phone: ' . $photographer['Phone_Number'] . '</p>';
+                echo '<p>Email: ' . $photographer['Email'] . '</p>';
+                echo '<form action="view_album.php" method="GET" style="display: inline;">';
+                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
+                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
+                echo '</form>';
+                echo '<form action="bookp.php" method="GET" style="display: inline;">';
+                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
+                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Book Photographer</button>';
+                echo '</form>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </section>
 
 <!-- JavaScript code -->
 <script>
@@ -83,63 +83,25 @@ include("../customer/header.php");  // Include your database connection
     /* Resetting default margin and padding */
 
 
-    .background {
-        background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-        background-size: cover;
-        background-position: center top; /* Lower the background image */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 60%;
-        z-index: -1; /* Push the background behind other content */
-    }
-
-    h4 {
-        margin-top: 120px;
-        text-align: center;
-        font-size: 7rem;
-        color: #333;
-        font-family: 'Satisfy';
-        margin-bottom: 10px;
-    }
-
-    .search-container {
-        margin-top: 30px;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 999; /* Ensure it overlays other elements */
-    }
-
-    .search-container form {
-        display: inline-block;
-        padding: 10px;
-        border-radius: 5px;
-
-    }
-
-    .search-container input[type="text"] {
-        padding: 10px;
-        border: none;
-        border-radius: 10px;
-        margin-right: 10px;
-        width: 300px;
-    }
-
-    .search-container button {
-        padding: 5px 10px;
-        background-color: #4F709C;
-        border: none;
-        border-radius: 5px;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    .search-container button:hover {
-        background-color: #0056b3;
-    }
+        .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center top; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1; /* Push the background behind other content */
+        }
+        h4 {
+            margin-top: 120px;
+            text-align: center;
+            font-size: 7rem;
+            color: #333;
+            font-family: 'Satisfy';
+            margin-bottom: 10px;
+        }
 
     .photographer-container {
         display: flex;
@@ -148,8 +110,8 @@ include("../customer/header.php");  // Include your database connection
         animation: fadeInUp 1s ease-out; /* Add fade-in animation */
         margin-top: 250px;
         height: 400px;
-
-
+        
+        
     }
 
     .photographer {
