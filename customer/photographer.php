@@ -36,10 +36,6 @@ include("../customer/header.php");  // Include your database connection
                 echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
                 echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">View Albums</button>';
                 echo '</form>';
-                echo '<form action="bookp.php" method="GET" style="display: inline;">';
-                echo '<input type="hidden" name="photographer_id" value="' . $photographer['PhotographerID'] . '">';
-                echo '<button type="submit" style="background-color: #4F709C; color: #fff; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Book Photographer</button>';
-                echo '</form>';
                 echo '</div>';
             }
             ?>
