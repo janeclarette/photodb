@@ -92,7 +92,7 @@ include("../include/config.php");
             <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
             <li><a href="/photodb/customer/price.php">Packages</a></li>
             <li><a href="/photodb/customer/appointment.php">Appointment</a></li>
-            <li><a href="/photodb/customer/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/general/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
@@ -128,11 +128,6 @@ include("../include/config.php");
         </section>
 
         <!-- Featured events section -->
-        <section class="featured-events">
-            <h2>Featured Events</h2>
-            <p>Explore our featured events.</p>
-           
-        </section>
         <?php include("../include/footer.php"); ?>
 </body>
 </html>
