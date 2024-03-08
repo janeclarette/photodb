@@ -71,7 +71,6 @@ include("../general/header.php");  // Include your database connection
   <style>
     body {
         background-color: #E0F4FF;
-        
     }
         /* Resetting default margin and padding */
       
