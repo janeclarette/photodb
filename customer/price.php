@@ -4,12 +4,6 @@ $loggedInCustomerID = isset($_SESSION['CustomerID']) ? $_SESSION['CustomerID'] :
 include("../include/config.php");
 include("../customer/header.php");
 
-
-
-
-
-
-
 function getPackageInclusions($packageID) {
     global $conn;
     $inclusionsQuery = "SELECT inclusion_table.Inclusions FROM inclusion_table
@@ -33,10 +27,6 @@ $packagesSql = "SELECT packages.*, photographers.photographerID, photographers.n
 
 $packagesResult = $conn->query($packagesSql);
 ?>
-
-
-
-
 
 
         <section class="services">
@@ -112,18 +102,13 @@ $packagesResult = $conn->query($packagesSql);
 </html>
 
 
-
-
-
-
-
 <style>
-body {
-    background: linear-gradient(to bottom, #CEE6F3 ,#4F709C); /* Dark blue to light blue gradient */
-    background-size: cover; /* Cover the entire background without distortion */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the background from repeating */
-}
+body{
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
     label {
         font-size: 1.5rem; 
         font-family: 'serif';
@@ -135,9 +120,9 @@ body {
     }
 
         h4 {
-            margin-top: 160px;
+          
             font-size: 6rem;
-            color: #fff;
+            color: #333;
             font-family: 'Satisfy';
         }
         h5 {
@@ -155,28 +140,21 @@ body {
         }
 
 
-        .background {
-            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-            background-size: cover;
-            background-position: center bottom; /* Lower the background image */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            z-index: -1; /* Push the background behind other content */
-        }
-
         .container {
-            margin-top: 290px;
+            margin-top: 40px;
         }
+        
         .package-container {
 
-
-            padding: 20px;
-
+            margin-top: 40px;
+    padding: 20px; /* Add padding to the container */
+    background-color: rgba(255, 255, 255, 0.8); /* Set background color with opacity */
+    border-radius: 10px; /* Add border radius */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); 
             text-align: center;
             width: calc(33.33% - 40px); 
+            transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Include transition for background-color */
+
 
         }
 
@@ -193,21 +171,23 @@ body {
         }
 
         .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between; 
-            margin: 0 -20px;
-            align-items: left;
-        }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px -20px; /* Adjust margin for padding in container */
+    align-items: stretch; /* Stretch items vertically */
+}
 
         .center-button {
                 text-align: center;
-                margin-top: 20px; 
+                margin-top: 20px;
+                
+
             }
 
             .center-button button {
                 padding: 10px 20px;
-                background-color: #4F709C;
+                background-color: rgba(75, 192, 192, 20);
                 border: none;
                 border-radius: 5px;
                 color: #fff;
@@ -217,7 +197,8 @@ body {
             }
 
             .center-button button:hover {
-                background-color: #2E4A6E;
+                background-color: rgba(75, 192, 192, .5);
+            color: #333;
             }
 
             .dropdown {

@@ -43,23 +43,18 @@ if ($result) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
         <style>
-            .background {
-                background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-                background-size: cover;
-                background-position: center bottom; /* Lower the background image */
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 60%;
-                z-index: -1; /* Push the background behind other content */
-            }
+            body{
+                background-image: url('../uploads/cover.jpg');  
+    background-size: cover;
+    background-position: center bottom;
+    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+        }
 
             h4 {
-                margin-top: 160px;
+                margin-top: 0px;
                 text-align: center;
                 font-size: 6rem;
-                color: #fff;
+                color: #333;
                 font-family: 'Satisfy';
             }
 
@@ -68,12 +63,13 @@ if ($result) {
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 20px;
-                margin-top: 350px;
+                margin-top: 50px;
                 
             }
 
             .card {
-                background-color: #ffffff;
+                background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
                 border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 padding: 20px;
