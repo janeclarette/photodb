@@ -109,16 +109,16 @@ mysqli_close($conn);
             top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
+            height: 55%;
             z-index: -1; /* Push the background behind other content */
         }
-
+    
     .gallery-title {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 40px;
-    height: 250px;
+    height: 50px;
 }
 
 .gallery-title > h2 {
@@ -130,7 +130,6 @@ mysqli_close($conn);
 
 }
 
-
 .search-container {
     margin-top: 30px;
     position: absolute;
@@ -139,8 +138,6 @@ mysqli_close($conn);
     transform: translateX(-50%);
     z-index: 1; /* Ensure it overlays other elements */
 }
-
-
 
     .search-container form {
         display: inline-block;
@@ -155,11 +152,14 @@ mysqli_close($conn);
             border-radius: 10px;
             margin-right: 10px;
             width: 300px;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px);
     }
 
     .search-container button {
         padding: 5px 10px;
-            background-color: #4F709C;
+        background-color: rgba(75, 192, 192, 20);
             border: none;
             border-radius: 5px;
             color: #fff;
@@ -171,7 +171,7 @@ mysqli_close($conn);
     }
 
     .container {
-    margin-top: 250px; 
+    margin-top: 100px; 
     max-width: 80%;
     padding: 40px;
     display: flex;
@@ -181,12 +181,12 @@ mysqli_close($conn);
 }
 
 .image-container {
-    margin-bottom: 200px;
+    margin-bottom: 20px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
-    width: 400px; /* Change this to adjust the width */
-    height: 550px; /* Change this to adjust the height */
+    width: 100px; /* Change this to adjust the width */
+    height: 150px; /* Change this to adjust the height */
     flex: 0 0 calc(49.23% - 20px); /* Adjust the width of each container */
     box-sizing: border-box;
 }

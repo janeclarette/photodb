@@ -1,8 +1,8 @@
-    <?php
-    session_start();
-    $loggedInCustomerID = isset($_SESSION['CustomerID']) ? $_SESSION['CustomerID'] : null;
-    include("../include/config.php");
-    include("../customer/header.php");
+<?php
+session_start();
+$loggedInCustomerID = isset($_SESSION['CustomerID']) ? $_SESSION['CustomerID'] : null;
+include("../include/config.php");
+include("../customer/header.php");
 
 
 
@@ -31,8 +31,8 @@
                     INNER JOIN servicetypes ON packages.ServiceTypeID = servicetypes.ServiceTypeID";
 
 
-    $packagesResult = $conn->query($packagesSql);
-    ?>
+$packagesResult = $conn->query($packagesSql);
+?>
 
 
 
@@ -108,8 +108,8 @@
     </script>
 
 
-    </body>
-    </html>
+</body>
+</html>
 
 
 
@@ -117,68 +117,66 @@
 
 
 
-    <style>
-    body {
-        background: linear-gradient(to bottom, #CEE6F3 ,#4F709C); /* Dark blue to light blue gradient */
-        background-size: cover; /* Cover the entire background without distortion */
-        background-position: center; /* Center the background image */
-        background-repeat: no-repeat; /* Prevent the background from repeating */
+<style>
+body {
+    background: linear-gradient(to bottom, #CEE6F3 ,#4F709C); /* Dark blue to light blue gradient */
+    background-size: cover; /* Cover the entire background without distortion */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+}
+    label {
+        font-size: 1.5rem; 
+        font-family: 'serif';
     }
-        label {
-            font-size: 1.5rem; 
-            font-family: 'serif';
-        }
 
         select {
         font-size: 1.5rem; /* Change the font size as needed */
         font-family: 'serif';
         }
 
-
-            h5 {
-                font-size: 2rem;
-                color: #333;
-                font-family: 'Satisfy';
-            }
+        h4 {
+            margin-top: 160px;
+            font-size: 6rem;
+            color: #fff;
+            font-family: 'Satisfy';
+        }
+        h5 {
+            font-size: 2rem;
+            color: #333;
+            font-family: 'Satisfy';
+        }
+        
+        p {
+            margin-top: 10px;
+            font-size: 2.5rem;
+            color: #fff;
             
-            p {
-                margin-top: 10px;
-                font-size: 2.5rem;
-                color: #fff;
-                
 
-            }
-
-            .background {
-                background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
-                background-size: cover;
-                background-position: center top; /* Lower the background image */
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 50%;
-                z-index: -1; /* Push the background behind other content */
-            }
-            h4 {
-                margin-top: 120px;
-                text-align: center;
-                font-size: 7rem;
-                color: #333;
-                font-family: 'Satisfy';
-                margin-bottom: 10px;
-            }
-
-            .container {
-                margin-top: 290px;
-            }
-            .package-container {
+        }
 
 
-                padding: 20px;
+        .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center bottom; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: -1; /* Push the background behind other content */
+        }
 
-                text-align: center;
-                width: calc(33.33% - 40px); 
+        .container {
+            margin-top: 290px;
+        }
+        .package-container {
+
+
+            padding: 20px;
+
+            text-align: center;
+            width: calc(33.33% - 40px); 
 
             }
 
@@ -194,33 +192,33 @@
                 margin-bottom: 8px;
             }
 
-            .service-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between; 
-                margin: 0 -20px;
-                align-items: left;
+        .service-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; 
+            margin: 0 -20px;
+            align-items: left;
+        }
+
+        .center-button {
+                text-align: center;
+                margin-top: 20px; 
             }
 
-            .center-button {
-                    text-align: center;
-                    margin-top: 20px; 
-                }
+            .center-button button {
+                padding: 10px 20px;
+                background-color: #4F709C;
+                border: none;
+                border-radius: 5px;
+                color: #fff;
+                cursor: pointer;
+                font-size: 1.2rem;
+                transition: background-color 0.3s ease;
+            }
 
-                .center-button button {
-                    padding: 10px 20px;
-                    background-color: #4F709C;
-                    border: none;
-                    border-radius: 5px;
-                    color: #fff;
-                    cursor: pointer;
-                    font-size: 1.2rem;
-                    transition: background-color 0.3s ease;
-                }
-
-                .center-button button:hover {
-                    background-color: #2E4A6E;
-                }
+            .center-button button:hover {
+                background-color: #2E4A6E;
+            }
 
                 .dropdown {
                 display: inline-block;

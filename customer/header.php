@@ -19,7 +19,7 @@ include("../include/config.php"); // Include your database connection
     </div>
 
 
-
+ 
 
 </header>
 
@@ -97,7 +97,7 @@ include("../include/config.php"); // Include your database connection
             <li><a href="/photodb/customer/gallery.php">Photo Gallery</a></li>
             <li><a href="/photodb/customer/price.php">Packages</a></li>
             <li><a href="/photodb/customer/appointment.php">Appointments</a></li>
-            <li><a href="/photodb/admin/aboutus.php">About Us</a></li>
+            <li><a href="/photodb/customer/aboutus.php">About Us</a></li>
         </ul>
     </nav>
     <!-- Main content of the page -->
@@ -204,7 +204,7 @@ include("../include/config.php"); // Include your database connection
 
     .sub-navbar {
         text-align: center;
-    background-color: #4F709C;
+        background-color: rgba(75, 192, 192, 20);
     color: #fff;
     padding: 10px;
     position: fixed;
