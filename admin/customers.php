@@ -96,14 +96,13 @@ if (!$customers_result) {
 </html>
 
 <style>
-    body {
-        background-image: url('../uploads/cover.jpg');
-        background-size: cover;
-        background-attachment: fixed;
-        height: 100vh;
-    }
-
-    h2 {
+body {
+    background-image: url('../uploads/cover.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}
+h2 {
         margin-top: 20px;
         text-align: center;
         color: #333;
@@ -112,56 +111,61 @@ if (!$customers_result) {
         font-family: 'Satisfy';
     }
 
-    .cover-section {
-        margin-top: 20px;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
 
-    .book-card {
+.cover-section {
+    margin-top: 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.book-card {
     background-color: rgba(255, 255, 255, 0.5);
-    border: 2px solid rgba(255,255,255, .5);
-    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    border: 2px solid rgba(255, 255, 255, .5);
+    backdrop-filter: blur(10px);
     padding: 30px 40px;
     color: #333;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-    text-align: center; /* Center the content horizontally */
-    margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
-    max-width: 300px; /* Set a maximum width if needed */
-    height: 450px; /* Set the height as needed */
-    margin-bottom: 100px;
+    text-align: center;
+    max-width: 350px;
+    height: 500px;
+    width: calc(35% - 20px);
+    margin: 70px 0 0 100px;
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
 }
 
-    .customer-image {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        margin-bottom: 15px;
-    }
+.customer-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
 
-    .book-card p {
-        color: #333;
-        margin-bottom: 15px;
-    }
+.book-card p {
+    color: #333;
+    margin-bottom: 15px;
+}
 
-    .actions {
-        background-color: #4F709C;
-        padding: 10px 10px;
-        text-decoration: none;
-        border-radius: 5px;
-    }
+.actions {
+    background-color: #4F709C;
+    padding: 10px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
 
-    .actions a {
-        color: #fff;
-        text-decoration: none;
-        margin-right: 10px;
-    }
+.actions a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
 
-    .actions a:hover {
-        text-decoration: none;
-    }
+.actions a:hover {
+    text-decoration: none;
+}
+
 </style>

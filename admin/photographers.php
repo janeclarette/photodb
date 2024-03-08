@@ -66,8 +66,9 @@ var photographerChart = new Chart(ctx, {
             }
         },
         // Adjust bar thickness here
-        barThickness: 40 // Adjust the value as needed
+        barThickness: 50 // Adjust the value as needed
     }
+    
 });
 
     </script>
@@ -98,7 +99,7 @@ var photographerChart = new Chart(ctx, {
             $row = mysqli_fetch_assoc($result);
             $mostBookedPhotographerName = $row['PhotographerName'];
             $mostBookedPhotographerBookings = $row['bookings'];
-            echo "<h3>Most Booked Photographer:</h3>";
+            echo "<h3>Top Performing Photographer:</h3>";
             echo "<p>Name: $mostBookedPhotographerName</p>";
             echo "<p>Bookings: $mostBookedPhotographerBookings</p>";
         } else {
@@ -106,6 +107,8 @@ var photographerChart = new Chart(ctx, {
         }
         ?>
     </div>
+    <h4>List of Photographers</h4>
+
     <?php
     // Loop through the photographer data and display each in a separate div
     while ($photographer = mysqli_fetch_assoc($photographers_result)) {
@@ -127,6 +130,10 @@ var photographerChart = new Chart(ctx, {
             <p class='actions'>
                 <a href='pdelete.php?delete_id=<?php echo $photographer['PhotographerID']; ?>' class='delete-link'>Delete Photographer</a>
             </p>
+            <p class='actions'>
+    <a href='viewmore.php?photographer_id=<?php echo $photographer['PhotographerID']; ?>' class='delete-link'>View More</a>
+</p>
+
         </div>
         
     <?php
@@ -147,11 +154,12 @@ var photographerChart = new Chart(ctx, {
     .description {
         
             padding: 20px;
-            max-width: 300px;
+            max-width: 1000px;
             background-color: rgba(75, 192, 192, 15);
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 75px auto 0;
+            margin-bottom: 20px;
         }
 
         .description h3 {
@@ -162,12 +170,17 @@ var photographerChart = new Chart(ctx, {
 
         .description p {
             font-size: 1.5rem;
-            color: #555;
+            color: #333;
             margin-bottom: 5px;
         }
-        
+    h4 {
+        font-size: 3.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            margin-left: 100px;
+    }    
     h2 {
-        margin-top: 40px;
+        margin-top: 10px;
         margin-bottom: 50px;
         text-align: center;
         color: #333;
@@ -195,11 +208,15 @@ var photographerChart = new Chart(ctx, {
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     text-align: center; /* Center the content horizontally */
-    margin: 50px auto; /* Center horizontally, 50px top and bottom margin */
-    max-width: 250px; /* Set a maximum width if needed */
-    height: 450px; /* Set the height as needed */
-
+    max-width: 350px; /* Set a maximum width if needed */
+    height: 50s0px; /* Set the height as needed */
+    width: calc(35% - 20px); /* Adjust the width for 4 columns */
+    margin: 70px 0 0 100px; /* Adjust margin for spacing between columns */
+    display: inline-block;
+    vertical-align: top; /* Align elements to the top */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
+
 
 
 
