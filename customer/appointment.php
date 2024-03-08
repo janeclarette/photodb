@@ -167,7 +167,7 @@ if ($result) {
                     <div class="card-content-divider"></div>
                     <span><strong>Transaction Date:</strong> <?php echo $row['TransactionDate']; ?></span>
                     <div class="card-content-divider"></div>
-                    <span><strong>Place:</strong> <?php echo $row['PlaceName']; ?></span>
+                    <span><strong>Place:</strong> <?php echo $row['LocationName']; ?></span>
                     <div class="card-content-divider"></div>
                     <span><strong>Package Name:</strong> <?php echo $row['PackageName']; ?></span>
                     <div class="card-content-divider"></div>
@@ -183,6 +183,7 @@ if ($result) {
                             Payment
                         </button>
                     </form>
+                    
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <input type="hidden" name="TransactionID" value="<?php echo $row['TransactionID']; ?>">
                         <button type="submit" name="cancel" class="action-btn cancel-btn" onclick="return confirm('Are you sure you want to cancel this transaction?');"
@@ -196,6 +197,15 @@ if ($result) {
                         <button type="submit" name="decline" class="action-btn decline-btn" <?php echo $row['StatusID'] == 6 ? '' : 'disabled'; ?>>
                             Decline
                         </button>
+
+                        <?php if ($row['StatusID'] == 6): ?>
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                            <input type="hidden" name="TransactionID"
+                                value="<?php echo $row['TransactionID']; ?>">
+                            <input type="hidden" name="formSubmitted" value="1">
+                        </form>
+                    <?php endif; ?>
+
                     </form>
                     <?php
                     $reviewQuery = "SELECT * FROM review WHERE TransactionID = {$row['TransactionID']}";
@@ -259,6 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
     $transactionID = $_POST['TransactionID'];
 
     if (isset($_POST['confirm'])) {
+        // Update the status to confirmed (statusID = 2)
         $updateQuery = "UPDATE Transactions SET StatusID = 2 WHERE TransactionID = $transactionID";
         $updateResult = mysqli_query($conn, $updateQuery);
 
@@ -271,6 +282,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['formSubmitted'])) {
     }
 
     if (isset($_POST['decline'])) {
+        // Update the status to declined (statusID = 3)
         $updateQuery = "UPDATE Transactions SET StatusID = 3 WHERE TransactionID = $transactionID";
         $updateResult = mysqli_query($conn, $updateQuery);
 

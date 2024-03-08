@@ -73,9 +73,14 @@ if (!$row || !isset($row['scheduleid'])) {
     exit();
 }
 
+$scheduleID = $row['scheduleid'];
+mysqli_stmt_close($stmt);
+$updateScheduleQuery = "UPDATE availability_schedule SET schedule_status_id = 2 WHERE scheduleid = ?";
+$stmt = mysqli_prepare($conn, $updateScheduleQuery);
+mysqli_stmt_bind_param($stmt, "i", $scheduleID);
+mysqli_stmt_execute($stmt);
 
-
-$insertTransactionQuery = "INSERT INTO Transactions (customerid, photographerid, reservationdate, placeid, customerplaceid, packageid, statusid, time_id) VALUES (?, ?, ?, ?, ?, ?, 1, ?)";
+$insertTransactionQuery = "INSERT INTO Transactions (customerid, photographerid, reservationdate, placeid, customerplaceid, packageid, statusid, time_id) VALUES (?, ?, ?, ?, ?, ?, 4, ?)";
 $stmt = mysqli_prepare($conn, $insertTransactionQuery);
 mysqli_stmt_bind_param($stmt, "iisssii", $loggedInCustomerID, $photographerID, $bookingDate, $photographerPlaceID, $customerPlaceID, $packageID, $timeID);
 mysqli_stmt_execute($stmt);

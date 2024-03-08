@@ -227,33 +227,41 @@ table button + button {
 </form>
 
                         <?php
-                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                            $transactionID = $_POST['transaction_id'];
-                            $action = isset($_POST['accept']) ? 'accept' : (isset($_POST['decline']) ? 'decline' : '');
-                            
-                            if ($action === 'accept') {
-                                // Handle accept action, update the status to 4
-                                $updateQuery = "UPDATE Transactions SET StatusID = 4 WHERE TransactionID = $transactionID";
-                                mysqli_query($conn, $updateQuery);
-                                // Add JavaScript alert and redirect
-                                echo '<script>';
-                                echo 'alert("Accepted successfully");';
-                                echo 'window.location.href = "phdashboard.php";';
-                                echo '</script>';
-                            } elseif ($action === 'decline') {
-                                // Handle decline action, update the status to 5
-                                $updateQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
-                                mysqli_query($conn, $updateQuery);
-                                echo '<script>';
-                                echo 'alert("Declined");';
-                                echo 'window.location.href = "phdashboard.php";';
-                                echo '</script>';
-                            }
-                            
-                            // // Refresh the page after processing the form
-                            // header("Location: " . $_SERVER['PHP_SELF']);
-                            // exit();
-                        }
+                   // Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $transactionID = $_POST['transaction_id'];
+    $action = isset($_POST['accept']) ? 'accept' : (isset($_POST['decline']) ? 'decline' : '');
+
+    if ($action === 'accept') {
+        // Handle accept action, update the status to 4
+        // $updateQuery = "UPDATE Transactions SET StatusID = 4 WHERE TransactionID = $transactionID";
+        // mysqli_query($conn, $updateQuery);
+
+// Update the schedule status to 2 (booked) based on transaction ID and date
+$updateScheduleQuery = "UPDATE availability_schedule SET schedule_status_id = 2 WHERE scheduleid = ?";
+$stmt = mysqli_prepare($conn, $updateScheduleQuery);
+mysqli_stmt_bind_param($stmt, "i", $scheduleID);
+mysqli_stmt_execute($stmt);
+
+        // Add JavaScript alert and redirect
+        echo '<script>';
+        echo 'alert("Acceoted");';
+        echo 'window.location.href = "phdashboard.php";';
+        echo '</script>';
+    } elseif ($action === 'decline') {
+        // Handle decline action, update the status to 5
+        $updateQuery = "UPDATE Transactions SET StatusID = 5 WHERE TransactionID = $transactionID";
+        mysqli_query($conn, $updateQuery);
+
+        // Add JavaScript alert and redirect
+        echo '<script>';
+        echo 'alert("Declined");';
+        echo 'window.location.href = "phdashboard.php";';
+        echo '</script>';
+    }
+}
+
+
                         ?>
                     </td>
                 </tr>
