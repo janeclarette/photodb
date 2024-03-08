@@ -225,14 +225,6 @@ function getPackageInclusions($packageID) {
         }
 
         /* Apply font family and styles */
-<<<<<<< Updated upstream
-        body {
-            font-family: 'serif';
-            background-color: #E0F4FF;
-        }
-=======
-        
->>>>>>> Stashed changes
         .container {
             display: flex;
             justify-content: center;

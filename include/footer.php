@@ -31,7 +31,7 @@ include("../include/config.php"); // Include your database connection
             <ul class="footer-links">
                 <li><a href="/photodb/customer/customerdashboard.php">Home</a></li>
                 <li><a href="/photodb/customer/phreviews.php">Reviews</a></li>
-                <li><a href="aboutus.php">About us</a></li>
+                <li><a href="#">About us</a></li>
             </ul>
         </div>
         <div class="footer-right">
@@ -67,6 +67,11 @@ include("../include/config.php"); // Include your database connection
 
 <style>
     /* Footer styles */
+    body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+        margin: 0;
+        padding: 0;
+    }
+
     .footer {
         background-color: rgba(75, 192, 192, 20);
         color: #fff;

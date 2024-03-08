@@ -19,12 +19,6 @@ if (!$result) {
 }
 ?>
 
-<<<<<<< Updated upstream
-<h2> Photographer's Album</h2>
-=======
-<h2>Photographer's Album</h2>
->>>>>>> Stashed changes
-
 <div class="container">
     <?php
     while ($row = mysqli_fetch_assoc($result)) {

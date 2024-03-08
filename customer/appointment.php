@@ -15,6 +15,7 @@ if (!isset($_SESSION['CustomerID'])) {
 $customerID = $_SESSION['CustomerID'];
 
 // Fetch data from the Transactions table based on customerID
+
 $query = "SELECT t.TransactionID, t.PhotographerID, t.ReservationDate, t.Time_ID,
             COALESCE(t.PlaceID, cp.CustomerPlaceID) AS LocationID,
             t.PackageID, t.StatusID, t.TransactionDate, pt.Name, tm.start_time,
@@ -31,6 +32,8 @@ $query = "SELECT t.TransactionID, t.PhotographerID, t.ReservationDate, t.Time_ID
 
 $result = mysqli_query($conn, $query);
 
+
+
 // Check for query execution success
 if ($result) {
     ?>
@@ -43,18 +46,23 @@ if ($result) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
         <style>
-            body{
-                background-image: url('../uploads/cover.jpg');  
-    background-size: cover;
-    background-position: center bottom;
-    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
-        }
+            .background {
+                background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+                background-size: cover;
+                background-position: center bottom; /* Lower the background image */
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60%;
+                z-index: -1; /* Push the background behind other content */
+            }
 
             h4 {
-                margin-top: 0px;
+                margin-top: 160px;
                 text-align: center;
                 font-size: 6rem;
-                color: #333;
+                color: #fff;
                 font-family: 'Satisfy';
             }
 
@@ -149,7 +157,7 @@ if ($result) {
         </style>
     </head>
     <body>
-    <section class="background">
+    <section class="background"><br><br><br><br><br>
         <h4>Appointments</h4>
     </section>
     <div class="cards-container">
@@ -172,7 +180,6 @@ if ($result) {
                     <span><strong>Package Name:</strong> <?php echo $row['PackageName']; ?></span>
                     <div class="card-content-divider"></div>
                     <span><strong>Price:</strong> <?php echo $row['Price']; ?></span>
-                    <div class="card-content-divider"></div>
                     <span><strong>Status:</strong> <?php echo $row['StatusName']; ?></span>
                     <div class="card-content-divider"></div>
                 </div>

@@ -188,12 +188,12 @@ body {
 
     .rating-summary {
         margin-top: 255px;
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-    border: 2px solid rgba(255,255,255, .5);
-    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
-    padding: 30px 40px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-    color: black;
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+        border: 2px solid rgba(255,255,255, .5);
+        backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+        padding: 30px 40px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        color: black;
         border-radius: 8px;
         width: 80%; /* Adjust width as needed */
         max-width: 600px; /* Adjust max-width as needed */
@@ -273,6 +273,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     animation: fadeInUp 1s ease-out; /* Add fade-in animation */
+    margin-top: 40px;
 
 }
 

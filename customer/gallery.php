@@ -94,11 +94,23 @@ mysqli_close($conn);
 ?>
 
 <style>
-    body{
-                background-image: url('../uploads/cover.jpg');  
-    background-size: cover;
-    background-position: center bottom;
-    opacity: 0.9;  /* Adjust the opacity to make the image less visible */
+    body {
+        background-color: #fff;
+        font-family: 'serif';
+        color: #fff;
+    }
+
+
+    .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center top; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
+            z-index: -1; /* Push the background behind other content */
         }
     
     .gallery-title {
@@ -217,7 +229,7 @@ mysqli_close($conn);
 .modal-text {
     flex: 1;
     padding: 20px;
-    margin-top: 200px;
+    margin-top: 50px;
 }
 
 .modal-image {
@@ -226,8 +238,8 @@ mysqli_close($conn);
 }
 
 .modal-content img {
-    max-width: 400px;
-    max-height: 500px;
+    max-width: 500px;
+    max-height: 600px;
     object-fit: contain;
     margin-bottom: 300px;
 }
