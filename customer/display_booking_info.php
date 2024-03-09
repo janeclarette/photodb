@@ -128,88 +128,81 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
         .form-group:last-child {
             margin-right: 0;
         }
+
+        
+        
 </style>
 </head>
 
 <body>
-    <h2>Booking Information</h2>
-    <form action="bookingstore.php" method="post" class="form-outline" enctype="multipart/form-data" onsubmit="return confirmBooking();">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="customerID">Customer Name:</label><br>
-                <input type="text" id="customerID" name="customerID" class="form-control" value="<?php echo $customerName; ?>" readonly>
+ <h2>Booking Information</h2>
+<form action="bookingstore.php" method="post" class="form-outline" enctype="multipart/form-data" onsubmit="return confirmBooking();">
+    <div class="form-row">
+        <div class="form-group">
+            <label for="customerID">Customer Name:</label><br>
+            <input type="text" id="customerID" name="customerID" class="form-control" value="<?php echo $customerName; ?>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="packageID">Package Name:</label><br>
+            <input type="text" name="packageID" value="<?php echo $packageID; ?>" style="display: none;">
+            <input type="text" class="form-control" value="<?php echo $packageName; ?>" readonly>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="photographerID">Photographer Name:</label><br>
+            <input type="text" name="photographerID" value="<?php echo $photographerID; ?>" style="display: none;">
+            <input type="text" class="form-control" value="<?php echo $photographerName; ?>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="bookingDate">Select Booking Date:</label><br>
+            <input type="date" id="bookingDate" name="bookingDate" class="form-control date-picker" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="bookingTime">Select Booking Time:</label><br>
+            <select id="bookingTime" name="bookingTime" class="form-control" required>
+                <option value="" disabled selected>Select Time</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bookingLocation">Select Booking Location:</label><br>
+            <div>
+                <input type="radio" id="photographerPlace" name="bookingLocation" value="photographer" checked>
+                <label for="photographerPlace">Photographer's Place</label>
             </div>
-            <div class="form-group">
-                <label for="packageID">Package Name:</label><br>
-                <input type="text" name="packageID" value="<?php echo $packageID; ?>" style="display: none;">
-                <input type="text"  class="form-control" value="<?php echo $packageName; ?>" readonly>
+            <div>
+                <input type="radio" id="customerPlace" name="bookingLocation" value="customer">
+                <label for="customerPlace">Customer's Place</label>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="photographerID">Photographer Name:</label><br>
-                <input type="text" name="photographerID" value="<?php echo $photographerID; ?>" style="display: none;">
-                <input type="text"  class="form-control" value="<?php echo $photographerName; ?>" readonly>
-            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group" id="photographerPlaceInput">
+            <label for="photographerLocation">Select Photographer's Place:</label><br>
+            <select id="photographerLocation" name="photographerLocation" class="form-control">
+                <?php
+                while ($row = mysqli_fetch_assoc($photographerPlaceResult)) {
+                    echo "<option value='{$row['placeid']}'>{$row['placename']}</option>";
+                }
+                ?>
+            </select>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="bookingDate">Select Booking Date:</label><br>
-                <select id="bookingDate" name="bookingDate" class="form-control" required>
-                    <option value="" disabled selected>Select Date</option>
-                    <?php
-                    foreach ($availableDates as $date) {
-                        echo "<option value='{$date}'>{$date}</option>";
-                    }
-                    ?>
-                </select>
-            </div>
+        <div class="form-group" id="customerPlaceInput" style="display: none;">
+            <label for="customerPlaceName">Customer's Place Name:</label><br>
+            <input type="text" id="customerPlaceName" name="customerPlaceName" class="form-control">
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="bookingTime">Select Booking Time:</label><br>
-                <select id="bookingTime" name="bookingTime" class="form-control" required>
-                    <option value="" disabled selected>Select Time</option>
-                </select>
-            </div>
+    </div>
+    <div class="form-row" id="customerPlaceInput" style="display: none;">
+        <div class="form-group">
+            <label for="customerPlaceAddress">Customer's Place Address:</label><br>
+            <input type="text" id="customerPlaceAddress" name="customerPlaceAddress" class="form-control">
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="bookingLocation">Select Booking Location:</label><br>
-                <div>
-                    <input type="radio" id="photographerPlace" name="bookingLocation" value="photographer" checked>
-                    <label for="photographerPlace">Photographer's Place</label>
-                </div>
-                <div>
-                    <input type="radio" id="customerPlace" name="bookingLocation" value="customer">
-                    <label for="customerPlace">Customer's Place</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-row" id="photographerPlaceInput">
-            <div class="form-group">
-                <label for="photographerLocation">Select Photographer's Place:</label><br>
-                <select id="photographerLocation" name="photographerLocation" class="form-control">
-                    <?php
-                    while ($row = mysqli_fetch_assoc($photographerPlaceResult)) {
-                        echo "<option value='{$row['placeid']}'>{$row['placename']}</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-        </div>
-        <div class="form-row" id="customerPlaceInput" style="display: none;">
-            <div class="form-group">
-                <label for="customerPlaceName">Customer's Place Name:</label><br>
-                <input type="text" id="customerPlaceName" name="customerPlaceName" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="customerPlaceAddress">Customer's Place Address:</label><br>
-                <input type="text" id="customerPlaceAddress" name="customerPlaceAddress" class="form-control">
-            </div>
-        </div>
-        <button type="submit" class="btn">Book Schedule</button>
-    </form>
+    </div>
+    <button type="submit" class="btn">Book Schedule</button>
+</form>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -247,36 +240,58 @@ $photographerPlaceResult = mysqli_query($conn, $photographerPlaceQuery);
     </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const bookingDateSelect = document.getElementById('bookingDate');
-    const bookingTimeSelect = document.getElementById('bookingTime');
+    document.addEventListener("DOMContentLoaded", function () {
+        const bookingDateSelect = document.getElementById('bookingDate');
+        const bookingTimeSelect = document.getElementById('bookingTime');
 
-    bookingDateSelect.addEventListener('change', function () {
-        const selectedDate = bookingDateSelect.value;
+        bookingDateSelect.addEventListener('change', function () {
+            const selectedDate = bookingDateSelect.value;
 
-        bookingTimeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>';
-        if (selectedDate) {
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    const timeSlots = JSON.parse(xhr.responseText);
-                    timeSlots.forEach(function (timeSlot) {
-                        bookingTimeSelect.innerHTML += `<option value="${timeSlot}">${timeSlot}</option>`;
-                    });
-                }
-            };
-            xhr.open("GET", `get_timeslots.php?selectedDate=${selectedDate}`, true);
-            xhr.send();
-        }
+            bookingTimeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>';
+            if (selectedDate) {
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            const timeSlots = JSON.parse(xhr.responseText);
+                            if (timeSlots.length > 0) {
+                                timeSlots.forEach(function (timeSlot) {
+                                    bookingTimeSelect.innerHTML += `<option value="${timeSlot}">${timeSlot}</option>`;
+                                });
+
+                                // Highlight the selected date with available time slots
+                                const dateOption = document.querySelector(`option[value="${selectedDate}"]`);
+                                if (dateOption) {
+                                    dateOption.style.backgroundColor = 'green';
+                                }
+                            } else {
+                                alert(`No available time slots for ${selectedDate}. Please choose another date with available time slots.\n\nAvailable Dates:\n${getAvailableDatesList()}`);
+                                // Optionally, you can disable the submit button or perform other actions.
+                            }
+                        } else {
+                            console.error("Error fetching time slots");
+                        }
+                    }
+                };
+                xhr.open("GET", `get_timeslots.php?selectedDate=${selectedDate}`, true);
+                xhr.send();
+            }
+        });
     });
-});
-function format12HourTime(time) {
-    const [hours, minutes] = time.split(':');
-    const formattedHours = (hours % 12 || 12).toString(); // Convert 0 to 12 for midnight
-    const period = hours < 12 ? 'AM' : 'PM';
-    return `${formattedHours}:${minutes} ${period}`;
-}
+
+    function format12HourTime(time) {
+        const [hours, minutes] = time.split(':');
+        const formattedHours = (hours % 12 || 12).toString(); // Convert 0 to 12 for midnight
+        const period = hours < 12 ? 'AM' : 'PM';
+        return `${formattedHours}:${minutes} ${period}`;
+    }
+
+    function getAvailableDatesList() {
+        const availableDates = <?php echo json_encode(array_values($availableDates)); ?>;
+        return availableDates.join(', ');
+    }
 </script>
+
 
 
 </body>
