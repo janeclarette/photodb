@@ -1,7 +1,7 @@
 <?php
 // Include necessary files and establish a database connection
 include("../include/config.php");
-include("../admin/adminheader.php");
+include("../customer/header.php");
 
 // Fetch photographer reviews from the database along with transaction date for reviewed ones
 $query = "SELECT p.Name AS PhotographerName, 

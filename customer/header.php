@@ -214,6 +214,7 @@ include("../include/config.php"); // Include your database connection
     width: 200px;
     overflow-x: hidden;
     transition: left 0.3s;
+    z-index: 1010; 
 }
 
 /* Show the sub-navbar when hovering over the left side of the content */
