@@ -70,13 +70,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
         }
 
         // Monthly total photographer earnings (Overall Sales)
-        $queryOverallSales = "SELECT COALESCE(SUM(PhotographerEarning), 0) AS totalPhotographerEarnings
-                             FROM Transactions
-                             WHERE ReservationDate BETWEEN '$startDate' AND '$endDate';";
+        $queryOverallSales = "SELECT P.Name AS PhotographerName, COALESCE(SUM(T.PhotographerEarning), 0) AS totalPhotographerEarnings
+                             FROM Transactions T
+                             JOIN Photographers P ON T.PhotographerID = P.PhotographerID
+                             WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
+                             GROUP BY P.PhotographerID;";
         $resultOverallSales = mysqli_query($conn, $queryOverallSales);
+
         if ($resultOverallSales) {
-            $rowOverallSales = mysqli_fetch_assoc($resultOverallSales);
-            $monthlyPhotographerEarnings[$month] = floatval($rowOverallSales['totalPhotographerEarnings']);
+            while ($rowOverallSales = mysqli_fetch_assoc($resultOverallSales)) {
+                $photographerName = $rowOverallSales['PhotographerName'];
+                $monthlyPhotographerEarnings[$month][] = [
+                    'PhotographerName' => $photographerName,
+                    'Earnings' => floatval($rowOverallSales['totalPhotographerEarnings'])
+                ];
+            }
         } else {
             // Handle query error
             echo "Error retrieving total photographer earnings for month $month: " . mysqli_error($conn);
@@ -92,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
     $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
     // Add the sums and monthly data to the HTML content
     $html .= "<style>";
-    $html .= "body { font-family: 'Roboto', sans-serif; background-color: transparent;  background-image: url('../uploads/C.png');  /* Set the path to your cover image */}"; // Set background-color to transparent
+    $html .= "body { font-family: 'Roboto', sans-serif; background-color: transparent;  background-image: url('../uploads/C.png'); }"; // Set background-color to transparent
     $html .= "h1 { text-align: center; font-family: 'Lobster', cursive; color: #333; }";
     $html .= "h2 { font-family: 'Lobster', cursive; color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }";
     $html .= "p { margin-bottom: 8px; }";
@@ -100,7 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
     $html .= ".total-section { margin-bottom: 20px; }";
     $html .= ".monthly-section { margin-bottom: 30px; }";
     $html .= ".header-section { text-align: center; position: relative; }";
-    // $html .= ".background-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.2; }";
     $html .= ".logo { max-width: 100px; position: relative; z-index: 1; }";
     $html .= ".value { display: inline-block; min-width: 800px; }"; // Added CSS class for values
     $html .= "hr { border: 0; border-top: 1px solid #ccc; margin-top: 15px; }";
@@ -108,28 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
 
     $html .= "<h1>CheeseClick Analytics Report</h1>";
     $html .= "<img src='$logoBase64' style='position: fixed; top: 18%; left: 17%; width: 60%; height: 60%; opacity: 0.2; z-index: -1;'/>";
-    // $html .= "<img src='$logoBase64' style='position: fixed; top: 0; left: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
-    // $html .= "<img src='$logoBase64' style='position: fixed; top: 0; right: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
-    // $html .= "<img src='$logoBase64' style='position: fixed; top: 45%; left: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
-    // $html .= "<img src='$logoBase64' style='position: fixed; top: 45%;right: -5%; width: 50%; height: 50%; opacity: 0.2; z-index: -1;'/>";
-    // Background Image
-    // $logoPath = '../uploads/C.png';
-    // $logoData = file_get_contents($logoPath);
-    // $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
-    
-    $html .= "<div class='header-section'>";
-    $html .= "<div class='background-image' style='background-image: url($logoBase64);'></div>";
-
-    $html .= "</div>";
-
-    $html .= "<h2>Overall Tally:</h2>";
-    $html .= "<div class='total-section'>";
-    $html .= "<p><span class='value'>Total Transactions:</span> $totalTransactions Appointments</p>";
-    $html .= "<p><span class='value'>Total Sales:</span> " . number_format(array_sum($monthlyOverallSales), 2) . " Pesos</p>";
-    $html .= "<p><span class='value'>Total Admin Fees:</span> " . number_format(array_sum($monthlyNetSales), 2) . " Pesos</p>";
-    $html .= "<p><span class='value'>Total Photographer Earnings:</span> " . number_format(array_sum($monthlyPhotographerEarnings), 2) . " Pesos</p>";
-    $html .= "</div>";
-
     // Add monthly details
     $html .= "<h2>Monthly Details:</h2>";
     for ($month = 1; $month <= 12; $month++) {
@@ -138,7 +123,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
         $html .= "<p><span class='value'>Total Transactions:</span> " . $monthlyData[$month] . " Appointments</p>";
         $html .= "<p><span class='value'>Total Sales:</span> " . number_format($monthlyOverallSales[$month], 2) . " Pesos</p>";
         $html .= "<p><span class='value'>Total Admin Fees:</span> " . number_format($monthlyNetSales[$month], 2) . " Pesos</p>";
-        $html .= "<p><span class='value'>Total Photographer Earnings:</span> " . number_format($monthlyPhotographerEarnings[$month], 2) . " Pesos</p>";
+
+        // Check if the array is not null or empty before iterating
+        if (!empty($monthlyPhotographerEarnings[$month])) {
+            // Display photographer names and earnings for the month
+            foreach ($monthlyPhotographerEarnings[$month] as $photographer) {
+                $html .= "<p><span class='value'>Photographer:</span> " . $photographer['PhotographerName'] . "</p>";
+                $html .= "<p><span class='value'>Earnings:</span> " . number_format($photographer['Earnings'], 2) . " Pesos</p>";
+            }
+        } else {
+            $html .= "<p>No photographer earnings data available for this month.</p>";
+        }
+    
         $html .= "</div>";
         $html .= "<hr>";
     }

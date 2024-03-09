@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
             $packageName = $row['PackageName'];
             $packagePrice = $row['PackagePrice'];
             $adminFee = number_format($row['CalculatedAdminFee'], 2);  // Use the calculated Admin Fee with 2 decimal places
-            $photographerEarning = number_format($packagePrice - $row['CalculatedAdminFee'], 2);  // Calculate Photographer Earning with 2 decimal places
+            $photographerEarning = ($packagePrice - $row['CalculatedAdminFee']);  // Calculate Photographer Earning with 2 decimal places
             $gcashNumber = $row['GcashNumber'];
             $statusName = $row['StatusName'];
 
