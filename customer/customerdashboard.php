@@ -47,7 +47,7 @@ include("../include/config.php");
 
     <div class="message">
         <!-- Logout link -->
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
+        <a href="/photodb/customer/amessage.php"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
     </div>
     <div class="logout">
         <!-- Logout link -->

@@ -86,11 +86,11 @@ include("../customer/header.php");  // Include your database connection
             top: 0;
             left: 0;
             width: 100%;
-            height: 60%;
+            height: 50%;
             z-index: -1; /* Push the background behind other content */
         }
         h4 {
-            margin-top: 20px;
+            margin-top: 80px;
             text-align: center;
             font-size: 7rem;
             color: #333;
@@ -103,7 +103,7 @@ include("../customer/header.php");  // Include your database connection
         flex-wrap: wrap;
         justify-content: center;
         animation: fadeInUp 1s ease-out; /* Add fade-in animation */
-        margin-top: 100px;
+        margin-top: 450px;
         
     }
 

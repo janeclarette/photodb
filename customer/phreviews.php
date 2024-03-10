@@ -2,7 +2,6 @@
 // Include necessary files and establish a database connection
 include("../include/config.php");
 include("../customer/header.php");
-
 // Fetch photographer reviews from the database along with transaction date for reviewed ones
 $query = "SELECT p.Name AS PhotographerName, 
                   p.img_photographer AS PhotographerImage, 
@@ -76,6 +75,14 @@ if ($result) {
     echo "Error: " . mysqli_error($conn);
 }
 
+?>
+
+<?php
+
+
+// Fetch distinct photographer names for the dropdown
+$photographerQuery = "SELECT DISTINCT p.Name AS PhotographerName FROM photographers p";
+$photographerResult = mysqli_query($conn, $photographerQuery);
 
 // Fetch photographer reviews from the database along with transaction date for reviewed ones
 $query = "SELECT p.Name AS PhotographerName, 
@@ -90,6 +97,14 @@ $query = "SELECT p.Name AS PhotographerName,
           LEFT JOIN transactions t ON r.TransactionID = t.TransactionID
           LEFT JOIN customers c ON r.CustomerID = c.CustomerID
           WHERE r.Rate IS NOT NULL AND r.Comment IS NOT NULL";
+
+// Check for filter parameters
+$photographer = isset($_GET['photographer']) ? $_GET['photographer'] : '';
+$stars = isset($_GET['stars']) ? $_GET['stars'] : '';
+
+// Modify the query based on filter parameters
+$query .= ($photographer != '') ? " AND p.Name = '$photographer'" : '';
+$query .= ($stars != '') ? " AND r.Rate = '$stars'" : '';
 
 $result = mysqli_query($conn, $query);
 
@@ -109,34 +124,59 @@ if ($result) {
     </head>
     <body>
     <div class="container">
-    <?php
-    // Loop through each review
-    while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-
-        <div class="photographer-review">
-            <div class="photographer-image">
-                <img src="<?php echo $row['PhotographerImage']; ?>" alt="Photographer Image">
-            </div>
-            <div class="review-details">
-                <h3><?php echo $row['PhotographerName']; ?></h3>
-                <div class="rating">
+        <!-- Filter form -->
+        <div class="filter-form">
+            <form id="filterForm" method="GET">
+                <select id="photographerSelect" name="photographer" class="form-control">
+                    <option value="">Select Photographer</option>
+                    <!-- Populate dropdown options with photographer names -->
                     <?php
-                    // Display stars based on rating
-                    $rating = $row['Rating'];
-                    for ($i = 1; $i <= 5; $i++) {
-                        if ($rating >= $i) {
-                            echo '<i class="fas fa-star"></i>';
-                        } elseif ($rating > ($i - 1) && $rating < $i) {
-                            echo '<i class="fas fa-star-half-alt"></i>';
-                        } else {
-                            echo '<i class="far fa-star"></i>';
-                        }
+                    while ($row = mysqli_fetch_assoc($photographerResult)) {
+                        echo '<option value="' . $row['PhotographerName'] . '">' . $row['PhotographerName'] . '</option>';
                     }
                     ?>
+                </select>
+                <select id="starsSelect" name="stars" class="form-control">
+                    <option value="">Select Total Stars</option>
+                    <!-- Populate dropdown options with star ratings -->
+                    <?php
+                    for ($i = 5; $i >= 1; $i--) {
+                        echo '<option value="' . $i . '">' . $i . ' stars</option>';
+                    }
+                    ?>
+                </select>
+                <button type="submit" class="form-control" >Apply Filters</button>
+            </form>
+        </div>
+
+        <?php
+        // Loop through each review
+        while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+
+            <div class="photographer-review">
+                <div class="photographer-image">
+                    <img src="<?php echo $row['PhotographerImage']; ?>" alt="Photographer Image">
                 </div>
-                <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
-                <?php 
+                <div class="review-details">
+                    <h3><?php echo $row['PhotographerName']; ?></h3>
+                    <div class="rating">
+                        <?php
+                        // Display stars based on rating
+                        $rating = $row['Rating'];
+                        for ($i = 1; $i <= 5; $i++) {
+                            if ($rating >= $i) {
+                                echo '<i class="fas fa-star"></i>';
+                            } elseif ($rating > ($i - 1) && $rating < $i) {
+                                echo '<i class="fas fa-star-half-alt"></i>';
+                            } else {
+                                echo '<i class="far fa-star"></i>';
+                            }
+                        }
+                        ?>
+                    </div>
+                    <p>Transaction Date: <?php echo $row['TransactionDate']; ?></p>
+                    <?php 
                     // Display customer name based on checkbox state
                     if ($row['DisplayCustomerName'] == 1) {
                         echo $row['Name'];
@@ -144,17 +184,17 @@ if ($result) {
                         echo 'Anonymous';
                     }
                     ?>
-                </p>
-               
-                <div class="comments">
-                    <p><?php echo $row['Comment']; ?></p>
+                    </p>
+                    
+                    <div class="comments">
+                        <p><?php echo $row['Comment']; ?></p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
-    }
-    ?>
-</div>
+            <?php
+        }
+        ?>
+    </div>
 
     </body>
     </html>
@@ -167,11 +207,12 @@ if ($result) {
 
 
 
+
         <style>
                 
         h4 {
         margin-top: 40px;
-        margin-bottom: 70px;
+
         text-align: center;
         color: #333;
         font-weight: bold;
@@ -187,7 +228,7 @@ body {
     }
 
     .rating-summary {
-        margin-top: 150px;
+        margin-top: 15px;
         background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
         border: 2px solid rgba(255,255,255, .5);
         backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
@@ -197,7 +238,7 @@ body {
         border-radius: 8px;
         width: 70%; /* Adjust width as needed */
         position: absolute;
-        top: 50%;
+        top: 45%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 1; /* Ensure rating summary is on top of background */
@@ -256,31 +297,42 @@ body {
         }
 
 
+        .form-control {
+            font-size: 2rem;
+            background-color: #fff; 
+            font-family: 'serif';
+            margin-top: 50px;
+        }
+
         .container {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between; /* Distribute items evenly */
         margin-top: 300px;
-        margin-left: 380px;
+        margin-left: 230px;
         }
 
-        .photographer-review {
-            width: calc(40% ); /* Adjust width to fit three columns with some spacing */
-            margin-bottom: 20px; /* Adjust as needed */
-            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
-            padding: 30px 30px;
-            color: #333;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-            transform: translate(-50%, -30%);
-            display: flex;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out; /* Add fade-in animation */
-            margin-top: 20px;
-            margin-left: 50px;
+        .filter-form {
+            margin-bottom: 80px;
+
         }
+        .photographer-review {
+        width: calc(40% )- 10px; /* Adjust width to fit three columns with spacing */
+        margin-bottom: 40px; /* Increased margin for more spacing between reviews */
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+        padding: 30px 30px;
+        color: #333;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        transform: translate(-50%, -30%);
+        display: flex;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out; /* Add fade-in animation */
+        margin-top: 50px;
+        margin-left: 350px;
+    }
 
             .photographer-image {
                 flex: 0 0 100px;

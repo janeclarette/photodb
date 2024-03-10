@@ -48,9 +48,17 @@ include("../include/config.php"); // Include your database connection
 
 
 
+    <div class="message-container">
+        <div class="message-icon">
+            <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
+        </div>
+        <div class="message-content">
+        Contact Your Photographer
+        </div>
+    </div>
     <div class="message">
         <!-- Logout link -->
-        <a href="/photodb/customer/message.php"><i class="fa-regular fa-message"></i></a>
+        <a href="/photodb/customer/amessage.php"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
     </div>
     <div class="logout">
         <!-- Logout link -->
@@ -187,7 +195,7 @@ include("../include/config.php"); // Include your database connection
         .navbar .profile .user-info {
             display: flex;
             align-items: center;
-            margin-right: 15px;
+            margin-right: 25px;
         }
 
         .navbar .profile .user-info img {
@@ -273,6 +281,7 @@ include("../include/config.php"); // Include your database connection
         .profile {
             display: flex;
             align-items: center;
+            
         }
 
         .sign-in,
@@ -285,7 +294,49 @@ include("../include/config.php"); // Include your database connection
             padding: 25px; /* Adjust the padding for better spacing */
         }
 
-        .message{
+        .message-container {
+    position: fixed;
+    bottom: 20px; /* Adjust the distance from the bottom as needed */
+    right: 20px; /* Adjust the initial position */
+    display: flex;
+    align-items: center;
+}
+
+.message-icon {
+    width: 70px; /* Adjust the size of the message icon */
+    height: 70px; /* Adjust the size of the message icon */
+    line-height: 40px; /* Center the icon vertically */
+    text-align: center; /* Center the icon horizontally */
+    background-color: #4F709C; /* Background color of the message icon */
+    color: #fff; /* Text color of the message icon */
+    border-radius: 50%; /* Make the icon round */
+    font-size: 20px; /* Adjust the size of the icon */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.message-content {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 10px); /* Adjust distance from the message icon */
+    transform: translateY(-50%);
+    color: #4F709C;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: none; /* Initially hidden */
+    z-index: 1; /* Ensure message is on top of the icon */
+    text-align: left;
+    font-size: 1.3rem;
+}
+
+.message-container:hover .message-content {
+    display: block; /* Show message content on hover */
+}
+
+.message-icon i {
+    margin-top: 25px;
+    margin-left: 5px;
+}
+.message{
             margin-right: 10px; /* Adjust the margin between the items */
         }
 

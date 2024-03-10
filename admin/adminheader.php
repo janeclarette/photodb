@@ -31,7 +31,7 @@ include("../include/config.php"); // Include your database connection
     
     <div class="message">
         <!-- Logout link -->
-        <a href="/photodb/admin/message.php"><i class="fa-regular fa-message"></i></a>
+        <a href="/photodb/admin/cmessage.php"><i class="fa-regular fa-message"></i></a>
     </div>
     <div class="logout">
         <!-- Logout link -->
@@ -218,7 +218,9 @@ body {
     padding: 15px; /* Adjust padding for better spacing */
 }
 
-
+.message{
+            margin-right: 10px; /* Adjust the margin between the items */
+        }
   
        
 </style>

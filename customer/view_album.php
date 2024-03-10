@@ -12,8 +12,26 @@ if (isset($_GET['photographer_id'])) {
     if ($albumsResult) {
 ?>
         <style>
+             .background {
+            background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+            background-size: cover;
+            background-position: center top; /* Lower the background image */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            z-index: -1; /* Push the background behind other content */
+            
+        }
+
+        body {
+            background-color: #fff;
+        }
             .services {
-                height: 1700px;
+                margin-top: 300px;
+                height: 2000px;
+                margin-bottom: 100px;
             }
 
             h2 {
@@ -90,7 +108,9 @@ if (isset($_GET['photographer_id'])) {
             }
         </style>
     </head>
-    <body>
+
+    <div class = "background">
+    <body>        </div>
         <h2>Photographer's Albums</h2>
         <div class = "services">
 
@@ -137,6 +157,7 @@ if (isset($_GET['photographer_id'])) {
             ?>
                     </div>
         </div>
+
     </body>
 </html>
 <?php

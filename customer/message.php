@@ -1,344 +1,241 @@
 <?php
-
+// Include necessary files and establish a database connection
 include("../include/config.php");
-session_start();
-$senderID = $_SESSION['CustomerID'];
-echo '<input type="hidden" name="senderID" value="' . $senderID . '">';
-?>
+include("../include/header.php");
 
+
+// Function to sanitize user input
+function sanitize($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
+}
+
+// Start the session
+session_start();
+
+// Check if PhotographerID or CustomerID is set in the session
+if (!isset($_SESSION['PhotographerID']) && !isset($_SESSION['CustomerID'])) {
+    echo "Photographer ID or Customer ID not set in the session.";
+    exit();
+}
+
+// Function to fetch list of users (photographers or customers)
+function fetchUsers($conn, $currentUserID) {
+    $query = "SELECT * FROM " . (isset($_SESSION['PhotographerID']) ? "customers" : "photographers");
+
+    $result = mysqli_query($conn, $query);
+
+    // Check for query execution success
+    if (!$result) {
+        echo "Error: " . mysqli_error($conn);
+        exit();
+    }
+
+    return $result;
+}
+
+// Determine whether the current user is a photographer or a customer
+if (isset($_SESSION['PhotographerID'])) {
+    $userID = $_SESSION['PhotographerID'];
+} elseif (isset($_SESSION['CustomerID'])) {
+    $userID = $_SESSION['CustomerID'];
+}
+
+// Fetch list of users (photographers or customers)
+$usersResult = fetchUsers($conn, $userID);
+// Function to fetch messages for a specific user
+// Function to fetch messages for a specific user
+function fetchMessages($conn, $userID, $otherID) {
+    $query = "SELECT m.*, 
+                     CASE 
+                        WHEN m.MessageType = 'photographer' THEN p.Name 
+                        WHEN m.MessageType = 'customer' THEN c.Name 
+                     END AS SenderName 
+              FROM messages m 
+              LEFT JOIN photographers p ON m.SenderID = p.PhotographerID AND m.MessageType = 'photographer'
+              LEFT JOIN customers c ON m.SenderID = c.CustomerID AND m.MessageType = 'customer'
+              WHERE (m.SenderID = $userID AND m.ReceiverID = $otherID) 
+              OR (m.SenderID = $otherID AND m.ReceiverID = $userID)
+              ORDER BY m.SentDateTime ASC"; // Ensure messages are ordered by datetime
+
+    $result = mysqli_query($conn, $query);
+
+    // Check for query execution success
+    if (!$result) {
+        echo "Error: " . mysqli_error($conn);
+        exit();
+    }
+
+    // Track message counter for alternating styles
+    $messageCounter = 0;
+
+    // Display messages
+    while ($row = mysqli_fetch_assoc($result)) {
+        $messageType = ($row['SenderID'] == $userID) ? 'sent' : 'received';
+        $alignmentClass = ($messageType == 'sent') ? 'align-right' : 'align-left';
+        
+        // Apply alternating classes for styling
+        echo "<div class='message $alignmentClass'><strong>{$row['SenderName']}:</strong><br><div class='timestamp'>{$row['SentDateTime']}</div><br><div class='text'>{$row['Body']}</div></div>";
+        
+        // Increment message counter
+        $messageCounter++;
+    }
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messaging System</title>
-    <style>
-         body {
-        background-image: url('../uploads/b.jpg');
-            font-family: 'Poppins', sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        header {
-            background-color: #213555;
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .return-button,
-        input[type="submit"] {
-            flex: 1;
-            background-color: #213555;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-            font-weight: bold;
-        }
-
-        .return-button:hover,
-        input[type="submit"]:hover {
-            background-color: #3a6da4;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin: 20px 0;
-        }
-
-        .container {
-            display: flex;
-            background-color: #fff;
-            color: #333;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            animation: scaleIn 0.5s ease-in-out;
-            box-sizing: border-box;
-            width: 80%;
-            margin: auto;
-            margin-top: 80px; /* Adjust the top margin as needed */
-        }
-
-        .sender-container,
-        .receiver-container {
-            flex: 1;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container:hover {
-            transform: scale(1.05);
-        }
-
-        form {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: border-color 0.3s ease-in-out;
-            font-family: 'Poppins', sans-serif; /* Set the font here */
-        }
-
-        input[type="submit"],
-        .return-button {
-            margin-right: 10px;
-        }
-
-        .return-button {
-            background-color: #213555;
-        }
-
-        .return-button:hover {
-            background-color: #3a6da4;
-        }
-
-        .messages-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .sender,
-        .receiver {
-            background-color: #518fce;
-            color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            max-width: 100%;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .sender img,
-        .receiver img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-
-        .sender-name {
-            font-weight: bold;
-            margin-right: 5px;
-        }
-    </style>
+    <title>Messages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
-
 <body>
-    <header>
-        <h1>Messaging System</h1>
-    </header>
-    <div class="title">MESSAGING SYSTEM</div>
     <div class="container">
-        <div class="sender-container">
-            <h2><center>SENDER</h2></center>
-            <form action="sendMessage.php" method="post" enctype="multipart/form-data">
-
-
-                <label for="receiverType">Choose Receiver Type:</label>
-                <select name="receiverType" id="receiverType">
-                    <option value="admin">Admin</option>
-                    <option value="photographer">Photographer</option>
-                    <option value="customer">Customer</option>
-                </select>
-                <br>
-
-                <label for="receiverID">Choose Receiver:</label>
-                <select name="receiverID" id="receiverID"></select>
-                <br>
-
-                <label for="image">Upload Image:</label>
-                <input type="file" name="image" id="image">
-                <br>
-
-                <label for="message">Message:</label>
-                <textarea name="message" id="message" rows="4" cols="50"></textarea>
-                <br>
-                <div>
-                    <input type="submit" value="Send Message">
-                    <input type="button" value="Return" onclick="window.location.href='../customer/customerdashboard.php';" class="return-button">
-                    <!-- <button class="return-button" onclick="goBack()">Return</button> -->
-                </div>
-            </form>
+        <div class="sidebar">
+            <h2><?php echo isset($_SESSION['PhotographerID']) ? "Customers" : "Photographers"; ?></h2>
+            <ul>
+                <?php while ($row = mysqli_fetch_assoc($usersResult)) { ?>
+                    <div class="user-tab">
+                        <a href="?other_id=<?php echo isset($_SESSION['PhotographerID']) ? $row['CustomerID'] : $row['PhotographerID']; ?>"><?php echo $row['Name']; ?></a>
+                    </div>
+                <?php } ?>
+            </ul>
         </div>
+        <div class="main-content">
+            <?php
+            if (isset($_GET['other_id'])) {
+                // Display messages for the selected user
+                $otherID = sanitize($_GET['other_id']);
+                fetchMessages($conn, $userID, $otherID);
+                ?>
 
-        <div class="receiver-container">
-            <h2><center>RECEIVER</h2></center>
+                <!-- Reply form -->
 
-            <label for="receiverType2">Choose Receiver Type:</label>
-            <select name="receiverType2" id="receiverType2">
-                <option value="" disabled selected>Receiver Type</option>
-                <option value="admin">Admin</option>
-                <option value="photographer">Photographer</option>
-                <option value="customer">Customer</option>
-            </select>
-            <br>
 
-            <label for="receiverID2">Choose Receiver:</label>
-            <select name="receiverID2" id="receiverID2">
-                <option value="" disabled selected>Receiver</option>
-            </select>
+                <?php
+                if (isset($_POST['send_reply'])) {
+                    $replyMessage = sanitize($_POST['reply_message']);
+                    $senderID = $userID;
+                    $recipientID = $otherID;
+                    $messageType = isset($_SESSION['PhotographerID']) ? "photographer" : "customer";
+                    // Assuming SentDateTime is automatically generated by the database
+                    $query = "INSERT INTO messages (SenderID, ReceiverID, MessageType, Body) 
+                            VALUES ('$senderID', '$recipientID', '$messageType', '$replyMessage')";
+                    $result = mysqli_query($conn, $query);
+                    if ($result) {
+                        // Refresh the page to show the updated messages
+                        echo "<meta http-equiv='refresh' content='0'>";
+                    } else {
+                        echo "Error: Failed to send reply.";
+                    }
+                }
 
-            <div class="messages-container" id="messagesContainer2"></div>
-
+            } else {
+                echo "<p>No user selected.</p>";
+            }
+            ?>
         </div>
     </div>
-
-
-    <script>
-        function fetchUsers(selectedType, receiverDropdown) {
-            receiverDropdown.innerHTML = '';
-
-            fetch(`fetchUsers.php?type=${selectedType}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(user => {
-                        const option = document.createElement('option');
-                        option.value = user.ID;
-                        option.text = user.Name;
-                        receiverDropdown.add(option);
-                    });
-
-                    if (selectedType === 'other') {
-                        const otherOption = document.createElement('option');
-                        otherOption.value = 'custom';
-                        otherOption.text = 'Other (Enter Custom ID)';
-                        receiverDropdown.add(otherOption);
-                    }
-                });
-        }
-
-        function displayMessages(receiverID, receiverType, messagesContainer) {
-            const senderID = <?php echo json_encode($_SESSION['CustomerID']); ?>;
-            fetch(`fetchMessages.php?senderID=${senderID}&receiverID=${receiverID}&receiverType=${receiverType}`)
-                .then(response => response.json())
-                .then(messages => {
-                    messagesContainer.innerHTML = '';
-
-                    messages.forEach(message => {
-                        const messageDiv = document.createElement('div');
-                        const senderClass = (message.SenderID == senderID) ? 'sender' : 'receiver';
-
-                        messageDiv.classList.add(senderClass);
-
-                        // Use conditional statements to set senderName and receiverName
-                        let senderName = '';
-                        let receiverName = '';
-
-                        if (message.SenderID == senderID) {
-                            senderName = 'You';
-                            receiverName = message.ReceiverName;
-                        } else {
-                            senderName = message.SenderName;
-                            receiverName = 'You';
-                        }
-
-                        messageDiv.innerHTML = `<span class="sender-name">${senderName} to ${receiverName}:</span> ${message.Body}`;
-
-                        if (message.img_message !== null) {
-                            const imageElement = document.createElement('img');
-                            imageElement.src = `../uploads/${message.img_message}`;
-                            imageElement.alt = 'Image';
-                            messageDiv.appendChild(imageElement);
-                        }
-
-                        messagesContainer.appendChild(messageDiv);
-                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    });
-                });
-        }
-
-        document.getElementById('receiverType').addEventListener('change', function () {
-            const selectedType = this.value;
-            const receiverDropdown = document.getElementById('receiverID');
-            fetchUsers(selectedType, receiverDropdown);
-        });
-
-        fetchUsers('admin', document.getElementById('receiverID'));
-        fetchUsers('photographer', document.getElementById('receiverID'));
-        fetchUsers('customer', document.getElementById('receiverID'));
-
-        document.getElementById('receiverType2').addEventListener('change', function () {
-            const selectedType = this.value;
-            const receiverDropdown = document.getElementById('receiverID2');
-
-            // Enable or disable the receiverID2 dropdown based on the selected type
-            receiverDropdown.disabled = (selectedType === '');
-
-            // Fetch users if a valid type is selected
-            if (selectedType !== '') {
-                fetchUsers(selectedType, receiverDropdown);
-            } else {
-                // If the type is not selected, clear the receiverID2 dropdown
-                receiverDropdown.innerHTML = '<option value="" disabled selected>Receiver</option>';
-                // Clear the messagesContainer2
-                document.getElementById('messagesContainer2').innerHTML = '';
-            }
-        });
-
-        document.getElementById('receiverID2').addEventListener('change', function () {
-            const selectedReceiverID = this.value;
-            const selectedReceiverType = document.getElementById('receiverType2').value;
-            const messagesContainer2 = document.getElementById('messagesContainer2');
-
-            // Check if a valid option (not the default "Receiver") is selected
-            if (selectedReceiverID !== "") {
-                displayMessages(selectedReceiverID, selectedReceiverType, messagesContainer2);
-            }
-        });
-
-    </script>
+    <div class= "mess">
+                    <form method="post">
+                        <input type="hidden" name="other_id" value="<?php echo $otherID; ?>">
+                        <textarea name="reply_message" rows="5" cols="110" required></textarea>
+                        <input type="submit"  class = "reply" name="send_reply" value="Send Reply">
+                    </form>
+                    </div>
 </body>
-
 </html>
+<style>
+/* Add your CSS styles here */
+.container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            height: 600px;
+            margin-top: 200px;
+            margin-left: 80px;
+            margin-bottom: 0; /* Remove bottom margin */
+        }
+
+.sidebar {
+    flex-basis: 30%;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.main-content {
+    flex-basis: 65%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+.user-tab {
+    background-color: #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.user-tab a {
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+.message {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.align-left {
+    float: left;
+    clear: both;
+    background-color: #f0f0f0;
+    width: 500px;
+    font-size: 1.3rem;
+}
+
+.align-right {
+    float: right;
+    clear: both;
+    background-color: #9BABB8;
+    width: 500px;
+    text-align: right;
+    font-size: 1.3rem;
+}
+
+.timestamp {
+    text-align: center;
+    margin-top: 5px; /* Adjust margin as needed */
+}
+
+.text {
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.mess{
+        margin-left: 492px;
+        width: 810px;
+    }
+
+.reply {
+        width: 150px;
+        height: 40px;
+        margin-left: 660px;
+        font-size: 1.2rem;
+        font-family: 'serif';
+        background-color: #9BABB8;
+    }
+
+    
+</style>
