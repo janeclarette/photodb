@@ -118,12 +118,7 @@ $packagesResult = $conn->query($packagesSql);
 
 
 <style>
-body {
-    background: linear-gradient(to bottom, #CEE6F3 ,#4F709C); /* Dark blue to light blue gradient */
-    background-size: cover; /* Cover the entire background without distortion */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the background from repeating */
-}
+
     label {
         font-size: 1.5rem; 
         font-family: 'serif';
@@ -168,36 +163,50 @@ body {
         }
 
         .container {
-            margin-top: 290px;
+            margin-top: 400px;
+            align-items: center;
         }
         .package-container {
+    padding: 20px;
+    text-align: center;
+    width: 1000px;
+    margin-bottom: 20px; /* Add margin bottom to create space between packages */
+ /* Set a background color to create visual separation */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow for depth */
+    transition: transform 0.3s ease; /* Add a transition for smoother hover effect */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+        border: 2px solid rgba(255,255,255, .5);
+        backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+        margin-top: 20px;
+        height: 400px;
+        margin-left: 70px;
 
+}
 
-            padding: 20px;
+.package-container:hover {
+    transform: translateY(-5px); /* Lift the container slightly on hover */
+}
 
-            text-align: center;
-            width: calc(33.33% - 40px); 
+.package-container h3 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
 
-            }
+.package-container p {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 40px;
+}
 
-            .package-container h3 {
-                font-size: 2rem;
-                color: #333;
-                margin-bottom: 10px;
-            }
-
-            .package-container p {
-                font-size: 1.3rem;
-                color: #333;
-                margin-bottom: 8px;
-            }
 
         .service-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between; 
             margin: 0 -20px;
-            align-items: left;
+            align-items: center;
+            margin-top: 50px;
         }
 
         .center-button {
@@ -209,7 +218,7 @@ body {
                 padding: 10px 20px;
                 background-color: #4F709C;
                 border: none;
-                border-radius: 5px;
+                border-radius: 50px;
                 color: #fff;
                 cursor: pointer;
                 font-size: 1.2rem;
@@ -257,7 +266,7 @@ body {
             .styled-select {
                 padding: 10px;
                 border: 1px solid #4F709C; 
-                border-radius: 5px;
+                border-radius: 50px;
                 background-color: #fff; 
                 color: #4F709C; 
                 appearance: none;
