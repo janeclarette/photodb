@@ -11,31 +11,31 @@ function sanitize($data) {
 session_start();
 
 // Check if CustomerID is set in the session
-if (!isset($_SESSION['CustomerID'])) {
+if (!isset($_SESSION['PhotographerID'])) {
     echo "Customer ID not set in the session.";
     exit();
 }
 
 // Function to fetch messages for a specific user
-function fetchMessages($conn, $customerID, $adminID) {
+function fetchMessages($conn, $PhotographerID, $adminID) {
     $query = "SELECT m.*, 
                      CASE 
-                         WHEN m.SenderID = $customerID THEN 'align-right'
+                         WHEN m.SenderID = $PhotographerID THEN 'align-right'
                          ELSE 'align-left'
                      END AS alignmentClass,
                      CASE 
-                         WHEN m.SenderID = $customerID THEN 'customer'
+                         WHEN m.SenderID = $PhotographerID THEN 'photographer'
                          ELSE 'admin'
                      END AS MessageType,
                      CASE 
-                         WHEN m.SenderID = $customerID THEN c.Name
+                         WHEN m.SenderID = $PhotographerID THEN p.Name
                          ELSE a.Name
                      END AS SenderName
               FROM messages m 
-              LEFT JOIN customers c ON m.SenderID = c.CustomerID
+              LEFT JOIN photographers p ON m.SenderID = p.PhotographerID
               LEFT JOIN admin a ON m.SenderID = a.AdminID
-              WHERE ((m.ReceiverID = $adminID AND m.MessageType = 'admin' AND m.SenderID = $customerID) 
-                     OR (m.ReceiverID = $customerID AND m.MessageType = 'admin' AND m.SenderID = $adminID))
+              WHERE ((m.ReceiverID = $adminID AND m.MessageType = 'admin' AND m.SenderID = $PhotographerID) 
+                     OR (m.ReceiverID = $PhotographerID AND m.MessageType = 'admin' AND m.SenderID = $adminID))
               ORDER BY m.SentDateTime ASC"; // Ensure messages are ordered by datetime
 
     // Execute the query
@@ -73,7 +73,7 @@ function fetchMessages($conn, $customerID, $adminID) {
 
 
 // Fetch the logged-in customer's ID
-$customerID = $_SESSION['CustomerID'];
+$PhotographerID = $_SESSION['PhotographerID'];
 
 // Fetch list of admin users
 $queryAdmin = "SELECT AdminID AS ID, Name FROM admin";
@@ -115,13 +115,13 @@ $admins = $resultAdmin;
             if (isset($_GET['other_id'])) {
                 // Display messages for the selected user
                 $otherID = sanitize($_GET['other_id']);
-                fetchMessages($conn, $customerID, $otherID);
+                fetchMessages($conn, $PhotographerID, $otherID);
                 ?>
 
 <?php
             if (isset($_POST['send_reply'])) {
                 $replyMessage = sanitize($_POST['reply_message']);
-                $senderID = $customerID;
+                $senderID = $PhotographerID;
                 $recipientID = $otherID;
                 $messageType = 'admin'; // For messages sent to admin
 

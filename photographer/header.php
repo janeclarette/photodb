@@ -47,6 +47,10 @@ include("../include/config.php"); // Include your database connection
     <?php endif; ?>
 
 
+    <div class="amessage">
+        <!-- Logout link -->
+        <a href="/photodb/photographer/amessage.php"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+    </div>
 
     <div class="message">
         <!-- Logout link -->
@@ -267,6 +271,9 @@ include("../include/config.php"); // Include your database connection
         .message{
             margin-right: 10px; /* Adjust the margin between the items */
         }
+        .amessage{
+            margin-right: 40px; /* Adjust the margin between the items */
+        }
 
         /* Welcome section */
         .welcome {
@@ -355,6 +362,7 @@ include("../include/config.php"); // Include your database connection
             font-family: 'Cinzel', serif;
             color: #333;
         }
+
     </style>
  
     
