@@ -71,13 +71,8 @@ if ($result) {
         }
         table {
             width: 90%; /* Set the width of the table */
-<<<<<<< Updated upstream
-            max-width: 1700px; /* Set a maximum width for the table */
-            margin: 20px auto; /* Center the table horizontally */
-=======
             max-width: 1200px; /* Set a maximum width for the table */
             margin: 10px auto; /* Center the table horizontally */
->>>>>>> Stashed changes
             backdrop-filter: blur(40px); 
             font-weight: bold;
             margin-bottom: 20px;
@@ -206,6 +201,14 @@ table button + button {
             </tr>
 
             <?php
+            if (mysqli_num_rows($result) == 0) {
+                ?>
+                <tr>
+                    <td colspan="9">No transactions added yet</td>
+                </tr>
+                <?php
+            } else {
+
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <tr>
@@ -239,7 +242,7 @@ mysqli_stmt_execute($stmt);
 
         // Add JavaScript alert and redirect
         echo '<script>';
-        echo 'alert("Acceoted");';
+        echo 'alert("Accepted");';
         echo 'window.location.href = "phdashboard.php";';
         echo '</script>';
     } elseif ($action === 'decline') {
@@ -261,6 +264,7 @@ mysqli_stmt_execute($stmt);
                 </tr>
                 <?php
             }
+        }
             ?>
         </table>
 

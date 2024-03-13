@@ -97,94 +97,143 @@ $usersResult = fetchUsers($conn, $userID);
     <title>Messages</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body{
-            font-family: 'serif';
-        }
-        /* Copy the CSS styles from customermessage.php */
-        .container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 100%;
-            height: 600px;
-            margin-top: 20px;
-            margin-left: 25px
-        }
+      body {
+   
 
-        .sidebar {
-            flex-basis: 30%;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
+   background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+   background-size: cover;
+   background-position: center bottom; /* Lower the background image */
 
-        .main-content {
-            flex-basis: 65%;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            overflow-y: auto; /* Add scroll bar when content overflows */
-        }
-        .user-tab {
-            background-color: #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 90%; /* Adjusted max-width */
+    height: 70vh; /* Adjusted height */
+    margin: 20px auto; /* Centered horizontally with some margin */
+    position: relative; /* Added position relative */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+}
 
-        .user-tab a {
-            text-decoration: none;
-            color: #333;
-        }
-        .message {
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 8px;
-    max-width: 70%;
+/* Reply form styles */
+.mess {
+    position: relative; /* Changed position to absolute */
+    bottom: 10px; /* Adjusted position from the bottom */
+    right: 400px; /* Adjusted position from the right */
+    margin: 20px auto;
+    margin-left: 940px;
+    width: 58%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 20px 30px;
+}
+
+.reply {
+    width: 150px;
+    height: 40px;
+    margin-top: 20px; /* Adjusted margin from the top */
+    font-size: 1.2rem;
+    font-family: 'serif';
+}
+
+.user-name-container {
+    position: relative;
+    top: 0px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid rgba(255,255,255, 10);
+    padding: 10px; /* Add padding as needed */
+    border-radius: 5px; /* Add border radius as needed */
+    text-align: center; /* Center the text */
+
+}
+
+.user-name-container h3 {
+    margin: 0;
+    color: #fff; /* Add your desired text color here */
+    
+}
+
+
+/* Sidebar styles */
+.sidebar {
+    flex-basis: 30%;
+    padding: 20px;
+    border: 2px solid rgba(255,255,255, 10);
+}
+
+.user-tab {
+    background-color: rgba(75, 192, 192, 8);    
+    padding: 15px;
+    backdrop-filter: blur(15);
+    margin-bottom: 20px;
+    border-radius: 5px;    
+}
+
+.user-tab a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Main content styles */
+.main-content {
+    flex-basis: 65%;
+    padding: 20px;
+    background-color: rgba(75, 192, 192, 20);
+    backdrop-filter: blur(15);
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+/* Message styles */
+.message {
+    margin-top: 20px;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.message img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 
 .align-left {
     float: left;
     clear: both;
-    background-color: #f0f0f0;
-    width: 500px;
+    background-color: #fff;
+    width: 400px;
     font-size: 1.3rem;
 }
 
 .align-right {
     float: right;
     clear: both;
-    background-color: #9BABB8;
-    width: 500px;
+    background-color: #fff;
+    width: 400px;
     text-align: right;
     font-size: 1.3rem;
 }
-.timestamp {
-    text-align: center;
-    margin-top: 5px; /* Adjust margin as needed */
+
+.timestamp.align-left {
+    text-align: right;
+    margin-top: 5px;
 }
 
-.message img {
-    max-width: 100%; /* Ensure the image does not exceed its container width */
-    height: auto; /* Maintain aspect ratio */
-    margin-top: 10px; /* Adjust margin as needed */
-    border-radius: 5px; /* Add rounded corners if desired */
+.text {
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-left: 15px;
 }
-    .mess{
-        margin-left: 850px;;
-        width: 66%;
-    }
 
-    .reply {
-        width: 150px;
-        height: 40px;
-        margin-left: 2800px;
-        font-size: 1.2rem;
-        font-family: 'serif';
-        background-color: #9BABB8;
-        margin-bottom: 30px;
-        
-    }
     input[type="file"] {
-    margin-left: 450px; 
+    margin-left: 50px; 
     margin-top: 10px;/* Adjust margin-left as needed *//* Adjust margin-top as needed */
     /* Add additional styling as needed */
 }
@@ -194,14 +243,14 @@ $usersResult = fetchUsers($conn, $userID);
         margin-left: 15px;
     }
     textarea[name="reply_message"] {
-    margin-left: 450px; /* Adjust margin-left as needed */
+    margin-left: 0px; /* Adjust margin-left as needed */
     width: calc(100% - 40px); /* Set width to fill container minus left and right margin */
     padding: 10px; /* Add padding as needed */
-    font-size: 1.3rem; /* Adjust font size as needed */
+    font-size: 1rem; /* Adjust font size as needed */
 }
 
     h2 {
-    font-size: 4rem;
+    font-size: 3rem;
     margin-top: 50px;
     margin-left: 50px;
     font-family: 'Satisfy';
@@ -222,12 +271,27 @@ $usersResult = fetchUsers($conn, $userID);
             </ul>
         </div>
         <div class="main-content">
-            <?php
-            if (isset($_GET['other_id'])) {
-                // Display messages for the selected user
-                $otherID = sanitize($_GET['other_id']);
-                fetchMessages($conn, $userID, $otherID);
-                ?>
+        <?php
+if (isset($_GET['other_id'])) {
+    // Display messages for the selected user
+    $otherID = sanitize($_GET['other_id']);
+    // Reset the internal pointer of $usersResult
+    mysqli_data_seek($usersResult, 0);
+    // Get the name of the user
+    $userName = ""; // Initialize the variable
+    while ($row = mysqli_fetch_assoc($usersResult)) {
+        if ($otherID == $row['ID']) {
+            $userName = $row['Name'];
+            break; // Exit the loop once the name is found
+        }
+    }
+    // Display the name of the user
+    echo "<div class='user-name-container'><h3>$userName</h3></div>";
+    
+    // Fetch and display messages
+    fetchMessages($conn, $userID, $otherID);
+}
+?>
 
                 
                 </div>
@@ -264,7 +328,7 @@ if (isset($_POST['send_reply'])) {
         echo "Error: Failed to send reply.";
     }
 }
-            }
+            
             ?>
         </div>
     </div>
