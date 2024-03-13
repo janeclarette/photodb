@@ -3,85 +3,108 @@
 <body>
     <section class="background">
     <?php
-    session_start();
-    include("../include/config.php"); // Include your database connection
-    include("../photographer/header.php");
+session_start();
+include("../include/config.php"); // Include your database connection
+include("../photographer/header.php");
 
-    // Check if the photographer is logged in
-    if (!isset($_SESSION['PhotographerID'])) {
-        header("Location: ../photodb/admin/login.php");
+// Check if the photographer is logged in
+if (!isset($_SESSION['PhotographerID'])) {
+    header("Location: ../photodb/admin/login.php");
+    exit();
+}
+
+$photographer_id = $_SESSION['PhotographerID'];
+
+$addedDates = [];
+
+// Assuming you have a database connection named $conn
+// Delete past schedules when the page is loaded
+$sqlDeletePastSchedules = "DELETE av, at
+                           FROM availability_schedule AS av
+                           JOIN availability_time AS at ON av.scheduleid = at.scheduleid
+                           JOIN available_date ad ON av.date_id = ad.date_id
+                           WHERE av.photographerID = '$photographer_id'
+                           AND ad.avail_date < CURDATE()";
+
+mysqli_query($conn, $sqlDeletePastSchedules);
+
+// Fetch remaining schedules
+$sqlFetchAddedDates = "SELECT av.*, t.start_time, t.end_time, t.session_type, s.status_name AS schedule_status, ad.avail_date
+    FROM availability_schedule AS av
+    JOIN availability_time AS at ON av.scheduleid = at.scheduleid
+    JOIN time AS t ON at.time_id = t.time_id
+    LEFT JOIN sched_status s ON av.schedule_status_id = s.schedule_status_id
+    JOIN available_date ad ON av.date_id = ad.date_id
+    WHERE av.photographerID = '$photographer_id'
+    ORDER BY av.date_id";
+
+$resultFetchAddedDates = mysqli_query($conn, $sqlFetchAddedDates);
+if ($resultFetchAddedDates) {
+    while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
+        $avail_date = $row['avail_date'];
+        $start_time = $row['start_time'];
+        $end_time = $row['end_time'];
+        $session_type = $row['session_type'];
+        $schedule_status_id = $row['schedule_status_id'];
+
+        // Combine date and time to create a DateTime object
+        $startDateTime = new DateTime($avail_date . ' ' . $start_time);
+        $endDateTime = new DateTime($avail_date . ' ' . $end_time);
+
+        $addedDates[] = [
+            'title' => $session_type,
+            'start' => $startDateTime->format('Y-m-d H:i:s'), // Format with both date and time
+            'end' => $endDateTime->format('Y-m-d H:i:s'), // Format with both date and time
+            'color' => $schedule_status_id == 1 ? '#4CAF50' : '#FF5722',
+        ];
+    }
+}
+    // Handle form submission
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Retrieve selected date and times
+    $selectedDate = $_POST['selectedDateInput'];
+    $selectedTimes = $_POST['selected_times'];
+
+    // Check if the selected date is in the past
+    $today = new DateTime();
+    $selectedDateTime = new DateTime($selectedDate);
+    if ($selectedDateTime < $today) {
+        echo '<script>';
+        echo 'alert("Cannot select a past date!");';
+        echo 'window.location.href = "schedule.php";'; // Redirect to the desired page
+        echo '</script>';
         exit();
     }
 
-    $photographer_id = $_SESSION['PhotographerID'];
+    // Insert into the database
+    $sqlInsertDate = "INSERT INTO available_date (avail_date) VALUES ('$selectedDate')";
+    if (mysqli_query($conn, $sqlInsertDate)) {
+        $dateID = mysqli_insert_id($conn);
 
-    $addedDates = [];
+        // Loop through selected times to add a new schedule for each time
+        foreach ($selectedTimes as $time_id) {
+            $sqlInsertSchedule = "INSERT INTO availability_schedule (PhotographerID, date_id, schedule_status_id) 
+                                  VALUES ('$photographer_id', '$dateID', 1)"; // Assuming schedule_status_id 1 represents 'Available'
+            mysqli_query($conn, $sqlInsertSchedule);
+            $scheduleID = mysqli_insert_id($conn); // Get the ID of the inserted schedule
 
-    // Assuming you have a database connection named $conn
-    $sqlFetchAddedDates = "SELECT av.*, t.start_time, t.end_time, t.session_type, s.status_name AS schedule_status, ad.avail_date
-        FROM availability_schedule AS av
-        JOIN availability_time AS at ON av.scheduleid = at.scheduleid
-        JOIN time AS t ON at.time_id = t.time_id
-        LEFT JOIN sched_status s ON av.schedule_status_id = s.schedule_status_id
-        JOIN available_date ad ON av.date_id = ad.date_id
-        WHERE av.photographerID = '$photographer_id'
-        ORDER BY av.date_id";
-
-    $resultFetchAddedDates = mysqli_query($conn, $sqlFetchAddedDates);
-    if ($resultFetchAddedDates) {
-        while ($row = mysqli_fetch_assoc($resultFetchAddedDates)) {
-            $avail_date = $row['avail_date'];
-            $start_time = $row['start_time'];
-            $end_time = $row['end_time'];
-            $session_type = $row['session_type'];
-            $schedule_status_id = $row['schedule_status_id'];
-
-            // Combine date and time to create a DateTime object
-            $startDateTime = new DateTime($avail_date . ' ' . $start_time);
-            $endDateTime = new DateTime($avail_date . ' ' . $end_time);
-
-            $addedDates[] = [
-                'title' => $session_type,
-                'start' => $startDateTime->format('Y-m-d H:i:s'), // Format with both date and time
-                'end' => $endDateTime->format('Y-m-d H:i:s'), // Format with both date and time
-                'color' => $schedule_status_id == 1 ? '#4CAF50' : '#FF5722',
-            ];
+            // Insert the selected time into availability_time
+            $sqlInsertTime = "INSERT INTO availability_time (scheduleid, time_id) 
+                              VALUES ('$scheduleID', '$time_id')";
+            mysqli_query($conn, $sqlInsertTime);
         }
-    }
 
-    // Handle form submission
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Retrieve selected date and times
-        $selectedDate = $_POST['selectedDateInput'];
-        $selectedTimes = $_POST['selected_times'];
-    
-        // Insert into the database
-        $sqlInsertDate = "INSERT INTO available_date (avail_date) VALUES ('$selectedDate')";
-        if (mysqli_query($conn, $sqlInsertDate)) {
-            $dateID = mysqli_insert_id($conn);
-    
-            // Loop through selected times to add a new schedule for each time
-            foreach ($selectedTimes as $time_id) {
-                $sqlInsertSchedule = "INSERT INTO availability_schedule (PhotographerID, date_id, schedule_status_id) 
-                                      VALUES ('$photographer_id', '$dateID', 1)"; // Assuming schedule_status_id 1 represents 'Available'
-                mysqli_query($conn, $sqlInsertSchedule);
-                $scheduleID = mysqli_insert_id($conn); // Get the ID of the inserted schedule
-    
-                // Insert the selected time into availability_time
-                $sqlInsertTime = "INSERT INTO availability_time (scheduleid, time_id) 
-                                  VALUES ('$scheduleID', '$time_id')";
-                mysqli_query($conn, $sqlInsertTime);
-            }
-    
-            echo '<script>';
-            echo 'alert("Availability added successfully!");';
-            echo 'window.location.href = "schedule.php";'; // Redirect to the desired page
-            echo '</script>';
-            exit();
-        } else {
-            echo "Error: " . $sqlInsertDate . "<br>" . mysqli_error($conn);
-        }
+        echo '<script>';
+        echo 'alert("Availability added successfully!");';
+        echo 'window.location.href = "schedule.php";'; // Redirect to the desired page
+        echo '</script>';
+        exit();
+    } else {
+        echo "Error: " . $sqlInsertDate . "<br>" . mysqli_error($conn);
     }
+}
+
     ?>
 
     <div id="availability-calendar-container">

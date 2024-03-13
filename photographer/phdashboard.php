@@ -202,7 +202,7 @@ table button + button {
                 <th>Package Name</th>
                 <th>Price</th>
                 <th>Status</th>
-                <th>Action</th>
+
             </tr>
 
             <?php
@@ -218,13 +218,7 @@ table button + button {
                     <td><?php echo $row['PackageName']; ?></td>
                     <td><?php echo $row['Price']; ?></td>
                     <td><?php echo $row['StatusName']; ?></td>
-                    <td>
-                        <!-- Add your actions or buttons here -->
-                        <form action="" method="post">
-    <input type="hidden" name="transaction_id" value="<?php echo $row['TransactionID']; ?>">
-    <button type="submit" name="accept" <?php echo ($row['StatusID'] == 1) ? '' : 'disabled'; ?>>Accept</button>
-    <button type="submit" name="decline" <?php echo ($row['StatusID'] == 1) ? '' : 'disabled'; ?>>Decline</button>
-</form>
+
 
                         <?php
                    // Check if the form is submitted

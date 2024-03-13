@@ -181,10 +181,12 @@ include("../include/config.php");
             $adminImage = "../uploads/" . $row['img_admin'];
 
             // Determine if the "Payment" button should be clickable
-            $paymentButton = ($row['StatusName'] == 'Completed' || $row['StatusName'] == 'Refund') ? '<form action="payment_admin.php" method="post">
-                <input type="hidden" name="TransactionID" value="' . $row['TransactionID'] . '">
-                <button type="submit" name="payment" class="payment-btn">Payment</button>
-            </form>' : '';
+        // Determine if the "Payment" button should be clickable
+$paymentButton = ($row['StatusName'] == 'Completed' || $row['StatusName'] == 'Refund') ? '<form action="payment_admin.php" method="post">
+<input type="hidden" name="TransactionID" value="' . $row['TransactionID'] . '">
+<button type="submit" name="payment" class="payment-btn">Payment</button>
+</form>' : '<button class="payment-btn" disabled>Payment</button>';
+
 
 
             echo "<tr>

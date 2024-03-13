@@ -98,6 +98,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment'])) {
         echo "Error: " . mysqli_error($conn);
     }
 
+            if (isset($_POST['payment'])) {
+            // Update status to 7 (Successful)
+            $updateStatusQuery = "UPDATE transactions SET StatusID = 7 WHERE TransactionID = ?";
+            $stmtStatus = mysqli_prepare($conn, $updateStatusQuery);
+            mysqli_stmt_bind_param($stmtStatus, "i", $transactionID);
+            mysqli_stmt_execute($stmtStatus);
+            mysqli_stmt_close($stmtStatus);
+        }
+
     // Close the database connection
     mysqli_close($conn);
 }

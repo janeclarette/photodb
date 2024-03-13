@@ -28,11 +28,7 @@ include("../include/config.php"); // Include your database connection
             </div>
         </div>
     </div>
-    
-    <div class="message">
-        <!-- Logout link -->
-        <a href="/photodb/admin/cmessage.php"><i class="fa-regular fa-message"></i></a>
-    </div>
+
     <div class="logout">
         <!-- Logout link -->
         <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
@@ -53,8 +49,8 @@ include("../include/config.php"); // Include your database connection
             <li><a href="/photodb/admin/sales.php">Statistics</a></li>
             <li><a href="/photodb/admin/transaction.php">Transactions</a></li>
             <li><a href="/photodb/admin/reviews.php">Reviews</a></li>
-            <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
-            <li><a href="/photodb/admin/customers.php">Customers</a></li>
+            <!-- <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
+            <li><a href="/photodb/admin/customers.php">Customers</a></li> -->
         </ul>
     </nav>
 </div>

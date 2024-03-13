@@ -69,12 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
             echo "Error retrieving total admin fees for month $month: " . mysqli_error($conn);
         }
 
-        // Monthly total photographer earnings (Overall Sales)
-        $queryOverallSales = "SELECT P.Name AS PhotographerName, COALESCE(SUM(T.PhotographerEarning), 0) AS totalPhotographerEarnings
-                             FROM Transactions T
-                             JOIN Photographers P ON T.PhotographerID = P.PhotographerID
-                             WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
-                             GROUP BY P.PhotographerID;";
+         // Monthly total photographer earnings (Overall Sales)
+         $queryOverallSales = "SELECT P.Name AS PhotographerName, COALESCE(SUM(T.PhotographerEarning), 0) AS totalPhotographerEarnings
+         FROM Transactions T
+         JOIN Photographers P ON T.PhotographerID = P.PhotographerID
+         WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
+         AND T.StatusID = '2' -- Only include completed transactions
+         GROUP BY P.PhotographerID;";
         $resultOverallSales = mysqli_query($conn, $queryOverallSales);
 
         if ($resultOverallSales) {
