@@ -1,7 +1,7 @@
 <?php
 // Include necessary files and establish a database connection
 include("../include/config.php");
-include("../include/header.php");
+
 
 // Function to sanitize user input
 function sanitize($data) {
@@ -10,7 +10,7 @@ function sanitize($data) {
 
 // Start the session
 session_start();
-
+include("../photographer/header.php");
 // Check if PhotographerID or CustomerID is set in the session
 if (!isset($_SESSION['PhotographerID']) && !isset($_SESSION['CustomerID'])) {
     echo "Photographer ID or Customer ID not set in the session.";

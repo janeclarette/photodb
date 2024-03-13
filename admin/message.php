@@ -107,7 +107,7 @@ function fetchMessages($conn, $userID, $otherID) {
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-<h2><?php echo isset($_SESSION['AdminID']) ? "Photographers" : "Customers"; ?></h2>
+<h2><?php echo isset($_SESSION['AdminID']) ?  "admin" : "Photographers"; ?></h2>
     <div class="container">
         <div class="sidebar">
             

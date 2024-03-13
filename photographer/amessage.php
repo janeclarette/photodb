@@ -320,7 +320,7 @@ body {
     font-size: 1.3rem;
 }
 
-.timestamp {
+.timestamp.align-left {
     text-align: center;
     margin-top: 5px;
 }

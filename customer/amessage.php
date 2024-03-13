@@ -121,29 +121,27 @@ function fetchMessages($conn, $userID, $otherID) {
         </div>
         <div class="main-content">
         <?php
-if (isset($_GET['other_id'])) {
-    // Display messages for the selected user
-    $otherID = sanitize($_GET['other_id']);
-    // Reset the internal pointer of $usersResult
-    mysqli_data_seek($usersResult, 0);
-    // Get the name of the user
-    $userName = ""; // Initialize the variable
-    while ($row = mysqli_fetch_assoc($usersResult)) {
-        if (isset($row['CustomerID']) && $otherID == $row['CustomerID']) {
-            $userName = $row['Name'];
-            break; // Exit the loop once the name is found
-        } elseif (isset($row['AdminID']) && $otherID == $row['AdminID']) {
-            $userName = $row['Name'];
-            break; // Exit the loop once the name is found
-        }
-    }
-    // Display the name of the user
-    echo "<div class='user-name-container'><h3>$userName</h3></div>";
-    
-    // Fetch and display messages
-    fetchMessages($conn, $userID, $otherID);
-}
-?>
+            if (isset($_GET['other_id'])) {
+                // Display messages for the selected user
+                $otherID = sanitize($_GET['other_id']);
+                // Reset the internal pointer of $usersResult
+                mysqli_data_seek($usersResult, 0);
+                // Initialize the variable
+                $userName = "";
+                // Get the name of the user
+                while ($row = mysqli_fetch_assoc($usersResult)) {
+                    if ($otherID == ($row['CustomerID'] ?? $row['AdminID'])) { // Check if otherID matches PhotographerID or AdminID
+                        $userName = $row['Name'];
+                        break; // Exit the loop once the name is found
+                    }
+                }
+                // Display the name of the user
+                echo "<div class='user-name-container'><h3>$userName</h3></div>";
+                
+                // Fetch and display messages
+                fetchMessages($conn, $userID, $otherID);
+            }
+            ?>
 
 
 
@@ -322,8 +320,8 @@ body {
     text-align: right;
     font-size: 1.3rem;
 }
-.timestamp {
-    text-align: center;
+.timestamp.align-left {
+    text-align: right;
     margin-top: 5px;
 }
 
