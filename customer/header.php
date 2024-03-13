@@ -56,6 +56,10 @@ include("../include/config.php"); // Include your database connection
         Contact Your Photographer
         </div>
     </div>
+    <div class="message">
+        <!-- Logout link -->
+        <a href="/photodb/customer/amessage.php"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+    </div>
     <div class="logout">
         <!-- Logout link -->
         <a href="/photodb/admin/logout.php"><i class="fas fa-sign-in-alt"></i></a>

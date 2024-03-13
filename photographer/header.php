@@ -2,7 +2,7 @@
 // Include necessary files and establish a database connection
 include("../include/config.php"); // Include your database connection
 ?>
-    <title>Customer Page</title>
+    <title>Photographer Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Satisfy&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@ include("../include/config.php"); // Include your database connection
 <header class="navbar">
     <div class="logo">
         <!-- Logo (upper left corner) -->
-        <a href="/photodb/customer/customerdashboard.php"><img src="../uploads/C.png" alt="Logo"></a>
+        <a href="/photodb/photographer/phdashboard.php"><img src="../uploads/C.png" alt="Logo"></a>
     </div>
 
 

@@ -1,5 +1,8 @@
+
+
 <?php
-// CUSTOMER TO ADMIN MESSAGES
+
+// ADMIN TO CUSTOMER MESSAGES
 // Include necessary files and establish a database connection
 include("../include/config.php");
 include("../include/header.php");
@@ -14,14 +17,14 @@ function sanitize($data) {
 session_start();
 
 // Check if PhotographerID or CustomerID is set in the session
-if (!isset($_SESSION['AdminID']) && !isset($_SESSION['PhotographerID'])) {
+if (!isset($_SESSION['AdminID']) && !isset($_SESSION['CustomerID'])) {
     echo "Photographer ID or Customer ID not set in the session.";
     exit();
 }
 
 // Function to fetch list of users (photographers or customers)
 function fetchUsers($conn, $currentUserID) {
-    $query = "SELECT * FROM " . (isset($_SESSION['AdminID']) ? "photographers" : "admin");
+    $query = "SELECT * FROM " . (isset($_SESSION['AdminID']) ? "customers" : "admin");
 
     $result = mysqli_query($conn, $query);
 
@@ -37,8 +40,8 @@ function fetchUsers($conn, $currentUserID) {
 // Determine whether the current user is a photographer or a customer
 if (isset($_SESSION['AdminID'])) {
     $userID = $_SESSION['AdminID'];
-} elseif (isset($_SESSION['PhotographerID'])) {
-    $userID = $_SESSION['PhotographerID'];
+} elseif (isset($_SESSION['CustomerID'])) {
+    $userID = $_SESSION['CustomerID'];
 }
 
 // Fetch list of users (photographers or customers)
@@ -50,11 +53,11 @@ function fetchMessages($conn, $userID, $otherID) {
     $query = "SELECT m.*, 
                      CASE 
                         WHEN m.MessageType = 'admin' THEN a.Name 
-                        WHEN m.MessageType = 'photographer' THEN p.Name 
+                        WHEN m.MessageType = 'customer' THEN c.Name 
                      END AS SenderName 
-              FROM admin_messages_photographer m 
+              FROM admin_messages_customer m 
               LEFT JOIN admin a ON m.SenderID = a.AdminID AND m.MessageType = 'admin'
-              LEFT JOIN photographers p ON m.SenderID = p.PhotographerID AND m.MessageType = 'photographer'
+              LEFT JOIN customers c ON m.SenderID = c.CustomerID AND m.MessageType = 'customer'
               WHERE (m.SenderID = $userID AND m.ReceiverID = $otherID) 
               OR (m.SenderID = $otherID AND m.ReceiverID = $userID)
               ORDER BY m.SentDateTime ASC"; // Ensure messages are ordered by datetime
@@ -107,14 +110,14 @@ function fetchMessages($conn, $userID, $otherID) {
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-<h2><?php echo isset($_SESSION['AdminID']) ?  "admin" : "Photographers"; ?></h2>
+<h2><?php echo isset($_SESSION['CustomerID']) ? "admin" : "Customers"; ?></h2>
     <div class="container">
         <div class="sidebar">
             
             <ul>
                 <?php while ($row = mysqli_fetch_assoc($usersResult)) { ?>
                     <div class="user-tab">
-                        <a href="?other_id=<?php echo isset($_SESSION['AdminID']) ? $row['PhotographerID'] : $row['AdminID']; ?>"><?php echo $row['Name']; ?></a>
+                        <a href="?other_id=<?php echo isset($_SESSION['CustomerID']) ? $row['AdminID'] : $row['CustomerID']; ?>"><?php echo $row['Name']; ?></a>
                     </div>
                 <?php } ?>
             </ul>
@@ -135,7 +138,7 @@ if (isset($_POST['send_reply'])) {
     $replyMessage = sanitize($_POST['reply_message']);
     $senderID = $userID;
     $recipientID = $otherID;
-    $messageType = isset($_SESSION['AdminID']) ? "admin" : "photographer";
+    $messageType = isset($_SESSION['AdminID']) ? "admin" : "customer";
     
     // Image upload handling
     $imagePath = '';
@@ -150,7 +153,7 @@ if (isset($_POST['send_reply'])) {
     }
 
     // Insert message into database
-    $query = "INSERT INTO admin_messages_photographer(SenderID, ReceiverID, MessageType, Body, img_message) 
+    $query = "INSERT INTO admin_messages_customer (SenderID, ReceiverID, MessageType, Body, img_message) 
               VALUES ('$senderID', '$recipientID', '$messageType', '$replyMessage', '$imagePath')";
     $result = mysqli_query($conn, $query);
     if ($result) {
