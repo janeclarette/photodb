@@ -3,31 +3,10 @@ session_start();
 include("../include/config.php");
 include("../customer/header.php");
 
-$query = "SELECT Photos, PhotographerID FROM works";
-$result = mysqli_query($conn, $query);
-
-if (!$result) {
-    echo "Error executing query: " . mysqli_error($conn);
-    exit();
-}
-
-$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
-
-if (!empty($search)) {
-    $query = "SELECT w.Photos, p.Name AS PhotographerName, w.Album, w.Description, s.TypeName, w.ServiceTypeID
-    FROM works w
-    JOIN photographers p ON w.PhotographerID = p.PhotographerID
-    JOIN servicetypes s ON w.ServiceTypeID = s.ServiceTypeID
-    WHERE p.Name LIKE '%$search%'
-    OR w.Album LIKE '%$search%'
-    OR w.Description LIKE '%$search%'
-    OR s.TypeName LIKE '%$search%'";
-} else {
-    $query = "SELECT w.Photos, p.Name AS PhotographerName, w.Album, w.Description, s.TypeName, w.ServiceTypeID
-    FROM works w
-    JOIN photographers p ON w.PhotographerID = p.PhotographerID
-    JOIN servicetypes s ON w.ServiceTypeID = s.ServiceTypeID";
-}
+$query = "SELECT w.Photos, w.PhotographerID, p.Name AS PhotographerName, w.Album, w.Description, s.TypeName, w.ServiceTypeID
+FROM works w
+JOIN photographers p ON w.PhotographerID = p.PhotographerID
+JOIN servicetypes s ON w.ServiceTypeID = s.ServiceTypeID";
 
 $result = mysqli_query($conn, $query);
 
@@ -37,11 +16,11 @@ if (!$result) {
 }
 ?>
 <section class="background">
-<div class="gallery-title">
-    <h2>Photo Gallery</h2>
+    <div class="gallery-title">
+        <h2>Photo Gallery</h2>
+    </div>
 </section>
 
-</div>
 <div class="search-container">
     <form action="" method="GET">
         <input type="text" name="search" placeholder="Search...">
@@ -51,19 +30,11 @@ if (!$result) {
 
 <div class="container">
     <?php
-    $photographerName = '';
     while ($row = mysqli_fetch_assoc($result)) {
         $photoURLs = explode(',', $row['Photos']);
         foreach ($photoURLs as $photoURL) {
-            $photoPhotographerID = isset($row['PhotographerID']) ? $row['PhotographerID'] : '';
-            if (!empty($photoPhotographerID)) {
-                $photographerQuery = "SELECT * FROM photographers WHERE PhotographerID = '$photoPhotographerID'";
-                $photographerResult = mysqli_query($conn, $photographerQuery);
-                $photographerInfo = mysqli_fetch_assoc($photographerResult);
-                $photographerName = isset($photographerInfo['Name']) ? $photographerInfo['Name'] : '';
-            }
             echo '<div class="image-container">';
-            echo '<img src="' . trim($photoURL) . '" alt="Photograph" onclick="openModal(\'' . $photographerName . '\', \'' . $row['Album'] . '\', \'' . $row['Description'] . '\', \'' . $row['TypeName'] . '\', \'' . trim($photoURL) . '\')">';
+            echo '<img src="' . trim($photoURL) . '" alt="Photograph" onclick="openModal(\'' . $row['PhotographerName'] . '\', \'' . $row['Album'] . '\', \'' . $row['Description'] . '\', \'' . $row['TypeName'] . '\', \'' . trim($photoURL) . '\')">';
             echo '</div>';
         }
     }
@@ -88,10 +59,8 @@ if (!$result) {
     </div>
 </div>
 
+<?php include("../include/footer.php"); ?>
 
-<?php
-mysqli_close($conn);
-?>
 
 <style>
     body {

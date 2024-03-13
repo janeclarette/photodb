@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['downloadPDF'])) {
         FROM Transactions T
         JOIN Packages P ON T.PackageID = P.PackageID
         WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
-        AND T.StatusID = '2';";
+        AND T.StatusID = '7';";
         $resultSales = mysqli_query($conn, $querySales);
         if ($resultSales) {
             $rowSales = mysqli_fetch_assoc($resultSales);

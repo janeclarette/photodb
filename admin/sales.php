@@ -31,7 +31,7 @@ for ($month = 1; $month <= 12; $month++) {
     FROM Transactions T
     JOIN Packages P ON T.PackageID = P.PackageID
     WHERE T.ReservationDate BETWEEN '$startDate' AND '$endDate'
-    AND T.StatusID = '2';";
+    AND T.StatusID = '7';";
 
     $resultSales = mysqli_query($conn, $querySales);
     if ($resultSales) {
@@ -195,7 +195,7 @@ $monthlyOverallSalesJSON = json_encode(array_values($monthlyOverallSales));
                 datasets: [{
                     label: 'Total Transactions',
                     data: monthlyData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.8',
                     borderColor: 'rgba(75, 192, 192, 10)',
                     borderWidth: 1
                 }]
