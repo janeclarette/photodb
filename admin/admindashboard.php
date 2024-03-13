@@ -37,6 +37,19 @@
                 </div>
             </div>
             
+            
+            <!-- Profile (upper right corner) -->
+            <div class="message">
+                <!-- Dropdown for Sign In -->
+                <div class="dropdown">
+                    <button class="dropbtn"><i class="fas fa-envelope"></i></button>
+                    <div class="dropdown-content">
+                        <a href="/photodb/admin/message.php"> Photographers</a>
+                        <a href="/photodb/admin/amessage.php">  Customers</a>
+
+                    </div>
+                </div>
+            </div>
             <div class="logout">
                 <!-- Logout link -->
                 <a href="/photodb/admin/login.php"><i class="fas fa-sign-in-alt"></i></a>
@@ -105,7 +118,9 @@ body {
         margin: 0;
         padding: 0;
     }
-
+    .message{
+            margin-right: 10px; /* Adjust the margin between the items */
+        }
     /* Add your custom styles for the header and navigation bars */
     .navbar {
         /* Styles for the main navigation bar */

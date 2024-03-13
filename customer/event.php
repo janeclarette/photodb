@@ -4,7 +4,7 @@ include("../include/config.php");
 include("../customer/header.php");
 
     $selectedServiceTypeID = '3';
-    $selectedTypeName = 'Event Photography';
+    $selectedTypeName = 'Event Coverage';
 
     $worksSql = "SELECT w.Photos, w.Album, p.Name, w.WorkID 
                  FROM works w

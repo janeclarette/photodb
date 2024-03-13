@@ -107,7 +107,7 @@ function fetchMessages($conn, $userID, $otherID) {
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
-<h2><?php echo isset($_SESSION['AdminID']) ?  "admin" : "Photographers"; ?></h2>
+<h2><?php echo isset($_SESSION['AdminID']) ? "Photographers" : "Customers"; ?></h2>
     <div class="container">
         <div class="sidebar">
             
@@ -120,12 +120,29 @@ function fetchMessages($conn, $userID, $otherID) {
             </ul>
         </div>
         <div class="main-content">
-            <?php
+        <?php
             if (isset($_GET['other_id'])) {
                 // Display messages for the selected user
                 $otherID = sanitize($_GET['other_id']);
+                // Reset the internal pointer of $usersResult
+                mysqli_data_seek($usersResult, 0);
+                // Initialize the variable
+                $userName = "";
+                // Get the name of the user
+                while ($row = mysqli_fetch_assoc($usersResult)) {
+                    if ($otherID == ($row['PhotographerID'] ?? $row['AdminID'])) { // Check if otherID matches PhotographerID or AdminID
+                        $userName = $row['Name'];
+                        break; // Exit the loop once the name is found
+                    }
+                }
+                // Display the name of the user
+                echo "<div class='user-name-container'><h3>$userName</h3></div>";
+                
+                // Fetch and display messages
                 fetchMessages($conn, $userID, $otherID);
-                ?>
+            }
+            ?>
+
 
                 <!-- Reply form -->
 
@@ -160,7 +177,7 @@ if (isset($_POST['send_reply'])) {
         echo "Error: Failed to send reply.";
     }
 }
-            }
+            
             ?>
         </div>
     </div>
@@ -178,83 +195,134 @@ if (isset($_POST['send_reply'])) {
 </html>
 <style>
 /* Add your CSS styles here */
-.container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 100%;
-            height: 700px;
-            margin-top: 20px;
-            margin-bottom: 0; /* Remove bottom margin */
-        }
+body {
+   
 
+   background-image: url('../uploads/cover.jpg');  /* Set the path to your cover image */
+   background-size: cover;
+   background-position: center bottom; /* Lower the background image */
+
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 90%; /* Adjusted max-width */
+    height: 70vh; /* Adjusted height */
+    margin: 20px auto; /* Centered horizontally with some margin */
+    position: relative; /* Added position relative */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 30px 40px;
+}
+
+/* Reply form styles */
+.mess {
+    position: relative; /* Changed position to absolute */
+    bottom: 10px; /* Adjusted position from the bottom */
+    right: 400px; /* Adjusted position from the right */
+    margin: 20px auto;
+    margin-left: 940px;
+    width: 58%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border: 2px solid rgba(255,255,255, 10);
+    backdrop-filter: blur(10px); /* Apply a blur effect behind the container */
+    padding: 20px 30px;
+}
+
+.reply {
+    width: 150px;
+    height: 40px;
+    margin-top: 20px; /* Adjusted margin from the top */
+    font-size: 1.2rem;
+    font-family: 'serif';
+
+}
+
+.user-name-container {
+    position: relative;
+    top: 0px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid rgba(255,255,255, 10);
+    padding: 10px; /* Add padding as needed */
+    border-radius: 5px; /* Add border radius as needed */
+    text-align: center; /* Center the text */
+
+}
+
+.user-name-container h3 {
+    margin: 0;
+    color: #333; /* Add your desired text color here */
+    
+}
+
+
+/* Sidebar styles */
 .sidebar {
     flex-basis: 30%;
     padding: 20px;
-    background-color: #f0f0f0;
-}
-
-.main-content {
-    flex-basis: 65%;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    overflow-y: auto;
-    margin-bottom: 0; /* Remove bottom margin */
+    border: 2px solid rgba(255,255,255, 10);
 }
 
 .user-tab {
-    background-color: #ccc;
+    background-color: rgba(75, 192, 192, 8);    
     padding: 15px;
+    backdrop-filter: blur(15);
     margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: 5px;    
 }
 
 .user-tab a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
 }
 
-h2 {
-    font-size: 4rem;
-    margin-top: 50px;
-    margin-left: 50px;
-    font-family: 'Satisfy';
+/* Main content styles */
+.main-content {
+    flex-basis: 65%;
+    padding: 20px;
+    background-color: rgba(75, 192, 192, 20);
+    backdrop-filter: blur(15);
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    margin-bottom: 0;
 }
 
-
+/* Message styles */
 .message {
-    margin-bottom: 20px;
-    padding: 5px;
-    border-radius: 8px;
-}
-.message img {
-    max-width: 100%; /* Ensure the image does not exceed its container width */
-    height: auto; /* Maintain aspect ratio */
-    margin-top: 10px; /* Adjust margin as needed */
-    border-radius: 5px; /* Add rounded corners if desired */
+    margin-top: 20px;
+    padding: 0px;
+    border-radius: 5px;
 }
 
+.message img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+}
 
 .align-left {
     float: left;
     clear: both;
-    background-color: #f0f0f0;
-    width: 500px;
+    background-color: #fff;
+    width: 400px;
     font-size: 1.3rem;
 }
 
 .align-right {
     float: right;
     clear: both;
-    background-color: #9BABB8;
-    width: 500px;
+    background-color: #fff;
+    width: 400px;
     text-align: right;
     font-size: 1.3rem;
 }
 
 .timestamp {
     text-align: center;
-    margin-top: 5px; /* Adjust margin as needed */
+    margin-top: 5px;
 }
 
 .text {
@@ -262,20 +330,12 @@ h2 {
     margin-right: 15px;
     margin-left: 15px;
 }
-.mess{
-        margin-left: 850px;;
-        width: 66%;
-    }
 
-.reply {
-        width: 150px;
-        height: 40px;
-        margin-left: 1500px;
-        font-size: 1.2rem;
-        font-family: 'serif';
-        background-color: #9BABB8;
-        margin-bottom: 30px;
-    }
-
+h2 {
+    font-size: 3rem;
+    margin-top: 50px;
+    margin-left: 50px;
+    font-family: 'Satisfy';
+}
     
 </style>

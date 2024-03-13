@@ -28,7 +28,17 @@ include("../include/config.php"); // Include your database connection
             </div>
         </div>
     </div>
+    <div class="message">
+                <!-- Dropdown for Sign In -->
+                <div class="dropdown">
+                    <button class="dropbtn"><i class="fas fa-envelope"></i></button>
+                    <div class="dropdown-content">
+                        <a href="/photodb/admin/message.php"> Photographers</a>
+                        <a href="/photodb/admin/amessage.php">  Customers</a>
 
+                    </div>
+                </div>
+            </div>
     <div class="logout">
         <!-- Logout link -->
         <a href="/photodb/general/view.php"><i class="fas fa-sign-in-alt"></i></a>
@@ -49,8 +59,8 @@ include("../include/config.php"); // Include your database connection
             <li><a href="/photodb/admin/sales.php">Statistics</a></li>
             <li><a href="/photodb/admin/transaction.php">Transactions</a></li>
             <li><a href="/photodb/admin/reviews.php">Reviews</a></li>
-            <!-- <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
-            <li><a href="/photodb/admin/customers.php">Customers</a></li> -->
+            <li><a href="/photodb/admin/photographers.php">Photographers</a></li>
+            <li><a href="/photodb/admin/customers.php">Customers</a></li> 
         </ul>
     </nav>
 </div>
@@ -91,7 +101,9 @@ body {
         background-color: #E0F4FF;
     }
 
-       
+    .message{
+            margin-right: 10px; /* Adjust the margin between the items */
+        }
         .navbar {
             /* Styles for the main navigation bar */
             color: #fff;
